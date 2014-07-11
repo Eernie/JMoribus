@@ -23,8 +23,9 @@ public class JMoribus {
         for (PossibleStep possibleStep : possibleSteps) {
             RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStepType(), possibleStep.getStep());
             possibleStep.setRegexStepMatcher(regexStepMatcher);
-
         }
+
+
 
     }
 
