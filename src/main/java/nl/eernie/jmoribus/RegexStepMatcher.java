@@ -1,5 +1,10 @@
 package nl.eernie.jmoribus;
 
+import nl.eernie.jmoribus.models.Step;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,5 +65,17 @@ public class RegexStepMatcher {
 
     public Pattern getRegexPattern() {
         return regexPattern;
+    }
+
+    public List<String> getParameterValues(Step step) {
+        Matcher matcher = regexPattern.matcher(step.getValue());
+        matcher.find();
+        List<String> parameters = new ArrayList<String>();
+        if(matcher.groupCount()>0){
+            for (int i = 1; i <= matcher.groupCount(); i++) {
+                parameters.add(matcher.group(i));
+            }
+        }
+        return parameters;
     }
 }

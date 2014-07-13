@@ -7,6 +7,11 @@ public class Step {
     private Scenario scenario;
     private StepType stepType;
 
+    public Step(String value, StepType stepType) {
+        this.value = value;
+        this.stepType = stepType;
+    }
+
     public String getValue() {
         return value;
     }
