@@ -14,45 +14,33 @@ public class JMoribus {
 
     private Configuration config;
 
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
-        JMoribus jMoribus = new JMoribus();
-        jMoribus.setConfig(new ConfigurationImpl());
-        Story story = new Story();
-        Scenario scenario = new Scenario();
-        Step step = new Step("dddd Dit is een hele lange var more text",StepType.WHEN);
-        Step step2 = new Step("dddd $testvar more text",StepType.THEN);
-        Step step3 = new Step("bla bla bla 400", StepType.WHEN);
-        scenario.setSteps(Arrays.asList(step,step2,step3));
-        story.setScenarios(Arrays.asList(scenario));
-        jMoribus.playAct(Arrays.asList(story));
-    }
-
     public void playAct(List<Story> stories) throws InvocationTargetException, IllegalAccessException {
 
         List<Object> objects = config.getSteps(new Context());
         MethodMatcher methodMather = new MethodMatcher(objects);
         StepRunner stepRunner = new StepRunner(methodMather);
 
+        ConcurrentReporter reporter = config.getConcurrentReporter();
+
         for(Story story: stories){
+            reporter.beforeStory(story);
             for (Scenario scenario : story.getScenarios()) {
+                reporter.beforeScenario(scenario);
                 for (Step step : scenario.getSteps()) {
+                    reporter.beforeStep(step);
                     PossibleStep matchedStep = methodMather.findMatchedStep(step);
                     if(matchedStep !=null){
                         stepRunner.run(matchedStep,step);
+                        reporter.successStep(step);
                     }
                     else{
-                        System.out.println("Step was pending : "+ step.getValue());
+                        reporter.pendingStep(step);
                     }
                 }
+                reporter.afterScenario(scenario);
             }
+            reporter.afterStory(story);
         }
-
-    }
-
-
-
-    public Configuration getConfig() {
-        return config;
     }
 
     public void setConfig(Configuration config) {

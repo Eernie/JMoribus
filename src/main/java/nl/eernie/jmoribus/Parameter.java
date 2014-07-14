@@ -15,10 +15,6 @@ public class Parameter {
                 end - whitespaceIfAny.length()).trim();
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
 
     public int getStart() {
         return start;

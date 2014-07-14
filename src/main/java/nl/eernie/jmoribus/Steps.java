@@ -7,12 +7,12 @@ public class Steps {
 
     @When("bla bla bla $integer")
     public void method(Integer integer) {
-        System.out.println("method invoked with Integer: "+ integer);
+
     }
 
     @When("dddd $testvar more text")
     public void evenMore(String testVar) {
-        System.out.println("Method invoked " + testVar);
+
     }
 
     @ParameterConverter

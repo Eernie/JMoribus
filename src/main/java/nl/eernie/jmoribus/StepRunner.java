@@ -17,7 +17,6 @@ public class StepRunner {
     }
 
     public void run(PossibleStep matchedStep, Step step) throws InvocationTargetException, IllegalAccessException {
-        System.out.println("Run step: " +matchedStep.getMethod().getParameterTypes());
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
         Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues);
         matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
