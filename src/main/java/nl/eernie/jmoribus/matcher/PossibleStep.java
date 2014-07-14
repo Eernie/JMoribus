@@ -1,5 +1,8 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.matcher;
 
+
+import nl.eernie.jmoribus.matcher.RegexStepMatcher;
+import nl.eernie.jmoribus.model.Feature;
 
 import java.lang.reflect.Method;
 
@@ -7,10 +10,10 @@ public class PossibleStep {
     private String step;
     private Method method;
     private Object methodObject;
-    private StepType stepType;
+    private Feature.StepType stepType;
     private RegexStepMatcher regexStepMatcher;
 
-    public PossibleStep(String step, Method method, StepType stepType, Object object) {
+    public PossibleStep(String step, Method method, Feature.StepType stepType, Object object) {
         this.step = step;
         this.method = method;
         this.stepType = stepType;
@@ -29,7 +32,7 @@ public class PossibleStep {
         return methodObject;
     }
 
-    public StepType getStepType() {
+    public Feature.StepType getStepType() {
         return stepType;
     }
 

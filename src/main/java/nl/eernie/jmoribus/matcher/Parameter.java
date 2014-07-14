@@ -1,4 +1,4 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.matcher;
 
 public class Parameter {
     private final int start;

@@ -1,7 +1,8 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.annotation.*;
-import nl.eernie.jmoribus.models.Step;
+import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.Step;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -51,15 +52,15 @@ public class MethodMatcher {
     private void createPossibleStep(Method method, Object object) {
         if (method.isAnnotationPresent(Given.class)) {
             Given annotation = method.getAnnotation(Given.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.GIVEN, object));
         }
         if (method.isAnnotationPresent(When.class)) {
             When annotation = method.getAnnotation(When.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.WHEN, object));
         }
         if (method.isAnnotationPresent(Then.class)) {
             Then annotation = method.getAnnotation(Then.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.THEN, object));
         }
     }
 

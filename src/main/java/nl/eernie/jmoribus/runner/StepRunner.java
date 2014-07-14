@@ -1,7 +1,10 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.runner;
 
 
-import nl.eernie.jmoribus.models.Step;
+import nl.eernie.jmoribus.matcher.MethodMatcher;
+import nl.eernie.jmoribus.matcher.ParameterConverter;
+import nl.eernie.jmoribus.matcher.PossibleStep;
+import nl.eernie.jmoribus.model.Step;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

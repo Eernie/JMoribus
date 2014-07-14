@@ -1,13 +1,11 @@
-package nl.eernie.jmoribus.models;
-
-import nl.eernie.jmoribus.StepType;
+package nl.eernie.jmoribus.model;
 
 public class Step {
     private String value;
     private Scenario scenario;
-    private StepType stepType;
+    private Feature.StepType stepType;
 
-    public Step(String value, StepType stepType) {
+    public Step(String value, Feature.StepType stepType) {
         this.value = value;
         this.stepType = stepType;
     }
@@ -28,11 +26,11 @@ public class Step {
         this.scenario = scenario;
     }
 
-    public StepType getStepType() {
+    public Feature.StepType getStepType() {
         return stepType;
     }
 
-    public void setStepType(StepType stepType) {
+    public void setStepType(Feature.StepType stepType) {
         this.stepType = stepType;
     }
 }

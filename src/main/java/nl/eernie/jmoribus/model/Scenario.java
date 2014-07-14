@@ -1,6 +1,4 @@
-package nl.eernie.jmoribus.models;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.XPath;
+package nl.eernie.jmoribus.model;
 
 import java.util.List;
 

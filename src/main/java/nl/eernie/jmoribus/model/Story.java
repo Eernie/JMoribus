@@ -1,4 +1,4 @@
-package nl.eernie.jmoribus.models;
+package nl.eernie.jmoribus.model;
 
 import java.util.List;
 

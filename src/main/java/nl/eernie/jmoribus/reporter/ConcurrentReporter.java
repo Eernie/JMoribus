@@ -1,8 +1,8 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.models.Scenario;
-import nl.eernie.jmoribus.models.Step;
-import nl.eernie.jmoribus.models.Story;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.Story;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,4 +63,6 @@ public class ConcurrentReporter implements Reporter {
             reporter.afterStory(story);
         }
     }
+
+
 }

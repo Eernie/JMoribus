@@ -1,9 +1,9 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.matcher;
 
-import nl.eernie.jmoribus.models.Step;
+import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.Step;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,12 +13,12 @@ public class RegexStepMatcher {
 
     private final Pattern regexPattern;
     private final String[] parameterNames;
-    private final StepType stepType;
+    private final Feature.StepType stepType;
     private final String annotatedPattern;
     private Matcher matcher;
 
 
-    public RegexStepMatcher(StepType stepType, String annotatedPattern, Pattern regexPattern, String[] parameterNames) {
+    public RegexStepMatcher(Feature.StepType stepType, String annotatedPattern, Pattern regexPattern, String[] parameterNames) {
         this.regexPattern = regexPattern;
         this.parameterNames = parameterNames;
         this.stepType = stepType;
@@ -55,7 +55,7 @@ public class RegexStepMatcher {
         return annotatedPattern;
     }
 
-    public StepType getStepType() {
+    public Feature.StepType getStepType() {
         return stepType;
     }
 

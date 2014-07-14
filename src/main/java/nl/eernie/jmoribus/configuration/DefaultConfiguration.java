@@ -1,12 +1,19 @@
-package nl.eernie.jmoribus;
+package nl.eernie.jmoribus.configuration;
 
-import java.util.Arrays;
+import nl.eernie.jmoribus.reporter.ConcurrentReporter;
+
+import nl.eernie.jmoribus.reporter.Reporter;
+
+import java.util.ArrayList;
+
 import java.util.List;
 
 
 public class DefaultConfiguration implements Configuration {
 
     private ConcurrentReporter concurrentReporter = new ConcurrentReporter();
+
+    private List<Object> steps = new ArrayList<Object>();
 
     public ConcurrentReporter getConcurrentReporter() {
         return concurrentReporter;
@@ -18,6 +25,13 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public List<Object> getSteps(Context context) {
-        return Arrays.asList((Object) new Steps());
+        return steps;
     }
+
+    @Override
+    public void addSteps(List<Object> steps) {
+        steps.addAll(steps);
+    }
+
+
 }

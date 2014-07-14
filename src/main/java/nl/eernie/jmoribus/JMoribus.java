@@ -1,14 +1,18 @@
 package nl.eernie.jmoribus;
 
 
-import nl.eernie.jmoribus.models.Scenario;
-import nl.eernie.jmoribus.models.Step;
-import nl.eernie.jmoribus.models.Story;
+import nl.eernie.jmoribus.configuration.Configuration;
+import nl.eernie.jmoribus.configuration.Context;
+import nl.eernie.jmoribus.matcher.MethodMatcher;
+import nl.eernie.jmoribus.matcher.PossibleStep;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.reporter.Reporter;
+import nl.eernie.jmoribus.runner.StepRunner;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class JMoribus {
 
@@ -20,7 +24,7 @@ public class JMoribus {
         MethodMatcher methodMather = new MethodMatcher(objects);
         StepRunner stepRunner = new StepRunner(methodMather);
 
-        ConcurrentReporter reporter = config.getConcurrentReporter();
+        Reporter reporter = config.getConcurrentReporter();
 
         for(Story story: stories){
             reporter.beforeStory(story);
