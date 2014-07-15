@@ -7,6 +7,7 @@ import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
+import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -14,7 +15,8 @@ import java.util.Arrays;
 
 public class Runner {
 
-    public static void main(String[] args) throws InvocationTargetException, IllegalAccessException {
+    @Test
+    public void main() throws InvocationTargetException, IllegalAccessException {
         JMoribus jMoribus = new JMoribus();
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         defaultConfiguration.addReporter(new DefaultReporter());
@@ -33,13 +35,13 @@ public class Runner {
         jMoribus.playAct(Arrays.asList(story));
     }
 
-    private static Scenario createScenario() {
+    private Scenario createScenario() {
         Scenario scenario = new Scenario();
         scenario.setTitle("This AwsomeScenario");
         return scenario;
     }
 
-    private static Story createStory() {
+    private Story createStory() {
         Story story = new Story();
         story.setTitle("Story Titles");
         story.setUniqueIdentifier("/path/or/some/sort");
