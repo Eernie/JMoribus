@@ -10,6 +10,11 @@ public class TabSpacedTableParser implements TableParser{
 
     public Table parse(List<String> storyLines) {
 
+        if(storyLines == null || storyLines.isEmpty())
+        {
+            return null;
+        }
+
         boolean headerParsed = false;
 
         List<String> header = null;
