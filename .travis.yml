@@ -1,16 +1,13 @@
 language: java
 env:
   global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "HS4tEwbABzmzF6VJjTI5en+YNlDHv4bUQ54gpPznFIK2aPSSifAdfWw8Ap0wCpFaFegnq5cyADDOLfLK/hGdtUhfuHs3jzQYngTEvhWTWknMXWRs1I0/W7X7DjD8hc4VTtl2KutOXcHC/pFQPfi9AHazUZFW2i9+cwWJzG2s4Vo="
-
+  - secure: db/n3YTrUt/0FUmceSFb6CyyS9rKQ7Zw292wBJRi+yjyeDuReIz+OqZeVZaSXaVoeSR1cGCxuwignvNOd2pPiwUHjiVgui00y8OVoj9vbddncDQAtmyfdaxZbcsWpykvd/97akDtGE9MzcyVgfkuBk4iT6x0VDZ63fMR25wTk6k=
 addons:
   coverity_scan:
     project:
-      name: "Eernie/JMoribus"
-      description: "Your project description here"
+      name: Eernie/JMoribus
+      description: Your project description here
     notification_email: oldenkamperwin@gmail.com
-    build_command_prepend:
+    build_command_prepend: 
     build_command: mvn install
     branch_pattern: develop
