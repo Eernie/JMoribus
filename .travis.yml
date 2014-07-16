@@ -3,7 +3,7 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "G1rOQJD_j0ZVAtUAh7ZQug"
+   - secure: "HS4tEwbABzmzF6VJjTI5en+YNlDHv4bUQ54gpPznFIK2aPSSifAdfWw8Ap0wCpFaFegnq5cyADDOLfLK/hGdtUhfuHs3jzQYngTEvhWTWknMXWRs1I0/W7X7DjD8hc4VTtl2KutOXcHC/pFQPfi9AHazUZFW2i9+cwWJzG2s4Vo="
 
 addons:
   coverity_scan:
@@ -13,4 +13,4 @@ addons:
     notification_email: oldenkamperwin@gmail.com
     build_command_prepend:
     build_command:
-    branch_pattern: coverity_scan
+    branch_pattern: develop
