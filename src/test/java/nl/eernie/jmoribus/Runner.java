@@ -2,10 +2,7 @@ package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
-import nl.eernie.jmoribus.model.Feature;
-import nl.eernie.jmoribus.model.Scenario;
-import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Test;
 
@@ -27,11 +24,11 @@ public class Runner {
         Story story = createStory();
         Scenario scenario = createScenario();
         scenario.setStory(story);
-        Step step = new Step("dddd Dit is een hele lange var more text", Feature.StepType.WHEN);
-        Step step2 = new Step("dddd $testvar more text", Feature.StepType.THEN);
-        Step step3 = new Step("bla bla bla 400", Feature.StepType.WHEN);
-        scenario.setSteps(Arrays.asList(step, step2, step3));
-        story.setScenarios(Arrays.asList(scenario));
+        Step step = new Step("dddd Dit is een hele lange var more text", StepType.WHEN);
+        Step step2 = new Step("dddd $testvar more text", StepType.THEN);
+        Step step3 = new Step("bla bla bla 400", StepType.WHEN);
+        scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
+        story.getScenarios().add(scenario);
         jMoribus.playAct(Arrays.asList(story));
     }
 

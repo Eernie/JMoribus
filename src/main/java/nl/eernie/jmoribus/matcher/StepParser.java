@@ -3,15 +3,14 @@ package nl.eernie.jmoribus.matcher;
 import nl.eernie.jmoribus.matcher.Parameter;
 import nl.eernie.jmoribus.matcher.RegexStepMatcher;
 import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.StepType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by erwin on 10/07/14.
- */
+
 public class StepParser {
 
 
@@ -40,7 +39,7 @@ public class StepParser {
         this.characterClass = characterClass;
     }
 
-    public RegexStepMatcher parseStep(Feature.StepType stepType, String stepPattern) {
+    public RegexStepMatcher parseStep(StepType stepType, String stepPattern) {
         String escapingPunctuation = escapingPunctuation(stepPattern);
         List<Parameter> parameters = findParameters(escapingPunctuation);
         Pattern regexPattern = buildPattern(escapingPunctuation, parameters);
