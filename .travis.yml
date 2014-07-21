@@ -9,5 +9,5 @@ addons:
       description: Your project description here
     notification_email: oldenkamperwin@gmail.com
     build_command_prepend: 
-    build_command: mvn install
+    build_command: mvn clean compile
     branch_pattern: develop
