@@ -3,9 +3,9 @@ package nl.eernie.jmoribus.model;
 public class Step {
     private String value;
     private Scenario scenario;
-    private Feature.StepType stepType;
+    private StepType stepType;
 
-    public Step(String value, Feature.StepType stepType) {
+    public Step(String value, StepType stepType) {
         this.value = value;
         this.stepType = stepType;
     }
@@ -26,11 +26,11 @@ public class Step {
         this.scenario = scenario;
     }
 
-    public Feature.StepType getStepType() {
+    public StepType getStepType() {
         return stepType;
     }
 
-    public void setStepType(Feature.StepType stepType) {
+    public void setStepType(StepType stepType) {
         this.stepType = stepType;
     }
 }

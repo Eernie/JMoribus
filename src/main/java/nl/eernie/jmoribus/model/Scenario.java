@@ -1,12 +1,13 @@
 package nl.eernie.jmoribus.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Scenario {
 
     private String title;
     private Story story;
-    private List<Step> steps;
+    private List<Step> steps = new ArrayList<Step>();
 
     public Story getStory() {
         return story;
@@ -28,7 +29,4 @@ public class Scenario {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
-    }
 }
