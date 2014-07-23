@@ -118,7 +118,7 @@ public final class StoryParser {
     }
 
     private static ArrayList<String> combineLines(String[] lines) {
-        String currentLine = new String();
+        String currentLine = "";
         ArrayList<String> combinedLines = new ArrayList<String>();
         for (String line : lines) {
             if(StringUtils.isBlank(line)){
