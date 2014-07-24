@@ -40,4 +40,14 @@ public class DefaultReporter implements Reporter {
     public void afterStory(Story story) {
         System.out.println("After Story:    " + story.getTitle() + " - " + story.getUniqueIdentifier());
     }
+
+    @Override
+    public void failedStep(Step step, AssertionError e) {
+        System.out.println("Failed step:   " + step.getValue() + " Assertion error:" + e.getMessage());
+    }
+
+    @Override
+    public void errorStep(Step step, Throwable e) {
+        System.out.println("Error in step: " + step.getValue() + "Exception :" + e.getMessage());
+    }
 }

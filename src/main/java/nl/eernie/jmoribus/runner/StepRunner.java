@@ -19,10 +19,16 @@ public class StepRunner {
         this.methodMatcher = methodMatcher;
     }
 
-    public void run(PossibleStep matchedStep, Step step) throws InvocationTargetException, IllegalAccessException {
+    public void run(PossibleStep matchedStep, Step step) throws Throwable {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
-        Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues);
-        matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
+        try {
+            Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues);
+            matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
+        } catch (IllegalAccessException e) {
+            throw e.getCause();
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
+        }
 
     }
 

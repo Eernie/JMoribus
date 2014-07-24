@@ -64,5 +64,19 @@ public class ConcurrentReporter implements Reporter {
         }
     }
 
+    @Override
+    public void failedStep(Step step, AssertionError e) {
+        for (Reporter reporter : reporters) {
+            reporter.failedStep(step,e);
+        }
+    }
+
+    @Override
+    public void errorStep(Step step, Throwable e) {
+        for (Reporter reporter : reporters) {
+            reporter.errorStep(step,e);
+        }
+    }
+
 
 }

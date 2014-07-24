@@ -26,6 +26,7 @@ public class JMoribus {
 
         Reporter reporter = config.getConcurrentReporter();
 
+
         for(Story story: stories){
             reporter.beforeStory(story);
             for (Scenario scenario : story.getScenarios()) {
@@ -34,8 +35,14 @@ public class JMoribus {
                     reporter.beforeStep(step);
                     PossibleStep matchedStep = methodMather.findMatchedStep(step);
                     if(matchedStep !=null){
-                        stepRunner.run(matchedStep,step);
-                        reporter.successStep(step);
+                        try{
+                            stepRunner.run(matchedStep,step);
+                            reporter.successStep(step);
+                        }catch(AssertionError e){
+                            reporter.failedStep(step, e);
+                        }catch(Throwable e){
+                            reporter.errorStep(step, e);
+                        }
                     }
                     else{
                         reporter.pendingStep(step);

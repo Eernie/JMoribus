@@ -1,7 +1,9 @@
 package nl.eernie.jmoribus;
 
+
 import nl.eernie.jmoribus.annotation.*;
 import nl.eernie.jmoribus.annotation.ParameterConverter;
+import org.junit.Assert;
 
 public class Steps {
 
@@ -12,6 +14,8 @@ public class Steps {
 
     @When("dddd $testvar more text")
     public void evenMore(String testVar) {
+        Assert.assertEquals(1,2);
+
 
     }
 
