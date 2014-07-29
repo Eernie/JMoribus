@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus.reporter;
 
+import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
@@ -23,4 +24,6 @@ public interface Reporter {
     void failedStep(Step step, AssertionError e);
 
     void errorStep(Step step, Throwable e);
+
+    void feature(Feature feature);
 }

@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus.reporter;
 
+import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
@@ -50,4 +51,11 @@ public class DefaultReporter implements Reporter {
     public void errorStep(Step step, Throwable e) {
         System.out.println("Error in step: " + step.getValue() + "Exception :" + e.getMessage());
     }
+
+    @Override
+    public void feature(Feature feature) {
+        System.out.println("Feature: "+ feature.toString());
+    }
+
+
 }

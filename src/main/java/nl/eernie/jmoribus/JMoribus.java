@@ -30,6 +30,9 @@ public class JMoribus {
 
         for(Story story: stories){
             reporter.beforeStory(story);
+            if(story.getFeature() != null){
+                reporter.feature(story.getFeature());
+            }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);

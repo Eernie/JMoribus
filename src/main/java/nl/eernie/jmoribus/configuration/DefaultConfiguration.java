@@ -32,6 +32,4 @@ public class DefaultConfiguration implements Configuration {
     public void addSteps(List<Object> steps) {
         this.steps.addAll(steps);
     }
-
-
 }
