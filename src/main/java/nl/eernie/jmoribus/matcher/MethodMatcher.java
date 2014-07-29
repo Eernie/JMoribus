@@ -1,13 +1,14 @@
 package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.annotation.*;
-import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MethodMatcher {
 
@@ -17,22 +18,48 @@ public class MethodMatcher {
 
     private List<ParameterConverter> parameterConverters = new ArrayList<ParameterConverter>();
 
+    private Map<BeforeAfterType, List<BeforeAfterMethod>> beforeAfterMethods = new HashMap<BeforeAfterType, List<BeforeAfterMethod>>();
+
     private StepParser parser = new StepParser();
 
     public MethodMatcher(List<Object> objects) {
         this.objects = objects;
-        createPossibleStepsAndParameterConverters();
+        findUsableMethods();
+        setRegexMatchers();
 
     }
 
-    private void createPossibleStepsAndParameterConverters() {
+    private void findUsableMethods() {
         for (Object object : objects) {
             for (Method method : object.getClass().getMethods()) {
-                createPossibleStep(method,object);
-                setRegexMatchers();
+                createPossibleStep(method, object);
                 createParameterConverter(method, object);
+                createBeforeAfterMethods(method, object);
             }
         }
+    }
+
+    private void createBeforeAfterMethods(Method method, Object object) {
+        if(method.isAnnotationPresent(BeforeStory.class)){
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.BEFORE_STORY));
+        }
+        if(method.isAnnotationPresent(BeforeScenario.class)){
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.BEFORE_SCENARIO));
+        }
+        if(method.isAnnotationPresent(AfterScenario.class)){
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.AFTER_SCENARIO));
+        }
+        if(method.isAnnotationPresent(AfterStory.class)){
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.AFTER_STORY));
+        }
+    }
+
+    private void addBeforeAfterMethod(BeforeAfterMethod beforeAfterMethod) {
+        BeforeAfterType type = beforeAfterMethod.getBeforeAfterType();
+        if(!beforeAfterMethods.containsKey(type)){
+            beforeAfterMethods.put(type, new ArrayList<BeforeAfterMethod>());
+        }
+        beforeAfterMethods.get(type).add(beforeAfterMethod);
     }
 
     private void setRegexMatchers() {
@@ -83,5 +110,9 @@ public class MethodMatcher {
             }
         }
         throw new RuntimeException("Converter not found"); // TODO: refactor me!
+    }
+
+    public List<BeforeAfterMethod> findBeforeAfters(BeforeAfterType beforeAfterType) {
+        return beforeAfterMethods.get(beforeAfterType);
     }
 }

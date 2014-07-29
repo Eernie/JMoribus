@@ -3,6 +3,7 @@ package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.configuration.Context;
+import nl.eernie.jmoribus.matcher.BeforeAfterType;
 import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.PossibleStep;
 import nl.eernie.jmoribus.model.Scenario;
@@ -29,8 +30,10 @@ public class JMoribus {
 
         for(Story story: stories){
             reporter.beforeStory(story);
+            stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
+                stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
                 for (Step step : scenario.getSteps()) {
                     reporter.beforeStep(step);
                     PossibleStep matchedStep = methodMather.findMatchedStep(step);
@@ -49,8 +52,10 @@ public class JMoribus {
                     }
                 }
                 reporter.afterScenario(scenario);
+                stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
             }
             reporter.afterStory(story);
+            stepRunner.runBeforeAfter(BeforeAfterType.AFTER_STORY);
         }
     }
 
