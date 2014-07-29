@@ -1,9 +1,7 @@
 package nl.eernie.jmoribus.runner;
 
 
-import nl.eernie.jmoribus.matcher.MethodMatcher;
-import nl.eernie.jmoribus.matcher.ParameterConverter;
-import nl.eernie.jmoribus.matcher.PossibleStep;
+import nl.eernie.jmoribus.matcher.*;
 import nl.eernie.jmoribus.model.Step;
 
 import java.lang.reflect.InvocationTargetException;
@@ -49,5 +47,20 @@ public class StepRunner {
             }
         }
         return parameters;
+    }
+
+    public void runBeforeAfter(BeforeAfterType beforeAfterType){
+        List<BeforeAfterMethod> methods = methodMatcher.findBeforeAfters(beforeAfterType);
+        if(methods != null){
+            for (BeforeAfterMethod method : methods) {
+                try {
+                    method.getMethod().invoke(method.getMethodObject());
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
