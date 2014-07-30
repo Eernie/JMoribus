@@ -37,4 +37,14 @@ public class Feature {
     public void setiWant(String iWant) {
         this.iWant = iWant;
     }
+
+    @Override
+    public String toString() {
+        return "Feature{" +
+                "title='" + title + '\'' +
+                ", inOrder='" + inOrder + '\'' +
+                ", asA='" + asA + '\'' +
+                ", iWant='" + iWant + '\'' +
+                '}';
+    }
 }

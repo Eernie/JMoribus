@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus.reporter;
 
+import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcurrentReporter implements Reporter {
-    List<Reporter> reporters = new ArrayList<Reporter>();
 
+    List<Reporter> reporters = new ArrayList<Reporter>();
 
     public void addReporter(Reporter reporter) {
         reporters.add(reporter);
@@ -75,6 +76,13 @@ public class ConcurrentReporter implements Reporter {
     public void errorStep(Step step, Throwable e) {
         for (Reporter reporter : reporters) {
             reporter.errorStep(step,e);
+        }
+    }
+
+    @Override
+    public void feature(Feature feature) {
+        for (Reporter reporter : reporters) {
+            reporter.feature(feature);
         }
     }
 

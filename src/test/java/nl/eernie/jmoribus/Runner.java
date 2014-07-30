@@ -3,9 +3,11 @@ package nl.eernie.jmoribus;
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Test;
 
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +32,23 @@ public class Runner {
         scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
         story.getScenarios().add(scenario);
         jMoribus.playAct(Arrays.asList(story));
+    }
+
+    @Test
+    public void runStory() throws InvocationTargetException, IllegalAccessException {
+
+        InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
+        Story story = StoryParser.parseStory(fileInputStream, "Story 1", "test.story");
+
+        JMoribus jMoribus = new JMoribus();
+        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        defaultConfiguration.addReporter(new DefaultReporter());
+        ArrayList<Object> steps = new ArrayList<Object>();
+        steps.add(new Steps());
+        defaultConfiguration.addSteps(steps);
+        jMoribus.setConfig(defaultConfiguration);
+        jMoribus.playAct(Arrays.asList(story));
+
     }
 
     private Scenario createScenario() {
