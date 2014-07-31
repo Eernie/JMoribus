@@ -7,6 +7,7 @@ import org.junit.Assert;
 
 public class Steps {
 
+    @Category({"Multiple", "Test"})
     @When("bla bla bla $integer")
     public void method(Integer integer) {
 
