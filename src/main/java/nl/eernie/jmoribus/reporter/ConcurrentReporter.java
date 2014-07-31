@@ -1,9 +1,6 @@
 package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.model.Feature;
-import nl.eernie.jmoribus.model.Scenario;
-import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +80,13 @@ public class ConcurrentReporter implements Reporter {
     public void feature(Feature feature) {
         for (Reporter reporter : reporters) {
             reporter.feature(feature);
+        }
+    }
+
+    @Override
+    public void beforeBackground(Background background) {
+        for (Reporter reporter : reporters) {
+            reporter.beforeBackground(background);
         }
     }
 
