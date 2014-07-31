@@ -120,4 +120,8 @@ public class MethodMatcher {
     public List<BeforeAfterMethod> findBeforeAfters(BeforeAfterType beforeAfterType) {
         return beforeAfterMethods.get(beforeAfterType);
     }
+
+    public List<PossibleStep> getPossibleSteps() {
+        return this.possibleSteps;
+    }
 }

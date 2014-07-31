@@ -1,28 +1,34 @@
 package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.JMoribus;
+import nl.eernie.jmoribus.annotation.Category;
+import nl.eernie.jmoribus.annotation.Then;
+import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.to.PossibleStepTO;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Runner {
 
     @Test
     public void main() throws InvocationTargetException, IllegalAccessException {
-        JMoribus jMoribus = new JMoribus();
+
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.setConfig(defaultConfiguration);
         Story story = createStory();
         Scenario scenario = createScenario();
         scenario.setStory(story);
@@ -40,14 +46,37 @@ public class Runner {
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
         Story story = StoryParser.parseStory(fileInputStream, "Story 1", "test.story");
 
-        JMoribus jMoribus = new JMoribus();
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.setConfig(defaultConfiguration);
         jMoribus.playAct(Arrays.asList(story));
+
+    }
+
+    @Test
+    public void testPossibleSteps(){
+        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        defaultConfiguration.addReporter(new DefaultReporter());
+        ArrayList<Object> steps = new ArrayList<Object>();
+
+        steps.add(new Object(){
+            @Category({"User","Login"})
+            @When("aMethod")
+            @Then("aMethod")
+            public void aMethod(){
+
+            }
+        });
+
+        defaultConfiguration.addSteps(steps);
+        JMoribus jMoribus = new JMoribus(defaultConfiguration);
+        List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
+
+        Assert.assertEquals(2,possibleSteps.size());
+        Assert.assertEquals(new String[]{"User","Login"},possibleSteps.get(0).getCategories());
 
     }
 
