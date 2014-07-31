@@ -78,17 +78,22 @@ public class MethodMatcher {
     }
 
     private void createPossibleStep(Method method, Object object) {
+        String[] categories = null;
+        if (method.isAnnotationPresent(Category.class)){
+            Category category = method.getAnnotation(Category.class);
+            categories = category.value();
+        }
         if (method.isAnnotationPresent(Given.class)) {
             Given annotation = method.getAnnotation(Given.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object, categories));
         }
         if (method.isAnnotationPresent(When.class)) {
             When annotation = method.getAnnotation(When.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object, categories));
         }
         if (method.isAnnotationPresent(Then.class)) {
             Then annotation = method.getAnnotation(Then.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object, categories));
         }
     }
 

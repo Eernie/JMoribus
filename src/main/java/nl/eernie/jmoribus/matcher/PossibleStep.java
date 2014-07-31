@@ -13,12 +13,14 @@ public class PossibleStep {
     private Object methodObject;
     private StepType stepType;
     private RegexStepMatcher regexStepMatcher;
+    private String[] categories;
 
-    public PossibleStep(String step, Method method, StepType stepType, Object object) {
+    public PossibleStep(String step, Method method, StepType stepType, Object object, String[] categories) {
         this.step = step;
         this.method = method;
         this.stepType = stepType;
         this.methodObject = object;
+        this.categories = categories;
     }
 
     public String getStep() {
@@ -43,5 +45,9 @@ public class PossibleStep {
 
     public void setRegexStepMatcher(RegexStepMatcher regexStepMatcher) {
         this.regexStepMatcher = regexStepMatcher;
+    }
+
+    public String[] getCategories() {
+        return categories;
     }
 }
