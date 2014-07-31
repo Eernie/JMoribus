@@ -2,7 +2,7 @@ package nl.eernie.jmoribus.model;
 
 public class Step {
     private String value;
-    private Scenario scenario;
+    private StepTeller stepTeller;
     private StepType stepType;
 
     public Step(String value, StepType stepType) {
@@ -18,12 +18,12 @@ public class Step {
         this.value = value;
     }
 
-    public Scenario getScenario() {
-        return scenario;
+    public StepTeller getStepTeller() {
+        return stepTeller;
     }
 
-    public void setScenario(Scenario scenario) {
-        this.scenario = scenario;
+    public void setStepTeller(StepTeller stepTeller) {
+        this.stepTeller = stepTeller;
     }
 
     public StepType getStepType() {

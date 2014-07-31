@@ -8,20 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public final class StoryParser {
 
     public static final String FEATURE = "Feature: ";
     public static final String SCENARIO = "Scenario: ";
+    public static final String BACKGROUND = "Background:";
     public static final String GIVEN = "Given ";
     public static final String WHEN = "When ";
     public static final String THEN = "Then ";
     public static final String AND = "And ";
     public static final String COMMENT = "!--";
-    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT};
+    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT,BACKGROUND};
 
     private StoryParser(){}
 
@@ -46,43 +44,56 @@ public final class StoryParser {
     private static Story buildModels(String[] lines) {
         ArrayList<String> combinedLines = combineLines(lines);
         Story story = new Story();
-        Scenario scenario = new Scenario();
+        StepTeller stepTeller = new Scenario();
         StepType lastType = null;
         for(String line: combinedLines){
             if(line.startsWith(FEATURE)){
                 story.setFeature(parseFeature(line));
             }
             else if(line.startsWith(SCENARIO)){
-                scenario = parseScenario(line);
-                story.getScenarios().add(scenario);
-                scenario.setStory(story);
+                stepTeller = parseScenario(line);
+                addStepTeller(story, stepTeller);
+                stepTeller.setStory(story);
+            }
+            else if(line.startsWith(BACKGROUND)){
+                stepTeller = new Background();
+                addStepTeller(story, stepTeller);
+                stepTeller.setStory(story);
             }
             else if(line.startsWith(GIVEN)){
                 Step step = parseStep(line, GIVEN, StepType.GIVEN);
                 lastType = StepType.GIVEN;
-                step.setScenario(scenario);
-                scenario.getSteps().add(step);
+                step.setStepTeller(stepTeller);
+                stepTeller.getSteps().add(step);
             }
             else if(line.startsWith(WHEN)){
                 Step step = parseStep(line, WHEN, StepType.WHEN);
                 lastType = StepType.WHEN;
-                step.setScenario(scenario);
-                scenario.getSteps().add(step);
+                step.setStepTeller(stepTeller);
+                stepTeller.getSteps().add(step);
             }
             else if(line.startsWith(THEN)){
                 Step step = parseStep(line,THEN, StepType.THEN);
                 lastType = StepType.THEN;
-                step.setScenario(scenario);
-                scenario.getSteps().add(step);
+                step.setStepTeller(stepTeller);
+                stepTeller.getSteps().add(step);
             }
             else if(line.startsWith(AND)){
                 Step step = parseStep(line, AND , lastType);
-                step.setScenario(scenario);
-                scenario.getSteps().add(step);
+                step.setStepTeller(stepTeller);
+                stepTeller.getSteps().add(step);
             }
 
         }
         return story;
+    }
+
+    private static void addStepTeller(Story story, StepTeller stepTeller) {
+        if(stepTeller instanceof Background){
+            story.setBackground((Background) stepTeller);
+        } else if(stepTeller instanceof Scenario){
+            story.getScenarios().add((Scenario) stepTeller);
+        }
     }
 
     private static Step parseStep(String line, String keyword, StepType type) {

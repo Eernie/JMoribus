@@ -1,9 +1,6 @@
 package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.model.Feature;
-import nl.eernie.jmoribus.model.Scenario;
-import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.*;
 
 public class DefaultReporter implements Reporter {
 
@@ -55,6 +52,11 @@ public class DefaultReporter implements Reporter {
     @Override
     public void feature(Feature feature) {
         System.out.println("Feature: "+ feature.toString());
+    }
+
+    @Override
+    public void beforeBackground(Background background) {
+        System.out.println("Before Background.");
     }
 
 

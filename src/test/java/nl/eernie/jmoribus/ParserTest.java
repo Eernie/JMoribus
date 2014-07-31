@@ -8,7 +8,6 @@ import nl.eernie.jmoribus.parser.StoryParser;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -45,7 +44,7 @@ public class ParserTest {
     }
 
     private void assertStep(StepType type, String stepString, Scenario scenario, Step step) {
-        Assert.assertSame(scenario, step.getScenario());
+        Assert.assertSame(scenario, step.getStepTeller());
         Assert.assertEquals(type, step.getStepType());
         Assert.assertEquals(stepString, step.getValue());
     }
