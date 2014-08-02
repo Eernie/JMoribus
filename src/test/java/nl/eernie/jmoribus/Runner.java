@@ -1,6 +1,5 @@
 package nl.eernie.jmoribus;
 
-import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.annotation.Category;
 import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.annotation.When;

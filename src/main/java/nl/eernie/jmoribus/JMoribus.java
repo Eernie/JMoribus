@@ -70,6 +70,13 @@ public class JMoribus {
             return;
         }
         for (Step step : stepTeller.getSteps()) {
+            if(step instanceof Scenario){
+                Scenario scenario = (Scenario) step;
+                reporter.beforePrologue(scenario);
+                runStepTeller(methodMather, stepRunner, reporter, scenario);
+                reporter.afterPrologue(scenario);
+                continue;
+            }
             reporter.beforeStep(step);
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
             if(matchedStep !=null){

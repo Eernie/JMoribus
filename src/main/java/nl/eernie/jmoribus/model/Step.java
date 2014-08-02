@@ -1,21 +1,15 @@
 package nl.eernie.jmoribus.model;
 
-public class Step {
+public class Step  {
+
+
     private String value;
-    private StepTeller stepTeller;
     private StepType stepType;
+    private StepTeller stepTeller;
 
     public Step(String value, StepType stepType) {
         this.value = value;
         this.stepType = stepType;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public StepTeller getStepTeller() {
@@ -26,11 +20,11 @@ public class Step {
         this.stepTeller = stepTeller;
     }
 
-    public StepType getStepType() {
-        return stepType;
+    public String getValue() {
+        return value;
     }
 
-    public void setStepType(StepType stepType) {
-        this.stepType = stepType;
+    public StepType getStepType() {
+        return stepType;
     }
 }

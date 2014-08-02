@@ -59,5 +59,15 @@ public class DefaultReporter implements Reporter {
         System.out.println("Before Background.");
     }
 
+    @Override
+    public void beforePrologue(Scenario scenario) {
+        System.out.println("before Prologue scenario: " + scenario.getTitle());
+    }
+
+    @Override
+    public void afterPrologue(Scenario scenario) {
+        System.out.println("after Prologue scenario: " + scenario.getTitle());
+    }
+
 
 }

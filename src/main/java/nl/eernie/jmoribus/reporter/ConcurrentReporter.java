@@ -90,5 +90,19 @@ public class ConcurrentReporter implements Reporter {
         }
     }
 
+    @Override
+    public void beforePrologue(Scenario scenario) {
+        for (Reporter reporter : reporters) {
+            reporter.beforePrologue(scenario);
+        }
+    }
+
+    @Override
+    public void afterPrologue(Scenario scenario) {
+        for (Reporter reporter : reporters) {
+            reporter.afterPrologue(scenario);
+        }
+    }
+
 
 }

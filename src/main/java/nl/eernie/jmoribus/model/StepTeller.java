@@ -5,6 +5,8 @@ import java.util.List;
 public interface StepTeller {
 
     Story getStory();
+
     void setStory(Story story);
+
     List<Step> getSteps();
 }

@@ -8,18 +8,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class StoryParser {
 
-    public static final String FEATURE = "Feature: ";
-    public static final String SCENARIO = "Scenario: ";
-    public static final String BACKGROUND = "Background:";
-    public static final String GIVEN = "Given ";
-    public static final String WHEN = "When ";
-    public static final String THEN = "Then ";
-    public static final String AND = "And ";
-    public static final String COMMENT = "!--";
-    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT,BACKGROUND};
+    private static final String FEATURE = "Feature: ";
+    private static final String SCENARIO = "Scenario: ";
+    private static final String BACKGROUND = "Background:";
+    private static final String PROLOGUE = "Prologue ";
+    private static final String GIVEN = "Given ";
+    private static final String WHEN = "When ";
+    private static final String THEN = "Then ";
+    private static final String AND = "And ";
+    private static final String COMMENT = "!--";
+    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT,BACKGROUND,PROLOGUE };
 
     private StoryParser(){}
 
@@ -45,14 +49,24 @@ public final class StoryParser {
         ArrayList<String> combinedLines = combineLines(lines);
         Story story = new Story();
         StepTeller stepTeller = new Scenario();
+        Map<String,Scenario> scenarios = new HashMap<String, Scenario>();
         StepType lastType = null;
         for(String line: combinedLines){
             if(line.startsWith(FEATURE)){
                 story.setFeature(parseFeature(line));
             }
+            else if(line.startsWith(PROLOGUE)){
+                String prologueTitle = StringUtils.removeStart(line,PROLOGUE);
+                if(scenarios.containsKey(prologueTitle)){
+                    stepTeller.getSteps().add(scenarios.get(prologueTitle));
+                }else{
+                    throw new RuntimeException("Scenario doesn't excist");
+                }
+            }
             else if(line.startsWith(SCENARIO)){
                 stepTeller = parseScenario(line);
                 addStepTeller(story, stepTeller);
+                scenarios.put(((Scenario) stepTeller).getTitle(), (Scenario) stepTeller);
                 stepTeller.setStory(story);
             }
             else if(line.startsWith(BACKGROUND)){

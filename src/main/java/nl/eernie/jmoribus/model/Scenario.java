@@ -3,11 +3,15 @@ package nl.eernie.jmoribus.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scenario implements StepTeller {
+public class Scenario extends Step implements StepTeller {
 
     private String title;
     private Story story;
     private List<Step> steps = new ArrayList<Step>();
+
+    public Scenario(){
+        super("",StepType.PROLOGUE);
+    }
 
     public Story getStory() {
         return story;
