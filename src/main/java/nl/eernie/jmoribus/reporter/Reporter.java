@@ -25,4 +25,8 @@ public interface Reporter {
     void feature(Feature feature);
 
     void beforeBackground(Background background);
+
+    void beforePrologue(Scenario scenario);
+
+    void afterPrologue(Scenario scenario);
 }
