@@ -2,6 +2,7 @@ package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Test;
@@ -16,7 +17,9 @@ public class PrologueTest {
     public void testParser() throws InvocationTargetException, IllegalAccessException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/prologue.story");
-        Story story = StoryParser.parseStory(fileInputStream, "Prologue Story", "prologue.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Prologue Story", "prologue.story");
+
+        Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration configuration = new DefaultConfiguration();
         configuration.addSteps(Arrays.<Object>asList(new Steps()));
