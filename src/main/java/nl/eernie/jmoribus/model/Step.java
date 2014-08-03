@@ -1,36 +1,30 @@
 package nl.eernie.jmoribus.model;
 
-public class Step {
-    private String value;
-    private Scenario scenario;
-    private Feature.StepType stepType;
+public class Step  {
 
-    public Step(String value, Feature.StepType stepType) {
+
+    private String value;
+    private StepType stepType;
+    private StepTeller stepTeller;
+
+    public Step(String value, StepType stepType) {
         this.value = value;
         this.stepType = stepType;
+    }
+
+    public StepTeller getStepTeller() {
+        return stepTeller;
+    }
+
+    public void setStepTeller(StepTeller stepTeller) {
+        this.stepTeller = stepTeller;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Scenario getScenario() {
-        return scenario;
-    }
-
-    public void setScenario(Scenario scenario) {
-        this.scenario = scenario;
-    }
-
-    public Feature.StepType getStepType() {
+    public StepType getStepType() {
         return stepType;
-    }
-
-    public void setStepType(Feature.StepType stepType) {
-        this.stepType = stepType;
     }
 }

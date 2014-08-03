@@ -1,15 +1,13 @@
 package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.model.Scenario;
-import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConcurrentReporter implements Reporter {
-    List<Reporter> reporters = new ArrayList<Reporter>();
 
+    List<Reporter> reporters = new ArrayList<Reporter>();
 
     public void addReporter(Reporter reporter) {
         reporters.add(reporter);
@@ -61,6 +59,48 @@ public class ConcurrentReporter implements Reporter {
     public void afterStory(Story story) {
         for (Reporter reporter : reporters) {
             reporter.afterStory(story);
+        }
+    }
+
+    @Override
+    public void failedStep(Step step, AssertionError e) {
+        for (Reporter reporter : reporters) {
+            reporter.failedStep(step,e);
+        }
+    }
+
+    @Override
+    public void errorStep(Step step, Throwable e) {
+        for (Reporter reporter : reporters) {
+            reporter.errorStep(step,e);
+        }
+    }
+
+    @Override
+    public void feature(Feature feature) {
+        for (Reporter reporter : reporters) {
+            reporter.feature(feature);
+        }
+    }
+
+    @Override
+    public void beforeBackground(Background background) {
+        for (Reporter reporter : reporters) {
+            reporter.beforeBackground(background);
+        }
+    }
+
+    @Override
+    public void beforePrologue(Scenario scenario) {
+        for (Reporter reporter : reporters) {
+            reporter.beforePrologue(scenario);
+        }
+    }
+
+    @Override
+    public void afterPrologue(Scenario scenario) {
+        for (Reporter reporter : reporters) {
+            reporter.afterPrologue(scenario);
         }
     }
 

@@ -30,8 +30,6 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public void addSteps(List<Object> steps) {
-        steps.addAll(steps);
+        this.steps.addAll(steps);
     }
-
-
 }
