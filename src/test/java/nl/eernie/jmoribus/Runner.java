@@ -5,6 +5,7 @@ import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import nl.eernie.jmoribus.to.PossibleStepTO;
@@ -43,7 +44,9 @@ public class Runner {
     public void runStory() throws InvocationTargetException, IllegalAccessException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
-        Story story = StoryParser.parseStory(fileInputStream, "Story 1", "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
+
+        Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);

@@ -1,22 +1,31 @@
 package nl.eernie.jmoribus;
 
+import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
+import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ParserTest {
 
     @Test
     public void testParse() throws FileNotFoundException {
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
-        Story story = StoryParser.parseStory(fileInputStream, "Story 1", "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
+
+        Story story = StoryParser.parseStory(parseableStory);
 
         Assert.assertEquals("Story 1", story.getUniqueIdentifier());
         Assert.assertEquals("test.story", story.getTitle());
@@ -52,9 +61,27 @@ public class ParserTest {
     @Test
     public void testMultipleScenarioParse() throws FileNotFoundException {
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
-        Story story = StoryParser.parseStory(fileInputStream, "Story 1", "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
+
+        Story story = StoryParser.parseStory(parseableStory);
 
         Assert.assertEquals(6, story.getScenarios().size());
+
+    }
+
+    @Test
+    public void testMultipleStories() {
+        List<ParseableStory> parseableStories = new ArrayList<ParseableStory>(3);
+        InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
+        parseableStories.add(new ParseableStory(fileInputStream,"MultiScenario", "MultiScenarioTitle"));
+        fileInputStream = getClass().getResourceAsStream("/test2.story");
+        parseableStories.add(new ParseableStory(fileInputStream,"test2", "testTitle"));
+        fileInputStream = getClass().getResourceAsStream("/prologue.story");
+        parseableStories.add(new ParseableStory(fileInputStream,"prologue", "PrologueTest"));
+
+        List<Story> stories = StoryParser.parseStories(parseableStories);
+        Assert.assertEquals(3,stories.size());
+        Assert.assertEquals("MultiScenarioTitle",stories.get(0).getTitle());
 
     }
 }

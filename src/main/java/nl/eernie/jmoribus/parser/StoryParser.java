@@ -27,16 +27,30 @@ public final class StoryParser {
 
     private StoryParser(){}
 
-    public static Story parseStory(InputStream stream, String uniqueIdentifier, String title) {
+    public static List<Story> parseStories(List<ParseableStory> parseableStories){
+        Map<String, Scenario> knownScenarios = new HashMap<String, Scenario>();
+        List<Story> stories = new ArrayList<Story>();
+        for (ParseableStory parseableStory : parseableStories) {
+            stories.add(parseStory(parseableStory,knownScenarios));
+        }
+        return stories;
+    }
+
+    public static Story parseStory(ParseableStory parseableStory){
+        Map<String, Scenario> knownScenarios = new HashMap<String, Scenario>();
+        return parseStory(parseableStory,knownScenarios);
+    }
+
+    private static Story parseStory(ParseableStory parseableStory,Map<String,Scenario> knownScenarios) {
         try {
             StringWriter stringWriter = new StringWriter();
-            IOUtils.copy(stream,stringWriter);
+            IOUtils.copy(parseableStory.getStream(),stringWriter);
             String completeStory = stringWriter.toString();
 
             String lines[] = completeStory.split("\\r?\\n");
-            Story story = buildModels(lines);
-            story.setTitle(title);
-            story.setUniqueIdentifier(uniqueIdentifier);
+            Story story = buildModels(lines,knownScenarios);
+            story.setTitle(parseableStory.getTitle());
+            story.setUniqueIdentifier(parseableStory.getUniqueIdentifier());
             return story;
 
         } catch (IOException e) {
@@ -45,11 +59,10 @@ public final class StoryParser {
         }
     }
 
-    private static Story buildModels(String[] lines) {
+    private static Story buildModels(String[] lines, Map<String,Scenario> knownScenarios) {
         ArrayList<String> combinedLines = combineLines(lines);
         Story story = new Story();
         StepTeller stepTeller = new Scenario();
-        Map<String,Scenario> scenarios = new HashMap<String, Scenario>();
         StepType lastType = null;
         for(String line: combinedLines){
             if(line.startsWith(FEATURE)){
@@ -57,8 +70,9 @@ public final class StoryParser {
             }
             else if(line.startsWith(PROLOGUE)){
                 String prologueTitle = StringUtils.removeStart(line,PROLOGUE);
-                if(scenarios.containsKey(prologueTitle)){
-                    stepTeller.getSteps().add(scenarios.get(prologueTitle));
+                //TODO: We mustn't force the user a order how to parse the stories, Maybe find the scenarios afterwards but the cost of this wil be much larger
+                if(knownScenarios.containsKey(prologueTitle)){
+                    stepTeller.getSteps().add(knownScenarios.get(prologueTitle));
                 }else{
                     throw new RuntimeException("Scenario doesn't excist");
                 }
@@ -66,7 +80,7 @@ public final class StoryParser {
             else if(line.startsWith(SCENARIO)){
                 stepTeller = parseScenario(line);
                 addStepTeller(story, stepTeller);
-                scenarios.put(((Scenario) stepTeller).getTitle(), (Scenario) stepTeller);
+                knownScenarios.put(((Scenario) stepTeller).getTitle(), (Scenario) stepTeller);
                 stepTeller.setStory(story);
             }
             else if(line.startsWith(BACKGROUND)){
