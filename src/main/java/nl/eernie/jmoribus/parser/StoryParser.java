@@ -74,7 +74,7 @@ public final class StoryParser {
                 if(knownScenarios.containsKey(prologueTitle)){
                     stepTeller.getSteps().add(knownScenarios.get(prologueTitle));
                 }else{
-                    throw new RuntimeException("Scenario doesn't excist");
+                    throw new RuntimeException("Scenario doesn't exist");
                 }
             }
             else if(line.startsWith(SCENARIO)){
