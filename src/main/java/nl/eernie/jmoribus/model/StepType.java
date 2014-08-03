@@ -4,5 +4,6 @@ public enum StepType {
     GIVEN,
     THEN,
     PROLOGUE,
-    WHEN
+    WHEN,
+    EXAMPLES
 }

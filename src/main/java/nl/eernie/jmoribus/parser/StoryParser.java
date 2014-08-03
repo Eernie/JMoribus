@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,8 @@ public final class StoryParser {
     private static final String THEN = "Then ";
     private static final String AND = "And ";
     private static final String COMMENT = "!--";
-    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT,BACKGROUND,PROLOGUE };
+    private static final String EXAMPLES = "Examples:";
+    private static final String[] keywords = new String[]{FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, COMMENT, BACKGROUND, PROLOGUE, EXAMPLES };
 
     private StoryParser(){}
 
@@ -111,7 +113,12 @@ public final class StoryParser {
                 step.setStepTeller(stepTeller);
                 stepTeller.getSteps().add(step);
             }
-
+            else if(line.startsWith(EXAMPLES)){
+                Step step = parseStep(line, EXAMPLES , StepType.EXAMPLES);
+                lastType = StepType.EXAMPLES;
+                step.setStepTeller(stepTeller);
+                stepTeller.getSteps().add(step);
+            }
         }
         return story;
     }

@@ -1,14 +1,15 @@
 package nl.eernie.jmoribus.parser;
 
 import junit.framework.TestCase;
+import nl.eernie.jmoribus.model.StepType;
+import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.model.Table;
 import org.junit.Test;
+import org.junit.Assert;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertNull;
 
 public class TabSpacedTableParserTest extends TestCase {
 
@@ -52,5 +53,17 @@ public class TabSpacedTableParserTest extends TestCase {
         assertEquals("Kolom b", parseResult.getHeader().get(1));
 
         assertEquals(true, parseResult.getRows().isEmpty());
+    }
+
+    @Test
+    public void testParametrizedStory()
+    {
+        InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
+        Story story = StoryParser.parseStory(parseableStory);
+        Assert.assertEquals(story.getScenarios().size(), 1);
+        int numberOfSteps = story.getScenarios().get(0).getSteps().size();
+        Assert.assertTrue(story.getScenarios().get(0).getSteps().get(numberOfSteps - 1).getStepType() == StepType.EXAMPLES);
+        Assert.assertNotNull(story);
     }
 }
