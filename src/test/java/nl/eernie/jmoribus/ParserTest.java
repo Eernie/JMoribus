@@ -29,7 +29,7 @@ public class ParserTest {
 
         Assert.assertEquals("Story 1", story.getUniqueIdentifier());
         Assert.assertEquals("test.story", story.getTitle());
-        Assert.assertEquals("Some awsome title", story.getFeature().getTitle());
+        Assert.assertEquals("Some awesome title", story.getFeature().getTitle());
         Assert.assertEquals("to realize a named business value", story.getFeature().getInOrder());
         Assert.assertEquals("explicit system actor", story.getFeature().getAsA());
         Assert.assertEquals("to gain some beneficial outcome which furthers the goal", story.getFeature().getiWant());
