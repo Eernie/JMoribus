@@ -13,7 +13,7 @@ title
     : line;
 
 step
-    : step_keyword line;
+    : step_keyword line (NEWLINE SPACE SPACE line)*;
 
 line
     : (SPACE|TEXT)*;
