@@ -1,7 +1,13 @@
 grammar Gherkins;
 
+
 story
-    : prologue? scenario*;
+    : feature? prologue? scenario*;
+
+feature
+    : feature_keyword title
+    ;
+
 
 prologue
     : NEWLINE? prologue_keyword (NEWLINE step)+;
@@ -23,10 +29,10 @@ feature_keyword
 
 prologue_keyword
     :   'Prologue:';
- 
+
 scenario_keyword
 	: 	'Scenario:';
- 
+
 step_keyword
 	: 	'Given' | 'When' | 'Then' | 'And' | 'Revering:';
 
@@ -63,5 +69,12 @@ fragment SYMBOL
     | '('..')'
     ;
 
+COMMENT
+    :   '/*' .*? '*/' -> skip
+    ;
+
+LINE_COMMENT
+    :   '#--' ~[\r\n] -> skip
+    ;
 
 WS : [ \t\n\r]+ -> skip ;
