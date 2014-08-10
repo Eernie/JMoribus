@@ -7,6 +7,7 @@ import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class PrologueTest {
 
     @Test
-    public void testParser() throws InvocationTargetException, IllegalAccessException {
+    public void testParser() throws InvocationTargetException, IllegalAccessException, IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/prologue.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Prologue Story", "prologue.story");

@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import java.util.List;
 public class ParserTest {
 
     @Test
-    public void testParse() throws FileNotFoundException {
+    public void testParse() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
 
@@ -30,9 +31,7 @@ public class ParserTest {
         Assert.assertEquals("Story 1", story.getUniqueIdentifier());
         Assert.assertEquals("test.story", story.getTitle());
         Assert.assertEquals("Some awsome title", story.getFeature().getTitle());
-        Assert.assertEquals("to realize a named business value", story.getFeature().getInOrder());
-        Assert.assertEquals("explicit system actor", story.getFeature().getAsA());
-        Assert.assertEquals("to gain some beneficial outcome which furthers the goal", story.getFeature().getiWant());
+        Assert.assertEquals("In order to realize a named business value\n  As a explicit system actor\n  I want to gain some beneficial outcome which furthers the goal", story.getFeature().getContent());
 
         Assert.assertEquals(1,story.getScenarios().size());
 
@@ -59,7 +58,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testMultipleScenarioParse() throws FileNotFoundException {
+    public void testMultipleScenarioParse() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
 
@@ -70,7 +69,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testMultipleStories() {
+    public void testMultipleStories() throws IOException {
         List<ParseableStory> parseableStories = new ArrayList<ParseableStory>(3);
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
         parseableStories.add(new ParseableStory(fileInputStream,"MultiScenario", "MultiScenarioTitle"));

@@ -5,17 +5,20 @@ story
     : feature? prologue? scenario*;
 
 feature
-    : feature_keyword feature_title
+    : feature_keyword feature_title feature_content
     ;
+
+feature_content
+    : (NEWLINE SPACE SPACE line)* ;
 
 feature_title
     : line ;
 
 prologue
-    : NEWLINE? prologue_keyword (NEWLINE step)+;
+    : NEWLINE*? prologue_keyword (NEWLINE step)+;
 
 scenario
-    : NEWLINE? scenario_keyword scenario_title (NEWLINE step)+;
+    : NEWLINE*? scenario_keyword scenario_title (NEWLINE step)+;
 
 scenario_title
     : line ;
@@ -79,7 +82,5 @@ COMMENT
     ;
 
 LINE_COMMENT
-    :   '#--' ~[\r\n] -> skip
+    :   '#-- ' .*? [\r\n] -> skip
     ;
-
-WS : [ \t\n\r]+ -> skip ;

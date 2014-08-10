@@ -55,7 +55,7 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
-    public void beforeBackground(Background background) {
+    public void beforeBackground(Prologue prologue) {
         System.out.println("Before Background.");
     }
 
