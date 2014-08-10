@@ -10,7 +10,7 @@ public class Scenario extends Step implements StepTeller {
     private List<Step> steps = new ArrayList<Step>();
 
     public Scenario(){
-        super("",StepType.PROLOGUE);
+        super("",StepType.REVERING);
     }
 
     public Story getStory() {

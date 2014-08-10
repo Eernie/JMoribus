@@ -7,7 +7,7 @@ public class Story {
 
     private String title;
     private Feature feature;
-    private Background background;
+    private Prologue prologue;
     private List<Scenario> scenarios = new ArrayList<Scenario>();
     private String uniqueIdentifier;
 
@@ -30,12 +30,12 @@ public class Story {
         this.feature = feature;
     }
 
-    public Background getBackground() {
-        return background;
+    public Prologue getPrologue() {
+        return prologue;
     }
 
-    public void setBackground(Background background) {
-        this.background = background;
+    public void setPrologue(Prologue prologue) {
+        this.prologue = prologue;
     }
 
     public List<Scenario> getScenarios() {

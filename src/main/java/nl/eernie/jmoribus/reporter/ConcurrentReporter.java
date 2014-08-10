@@ -84,9 +84,9 @@ public class ConcurrentReporter implements Reporter {
     }
 
     @Override
-    public void beforeBackground(Background background) {
+    public void beforeBackground(Prologue prologue) {
         for (Reporter reporter : reporters) {
-            reporter.beforeBackground(background);
+            reporter.beforeBackground(prologue);
         }
     }
 

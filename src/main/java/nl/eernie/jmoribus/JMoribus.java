@@ -46,8 +46,8 @@ public class JMoribus {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
-            reporter.beforeBackground(story.getBackground());
-            runStepTeller(methodMather, stepRunner, reporter, story.getBackground());
+            reporter.beforeBackground(story.getPrologue());
+            runStepTeller(methodMather, stepRunner, reporter, story.getPrologue());
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
@@ -94,4 +94,6 @@ public class JMoribus {
             }
         }
     }
+
+
 }
