@@ -2,6 +2,7 @@ package nl.eernie.jmoribus;
 
 
 import nl.eernie.jmoribus.GherkinsParser;
+import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.*;
 import nl.eernie.jmoribus.parser.GherkinsListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -21,9 +22,12 @@ public class GherkinsTest {
 
         CommonTokenStream token = new CommonTokenStream(lexer);
         GherkinsParser parser = new GherkinsParser(token);
-        parser.addParseListener(new GherkinsListener());
+        GherkinsListener listener = new GherkinsListener();
+        parser.addParseListener(listener);
         ParseTree tree = parser.story();
         System.out.println(tree.toStringTree(parser));
+        Story story = listener.getStory();
+
 
     }
 }

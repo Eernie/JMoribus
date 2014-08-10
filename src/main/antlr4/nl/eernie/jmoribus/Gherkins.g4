@@ -5,21 +5,26 @@ story
     : feature? prologue? scenario*;
 
 feature
-    : feature_keyword title
+    : feature_keyword feature_title
     ;
 
+feature_title
+    : line ;
 
 prologue
     : NEWLINE? prologue_keyword (NEWLINE step)+;
 
 scenario
-    : NEWLINE? scenario_keyword title (NEWLINE step)+;
+    : NEWLINE? scenario_keyword scenario_title (NEWLINE step)+;
 
-title
-    : line;
+scenario_title
+    : line ;
 
 step
-    : step_keyword line (NEWLINE SPACE SPACE line)*;
+    : step_keyword step_line;
+
+step_line
+    : line (NEWLINE SPACE SPACE line)* ;
 
 line
     : (SPACE|TEXT)*;

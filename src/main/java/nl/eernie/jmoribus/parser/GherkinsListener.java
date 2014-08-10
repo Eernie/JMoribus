@@ -1,129 +1,93 @@
 package nl.eernie.jmoribus.parser;
 
+import nl.eernie.jmoribus.GherkinsBaseListener;
 import nl.eernie.jmoribus.GherkinsParser;
-import org.antlr.v4.runtime.ParserRuleContext;
+import nl.eernie.jmoribus.model.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
-public class GherkinsListener  implements nl.eernie.jmoribus.GherkinsListener{
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GherkinsListener extends GherkinsBaseListener {
+
+    private Story story;
+    private Feature feature;
+    private Scenario scenario;
+    private Map<String,Scenario> scenarios = new HashMap<String, Scenario>();
+
+    private StepType stepType;
+
+
     @Override
     public void enterStory(@NotNull GherkinsParser.StoryContext ctx) {
-        ctx.depth();
+        story = new Story();
     }
 
     @Override
-    public void exitStory(@NotNull GherkinsParser.StoryContext ctx) {
-        ctx.depth();
+    public void enterFeature(@NotNull GherkinsParser.FeatureContext ctx) {
+        feature = new Feature();
+        story.setFeature(feature);
     }
 
     @Override
-    public void enterTitle(@NotNull GherkinsParser.TitleContext ctx) {
-
+    public void exitFeature_title(@NotNull GherkinsParser.Feature_titleContext ctx) {
+        feature.setTitle(ctx.getText());
     }
 
     @Override
-    public void exitTitle(@NotNull GherkinsParser.TitleContext ctx) {
-
+    public void exitScenario_title(@NotNull GherkinsParser.Scenario_titleContext ctx) {
+        scenario.setTitle(ctx.getText());
     }
 
     @Override
     public void enterScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
-
-    }
-
-    @Override
-    public void exitScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
-
+        scenario = new Scenario();
+        story.getScenarios().add(scenario);
     }
 
     @Override
     public void enterPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
-
+        scenario = new Scenario();
+        story.getScenarios().add(scenario);
     }
 
     @Override
-    public void exitPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
-
-    }
-
-    @Override
-    public void enterStep_keyword(@NotNull GherkinsParser.Step_keywordContext ctx) {
-
+    public void exitScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
+        scenarios.put(scenario.getTitle(),scenario);
     }
 
     @Override
     public void exitStep_keyword(@NotNull GherkinsParser.Step_keywordContext ctx) {
-
+        switch (ctx.getText()){
+            case "Given":
+                stepType = StepType.GIVEN;
+                break;
+            case "When":
+                stepType = StepType.WHEN;
+                break;
+            case "Then":
+                stepType = StepType.THEN;
+                break;
+            case "Revering:":
+                stepType = StepType.REVERING;
+                break;
+        }
     }
 
     @Override
-    public void enterLine(@NotNull GherkinsParser.LineContext ctx) {
-
+    public void exitStep_line(@NotNull GherkinsParser.Step_lineContext ctx) {
+        Step step;
+        if(stepType != StepType.REVERING){
+            step = new Step(ctx.getText(),stepType);
+        }else{
+            step = scenarios.get(ctx.getText());
+        }
+        scenario.getSteps().add(step);
     }
 
-    @Override
-    public void exitLine(@NotNull GherkinsParser.LineContext ctx) {
-
-    }
-
-    @Override
-    public void enterScenario_keyword(@NotNull GherkinsParser.Scenario_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void exitScenario_keyword(@NotNull GherkinsParser.Scenario_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void enterPrologue_keyword(@NotNull GherkinsParser.Prologue_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void exitPrologue_keyword(@NotNull GherkinsParser.Prologue_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void enterFeature_keyword(@NotNull GherkinsParser.Feature_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void exitFeature_keyword(@NotNull GherkinsParser.Feature_keywordContext ctx) {
-
-    }
-
-    @Override
-    public void enterStep(@NotNull GherkinsParser.StepContext ctx) {
-
-    }
-
-    @Override
-    public void exitStep(@NotNull GherkinsParser.StepContext ctx) {
-
-    }
-
-    @Override
-    public void visitTerminal(@NotNull TerminalNode node) {
-
-    }
-
-    @Override
-    public void visitErrorNode(@NotNull ErrorNode node) {
-
-    }
-
-    @Override
-    public void enterEveryRule(@NotNull ParserRuleContext ctx) {
-
-    }
-
-    @Override
-    public void exitEveryRule(@NotNull ParserRuleContext ctx) {
-
+    public Story getStory() {
+        return story;
     }
 }
