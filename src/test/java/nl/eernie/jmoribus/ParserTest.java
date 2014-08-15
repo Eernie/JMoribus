@@ -22,7 +22,7 @@ import java.util.List;
 public class ParserTest {
 
     @Test
-    public void testParse() throws FileNotFoundException {
+    public void testParse() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
 

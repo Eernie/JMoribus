@@ -12,8 +12,6 @@ public class Story {
     private String uniqueIdentifier;
 
 
-
-
     public String getTitle() {
         return title;
     }

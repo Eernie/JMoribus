@@ -7,6 +7,7 @@ import nl.eernie.jmoribus.model.Table;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,7 @@ public class TabSpacedTableParserTest extends TestCase {
     }
 
     @Test
-    public void testParametrizedStory()
-    {
+    public void testParametrizedStory() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
         Story story = StoryParser.parseStory(parseableStory);
