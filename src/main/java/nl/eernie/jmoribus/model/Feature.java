@@ -2,9 +2,7 @@ package nl.eernie.jmoribus.model;
 
 public class Feature {
     private String title;
-    private String inOrder;
-    private String asA;
-    private String iWant;
+    private String content;
 
     public String getTitle() {
         return title;
@@ -14,37 +12,19 @@ public class Feature {
         this.title = title;
     }
 
-    public String getInOrder() {
-        return inOrder;
+    public String getContent() {
+        return content;
     }
 
-    public void setInOrder(String inOrder) {
-        this.inOrder = inOrder;
-    }
-
-    public String getAsA() {
-        return asA;
-    }
-
-    public void setAsA(String asA) {
-        this.asA = asA;
-    }
-
-    public String getiWant() {
-        return iWant;
-    }
-
-    public void setiWant(String iWant) {
-        this.iWant = iWant;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
     public String toString() {
         return "Feature{" +
                 "title='" + title + '\'' +
-                ", inOrder='" + inOrder + '\'' +
-                ", asA='" + asA + '\'' +
-                ", iWant='" + iWant + '\'' +
+                ", content='" + content + '\'' +
                 '}';
     }
 }

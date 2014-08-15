@@ -12,6 +12,7 @@ import nl.eernie.jmoribus.to.PossibleStepTO;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class Runner {
     }
 
     @Test
-    public void runStory() throws InvocationTargetException, IllegalAccessException {
+    public void runStory() throws InvocationTargetException, IllegalAccessException, IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
