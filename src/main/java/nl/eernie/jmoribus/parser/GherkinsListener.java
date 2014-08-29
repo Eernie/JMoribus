@@ -107,9 +107,9 @@ public class GherkinsListener extends GherkinsBaseListener {
         if(ctx.getParent() instanceof GherkinsParser.ExamplesContext){
             stepTeller.getSteps().add(new Step(table,StepType.EXAMPLES));
         }else{
-
+            // add table to step
         }
-
+        table = new Table();
     }
 
     @Override
