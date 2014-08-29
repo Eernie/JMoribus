@@ -52,7 +52,7 @@ public class ParserTest {
 
     private void assertStep(StepType type, String stepString, Scenario scenario, Step step) {
         Assert.assertEquals(type, step.getStepType());
-        Assert.assertEquals(stepString, step.getValue());
+        Assert.assertEquals(stepString, step.getFirstStepLine().getText());
     }
 
     @Test

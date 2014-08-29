@@ -32,9 +32,9 @@ public class Runner {
         defaultConfiguration.addSteps(steps);
         Story story = createStory();
         Scenario scenario = createScenario();
-        Step step = new Step("dddd Dit is een hele lange var more text", StepType.WHEN);
-        Step step2 = new Step("dddd $testvar more text", StepType.THEN);
-        Step step3 = new Step("bla bla bla 400", StepType.WHEN);
+        Step step = new Step(new Line("dddd Dit is een hele lange var more text"), StepType.WHEN);
+        Step step2 = new Step(new Line("dddd $testvar more text"), StepType.THEN);
+        Step step3 = new Step(new Line("bla bla bla 400"), StepType.WHEN);
         scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
         story.getScenarios().add(scenario);
         jMoribus.playAct(Arrays.asList(story));

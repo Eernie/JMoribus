@@ -1,7 +1,7 @@
 package nl.eernie.jmoribus.matcher;
 
-import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.StepType;
 
 import java.util.ArrayList;
@@ -26,12 +26,12 @@ public class RegexStepMatcher {
         this.annotatedPattern = annotatedPattern;
     }
 
-    public boolean matches(String stepWithoutStartingWord) {
+    public boolean matches(StepLine stepWithoutStartingWord) {
         matcher(stepWithoutStartingWord);
         return matcher.matches();
     }
 
-    public boolean find(String stepWithoutStartingWord) {
+    public boolean find(StepLine stepWithoutStartingWord) {
         matcher(stepWithoutStartingWord);
         return matcher.find();
     }
@@ -40,8 +40,8 @@ public class RegexStepMatcher {
         return matcher.group(matchedPosition);
     }
 
-    private void matcher(String patternToMatch) {
-        matcher = regexPattern.matcher(patternToMatch);
+    private void matcher(StepLine patternToMatch) {
+        matcher = regexPattern.matcher(patternToMatch.getText());
     }
 
     public Matcher getMatcher() {
@@ -69,7 +69,7 @@ public class RegexStepMatcher {
     }
 
     public List<String> getParameterValues(Step step) {
-        Matcher matcher = regexPattern.matcher(step.getValue());
+        Matcher matcher = regexPattern.matcher(step.getFirstStepLine().getText());
         matcher.find();
         List<String> parameters = new ArrayList<String>();
         if(matcher.groupCount()>0){

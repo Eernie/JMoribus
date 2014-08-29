@@ -129,7 +129,7 @@ public class GherkinsListener extends GherkinsBaseListener {
 
     @Override
     public void exitStep_line(@NotNull GherkinsParser.Step_lineContext ctx) {
-        prologueOrScenario.getSteps().add(new Step(ctx.getText().trim(), stepType));
+        prologueOrScenario.getSteps().add(new Step(new Line(ctx.getText().trim()), stepType));
     }
 
     public Story getStory() {

@@ -3,7 +3,7 @@ package nl.eernie.jmoribus.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table {
+public class Table implements StepLine {
 
     private List<String> header;
     private List<List<String>> rows ;
@@ -28,5 +28,10 @@ public class Table {
 
     public List<List<String>> getRows() {
         return rows;
+    }
+
+    @Override
+    public String getText() {
+        return null;
     }
 }
