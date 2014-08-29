@@ -17,3 +17,8 @@ Examples:
   |systemState  |Nameaction  |newSystemStateName |
   |currentState |nothing     |currentState |
   |currentState |pushButton  |newState |
+
+Scenario: title
+Given an scenario with a table
+  |this|will|be|headers|
+  |this|is  |a |row    |

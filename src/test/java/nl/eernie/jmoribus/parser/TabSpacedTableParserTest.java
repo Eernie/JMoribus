@@ -61,7 +61,7 @@ public class TabSpacedTableParserTest extends TestCase {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
         Story story = StoryParser.parseStory(parseableStory);
-        Assert.assertEquals(story.getScenarios().size(), 1);
+        Assert.assertEquals(story.getScenarios().size(), 2);
         int numberOfSteps = story.getScenarios().get(0).getSteps().size();
         Assert.assertTrue(story.getScenarios().get(0).getSteps().get(numberOfSteps - 1).getStepType() == StepType.EXAMPLES);
         Assert.assertNotNull(story);

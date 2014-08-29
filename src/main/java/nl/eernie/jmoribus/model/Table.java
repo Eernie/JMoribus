@@ -1,11 +1,16 @@
 package nl.eernie.jmoribus.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
 
     private List<String> header;
-    private List<List<String>> rows;
+    private List<List<String>> rows ;
+
+    public Table() {
+        rows = new ArrayList<>();
+    }
 
     public Table(List<String> header, List<List<String>> rows)
     {
@@ -15,6 +20,10 @@ public class Table {
 
     public List<String> getHeader() {
         return header;
+    }
+
+    public void setHeader(List<String> header) {
+        this.header = header;
     }
 
     public List<List<String>> getRows() {
