@@ -7,7 +7,6 @@ public class Step  {
 
     private String value;
     private StepType stepType;
-    private StepTeller stepTeller;
     private List<Table> tables = new ArrayList<>();
 
     public Step(String value, StepType stepType) {
@@ -18,14 +17,6 @@ public class Step  {
     public Step(Table table, StepType stepType){
         tables.add(table);
         this.stepType = stepType;
-    }
-
-    public StepTeller getStepTeller() {
-        return stepTeller;
-    }
-
-    public void setStepTeller(StepTeller stepTeller) {
-        this.stepTeller = stepTeller;
     }
 
     public String getValue() {

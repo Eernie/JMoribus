@@ -9,7 +9,7 @@ import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.PossibleStep;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.StepTeller;
+import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.reporter.Reporter;
 import nl.eernie.jmoribus.runner.StepRunner;
@@ -65,35 +65,29 @@ public class JMoribus {
         return new MethodMatcher(objects);
     }
 
-    private void runStepTeller(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepTeller stepTeller) {
+    private void runStepTeller(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepTeller) {
         if(stepTeller == null){
             return;
         }
-        for (Step step : stepTeller.getSteps()) {
-            if(step instanceof Scenario){
-                Scenario scenario = (Scenario) step;
-                reporter.beforePrologue(scenario);
-                runStepTeller(methodMather, stepRunner, reporter, scenario);
-                reporter.afterPrologue(scenario);
-                continue;
-            }
-            reporter.beforeStep(step);
-            PossibleStep matchedStep = methodMather.findMatchedStep(step);
-            if(matchedStep !=null){
-                try{
-                    stepRunner.run(matchedStep,step);
-                    reporter.successStep(step);
-                }catch(AssertionError e){
-                    reporter.failedStep(step, e);
-                }catch(Throwable e){
-                    reporter.errorStep(step, e);
+
+        for(Step step : stepTeller.getSteps())
+        {
+
+                reporter.beforeStep(step);
+                PossibleStep matchedStep = methodMather.findMatchedStep(step);
+                if (matchedStep != null) {
+                    try {
+                        stepRunner.run(matchedStep, step);
+                        reporter.successStep(step);
+                    } catch (AssertionError e) {
+                        reporter.failedStep(step, e);
+                    } catch (Throwable e) {
+                        reporter.errorStep(step, e);
+                    }
+                } else {
+                    reporter.pendingStep(step);
                 }
-            }
-            else{
-                reporter.pendingStep(step);
             }
         }
     }
 
-
-}

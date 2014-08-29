@@ -6,19 +6,15 @@ import nl.eernie.jmoribus.model.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GherkinsListener extends GherkinsBaseListener {
 
     private Story story;
     private Feature feature;
-    private StepTeller stepTeller;
-    private Map<String,Scenario> scenarios = new HashMap<>();
+    private StepContainer prologueOrScenario;
 
     private StepType stepType;
-
     private Table table = new Table();
     private List<String> row = new ArrayList<>();
 
@@ -30,7 +26,6 @@ public class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void enterFeature(@NotNull GherkinsParser.FeatureContext ctx) {
         feature = new Feature();
-        story.setFeature(feature);
     }
 
     @Override
@@ -44,31 +39,41 @@ public class GherkinsListener extends GherkinsBaseListener {
     }
 
     @Override
-    public void exitScenario_title(@NotNull GherkinsParser.Scenario_titleContext ctx) {
-        ((Scenario)stepTeller).setTitle(ctx.getText().trim());
+    public void exitFeature(@NotNull GherkinsParser.FeatureContext ctx) {
+        story.setFeature(feature);
+        feature = null;
     }
 
     @Override
     public void enterScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
-        stepTeller = new Scenario();
-        stepTeller.setStory(story);
-        story.getScenarios().add(((Scenario)stepTeller));
+        prologueOrScenario = new Scenario();
     }
 
     @Override
-    public void enterPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
-        stepTeller = new Prologue();
-        stepTeller.setStory(story);
-        story.setPrologue((Prologue) stepTeller);
+    public void exitScenario_title(@NotNull GherkinsParser.Scenario_titleContext ctx) {
+        ((Scenario) prologueOrScenario).setTitle(ctx.getText().trim());
     }
 
     @Override
     public void exitScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
-        scenarios.put(((Scenario)stepTeller).getTitle(), ((Scenario)stepTeller));
+        story.getScenarios().add((Scenario)prologueOrScenario);
+        prologueOrScenario = null;
+    }
+
+    @Override
+    public void enterPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
+        prologueOrScenario = new Prologue();
+    }
+
+    @Override
+    public void exitPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
+        story.setPrologue((Prologue) prologueOrScenario);
+        prologueOrScenario = null;
     }
 
     @Override
     public void exitStep_keyword(@NotNull GherkinsParser.Step_keywordContext ctx) {
+
         switch (ctx.getText()){
             case "Given":
                 stepType = StepType.GIVEN;
@@ -79,10 +84,20 @@ public class GherkinsListener extends GherkinsBaseListener {
             case "Then":
                 stepType = StepType.THEN;
                 break;
-            case "Revering:":
-                stepType = StepType.REVERING;
+            case "And":
+                // Steptype stays the same as previous steptype
                 break;
+            case "Referring":
+                stepType = StepType.REFERRING;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown step type " + ctx.getText());
         }
+    }
+
+    @Override
+    public void enterTable(@NotNull GherkinsParser.TableContext ctx) {
+        table = new Table();
     }
 
     @Override
@@ -105,31 +120,19 @@ public class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void exitTable(@NotNull GherkinsParser.TableContext ctx) {
         if(ctx.getParent() instanceof GherkinsParser.ExamplesContext){
-            stepTeller.getSteps().add(new Step(table,StepType.EXAMPLES));
+            prologueOrScenario.getSteps().add(new Step(table,StepType.EXAMPLES));
         }else{
             // add table to step
         }
-        table = new Table();
+        table = null;
     }
 
     @Override
     public void exitStep_line(@NotNull GherkinsParser.Step_lineContext ctx) {
-        Step step;
-        if(stepType != StepType.REVERING){
-            step = new Step(ctx.getText().trim(),stepType);
-        }else{
-            step = scenarios.get(ctx.getText().trim());
-        }
-        step.setStepTeller(stepTeller);
-        stepTeller.getSteps().add(step);
+        prologueOrScenario.getSteps().add(new Step(ctx.getText().trim(), stepType));
     }
 
     public Story getStory() {
         return story;
     }
-
-    public void setKnownScenarios(Map<String,Scenario> knownScenarios) {
-        this.scenarios = knownScenarios;
-    }
-
 }

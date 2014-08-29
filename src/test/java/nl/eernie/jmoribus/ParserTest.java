@@ -37,7 +37,6 @@ public class ParserTest {
 
         Scenario scenario = story.getScenarios().get(0);
         Assert.assertEquals("scenario description", scenario.getTitle());
-        Assert.assertSame(story, scenario.getStory());
 
         Assert.assertEquals(4,scenario.getSteps().size());
 
@@ -52,7 +51,6 @@ public class ParserTest {
     }
 
     private void assertStep(StepType type, String stepString, Scenario scenario, Step step) {
-        Assert.assertSame(scenario, step.getStepTeller());
         Assert.assertEquals(type, step.getStepType());
         Assert.assertEquals(stepString, step.getValue());
     }

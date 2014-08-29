@@ -32,7 +32,6 @@ public class Runner {
         defaultConfiguration.addSteps(steps);
         Story story = createStory();
         Scenario scenario = createScenario();
-        scenario.setStory(story);
         Step step = new Step("dddd Dit is een hele lange var more text", StepType.WHEN);
         Step step2 = new Step("dddd $testvar more text", StepType.THEN);
         Step step3 = new Step("bla bla bla 400", StepType.WHEN);

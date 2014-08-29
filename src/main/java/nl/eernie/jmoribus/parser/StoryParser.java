@@ -42,7 +42,6 @@ public final class StoryParser {
         CommonTokenStream token = new CommonTokenStream(lexer);
         GherkinsParser parser = new GherkinsParser(token);
         GherkinsListener listener = new GherkinsListener();
-        listener.setKnownScenarios(knownScenarios);
         parser.addParseListener(listener);
         parser.story();
 

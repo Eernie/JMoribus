@@ -57,7 +57,7 @@ examples_keyword
     :   'Examples:';
 
 step_keyword
-	: 	'Given' | 'When' | 'Then' | 'And' | 'Revering:';
+	: 	'Given' | 'When' | 'Then' | 'And' | 'Referring';
 
 SPACE	: ' ' | '\t';
 

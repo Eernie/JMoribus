@@ -6,7 +6,7 @@ Feature: Some awesome title
 Prologue:
 Given this step is played once in the begin of the story
 
-!-- awesome comment!!!!
+#-- awesome comment!!!!
 
 Scenario: scenario description
 Given a system state
