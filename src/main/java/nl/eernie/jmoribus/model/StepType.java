@@ -4,6 +4,5 @@ public enum StepType {
     GIVEN,
     THEN,
     REFERRING,
-    WHEN,
-    EXAMPLES
+    WHEN
 }

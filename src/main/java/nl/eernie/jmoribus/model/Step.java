@@ -8,9 +8,8 @@ public class Step  {
     private StepType stepType;
     private List<StepLine> stepLines = new ArrayList<>();
 
-    public Step(StepLine firstLine, StepType stepType) {
+    public Step(StepType stepType) {
         this.stepType = stepType;
-        this.stepLines.add(firstLine);
     }
 
     public StepType getStepType() {

@@ -8,6 +8,8 @@ public class Scenario implements StepContainer {
     private String title;
     private List<Step> steps = new ArrayList<Step>();
 
+    private Table examplesTable;
+
     public Scenario(){
     }
 
@@ -21,6 +23,16 @@ public class Scenario implements StepContainer {
 
     public List<Step> getSteps() {
         return steps;
+    }
+
+    public void setExamplesTable(Table examplesTable)
+    {
+        this.examplesTable = examplesTable;
+    }
+
+    public Table getExamplesTable()
+    {
+        return examplesTable;
     }
 
 }

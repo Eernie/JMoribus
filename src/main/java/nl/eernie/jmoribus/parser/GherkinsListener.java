@@ -14,6 +14,7 @@ public class GherkinsListener extends GherkinsBaseListener {
     private Feature feature;
     private StepContainer prologueOrScenario;
 
+    private Step step;
     private StepType stepType;
     private Table table = new Table();
     private List<String> row = new ArrayList<>();
@@ -93,6 +94,14 @@ public class GherkinsListener extends GherkinsBaseListener {
             default:
                 throw new IllegalArgumentException("Unknown step type " + ctx.getText());
         }
+
+        step = new Step(stepType);
+    }
+
+    @Override
+    public void exitStep(@NotNull GherkinsParser.StepContext ctx) {
+        prologueOrScenario.getSteps().add(step);
+        step = null;
     }
 
     @Override
@@ -120,16 +129,17 @@ public class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void exitTable(@NotNull GherkinsParser.TableContext ctx) {
         if(ctx.getParent() instanceof GherkinsParser.ExamplesContext){
-            prologueOrScenario.getSteps().add(new Step(table,StepType.EXAMPLES));
+            Scenario scn = (Scenario) prologueOrScenario;
+            scn.setExamplesTable(table);
         }else{
-            // add table to step
+            step.getStepLines().add(table);
         }
         table = null;
     }
 
     @Override
     public void exitStep_line(@NotNull GherkinsParser.Step_lineContext ctx) {
-        prologueOrScenario.getSteps().add(new Step(new Line(ctx.getText().trim()), stepType));
+        step.getStepLines().add(new Line(ctx.getText().trim()));
     }
 
     public Story getStory() {
