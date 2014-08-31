@@ -1,13 +1,19 @@
 package nl.eernie.jmoribus.parser;
 
 import junit.framework.TestCase;
+import nl.eernie.jmoribus.JMoribus;
+import nl.eernie.jmoribus.Steps;
+import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MultipleTablesPerStoryTest extends TestCase {
@@ -40,6 +46,21 @@ public class MultipleTablesPerStoryTest extends TestCase {
         Assert.assertTrue(step4.getStepLines().get(1) instanceof Table);
         Assert.assertEquals("and the following states should be present:", step4.getStepLines().get(2).getText());
         Assert.assertTrue(step4.getStepLines().get(3) instanceof Table);
+    }
+
+    @Test
+    public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException {
+        InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story with multiple tables per step", "storyWithMultipleTablesPerStep.story");
+        Story story = StoryParser.parseStory(parseableStory);
+
+        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        JMoribus jMoribus = new JMoribus(defaultConfiguration);
+        defaultConfiguration.addReporter(new DefaultReporter());
+        ArrayList<Object> steps = new ArrayList<Object>();
+        steps.add(new Steps());
+        defaultConfiguration.addSteps(steps);
+        jMoribus.playAct(Arrays.asList(story));
 
     }
 }

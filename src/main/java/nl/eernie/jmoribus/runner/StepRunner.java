@@ -3,6 +3,8 @@ package nl.eernie.jmoribus.runner;
 
 import nl.eernie.jmoribus.matcher.*;
 import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepLine;
+import nl.eernie.jmoribus.model.Table;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,7 +22,7 @@ public class StepRunner {
     public void run(PossibleStep matchedStep, Step step) throws Throwable {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
         try {
-            Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues);
+            Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
             matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
         } catch (IllegalAccessException e) {
             throw e.getCause();
@@ -30,7 +32,7 @@ public class StepRunner {
 
     }
 
-    private Object[] createParameters(Method method, List<String> parameterValues) throws InvocationTargetException, IllegalAccessException {
+    private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
         if(parameterValues.size()!=parameterTypes.length){
@@ -41,6 +43,11 @@ public class StepRunner {
             String parameterValue = parameterValues.get(i);
             if(parameterType.equals(String.class)){
                 parameters[i] = parameterValue;
+            }else if(parameterType.equals(Table.class)){
+                String indexString = parameterValue.replace("TABLE","");
+                int lineIndex = Integer.valueOf(indexString);
+                StepLine table = step.getStepLines().get(lineIndex);
+                parameters[i] = table;
             }else{
                 ParameterConverter converter = methodMatcher.findConverterFor(parameterType);
                 parameters[i] = converter.getMethod().invoke(converter.getMethodObject(), parameterValue);

@@ -16,17 +16,17 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void beforeStep(Step step) {
-        System.out.println("Before Step:    "+ step.getFirstStepLine() + " - " + step.getStepType());
+        System.out.println("Before Step:    "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void successStep(Step step) {
-        System.out.println("Success Step:   "+ step.getFirstStepLine() + " - " + step.getStepType());
+        System.out.println("Success Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void pendingStep(Step step) {
-        System.out.println("Pending Step:   "+ step.getFirstStepLine() + " - " + step.getStepType());
+        System.out.println("Pending Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
@@ -41,12 +41,12 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void failedStep(Step step, AssertionError e) {
-        System.out.println("Failed step:   " + step.getFirstStepLine() + " Assertion error:" + e.getMessage());
+        System.out.println("Failed step:   " + step.getCombinedStepLines() + " Assertion error:" + e.getMessage());
     }
 
     @Override
     public void errorStep(Step step, Throwable e) {
-        System.out.println("Error in step: " + step.getFirstStepLine() + "Exception :" + e.getMessage());
+        System.out.println("Error in step: " + step.getCombinedStepLines() + "Exception :" + e.getMessage());
     }
 
     @Override

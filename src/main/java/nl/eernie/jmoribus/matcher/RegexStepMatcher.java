@@ -26,12 +26,12 @@ public class RegexStepMatcher {
         this.annotatedPattern = annotatedPattern;
     }
 
-    public boolean matches(StepLine stepWithoutStartingWord) {
+    public boolean matches(String stepWithoutStartingWord) {
         matcher(stepWithoutStartingWord);
         return matcher.matches();
     }
 
-    public boolean find(StepLine stepWithoutStartingWord) {
+    public boolean find(String stepWithoutStartingWord) {
         matcher(stepWithoutStartingWord);
         return matcher.find();
     }
@@ -40,8 +40,8 @@ public class RegexStepMatcher {
         return matcher.group(matchedPosition);
     }
 
-    private void matcher(StepLine patternToMatch) {
-        matcher = regexPattern.matcher(patternToMatch.getText());
+    private void matcher(String patternToMatch) {
+        matcher = regexPattern.matcher(patternToMatch);
     }
 
     public Matcher getMatcher() {
@@ -69,7 +69,7 @@ public class RegexStepMatcher {
     }
 
     public List<String> getParameterValues(Step step) {
-        Matcher matcher = regexPattern.matcher(step.getFirstStepLine().getText());
+        Matcher matcher = regexPattern.matcher(step.getCombinedStepLines());
         matcher.find();
         List<String> parameters = new ArrayList<String>();
         if(matcher.groupCount()>0){

@@ -1,5 +1,7 @@
 package nl.eernie.jmoribus.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,5 +26,21 @@ public class Step  {
     public List<StepLine> getStepLines()
     {
         return stepLines;
+    }
+
+    public String getCombinedStepLines(){
+        String combined = "";
+        for(StepLine stepLine: stepLines){
+            if(StringUtils.isNotBlank(combined)){
+                combined = combined + " ";
+            }
+            if(stepLine instanceof Table){
+                int index = stepLines.indexOf(stepLine);
+                combined = combined + "TABLE"+index;
+            }else{
+                combined = combined + stepLine.getText();
+            }
+        }
+        return combined;
     }
 }

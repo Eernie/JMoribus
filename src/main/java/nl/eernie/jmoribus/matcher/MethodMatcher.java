@@ -100,7 +100,7 @@ public class MethodMatcher {
     public PossibleStep findMatchedStep(Step step) {
         for (PossibleStep possibleStep : possibleSteps) {
             if(possibleStep.getStepType().equals(step.getStepType())) {
-                if (possibleStep.getRegexStepMatcher().matches(step.getFirstStepLine())) {
+                if (possibleStep.getRegexStepMatcher().matches(step.getCombinedStepLines())) {
                     return possibleStep;
                 }
             }
