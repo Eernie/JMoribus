@@ -127,13 +127,15 @@ public class GherkinsListener extends GherkinsBaseListener {
     }
 
     @Override
-    public void exitTable(@NotNull GherkinsParser.TableContext ctx) {
-        if(ctx.getParent() instanceof GherkinsParser.ExamplesContext){
-            Scenario scn = (Scenario) prologueOrScenario;
-            scn.setExamplesTable(table);
-        }else{
-            step.getStepLines().add(table);
-        }
+    public void exitExamples_table(@NotNull GherkinsParser.Examples_tableContext ctx) {
+        Scenario scn = (Scenario) prologueOrScenario;
+        scn.setExamplesTable(table);
+        table = null;
+    }
+
+    @Override
+    public void exitStep_table_line(@NotNull GherkinsParser.Step_table_lineContext ctx) {
+        step.getStepLines().add(table);
         table = null;
     }
 

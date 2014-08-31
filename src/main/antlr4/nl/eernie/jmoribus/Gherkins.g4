@@ -24,7 +24,10 @@ scenario_title
     : line ;
 
 examples
-    : examples_keyword NEWLINE+ SPACE SPACE table ;
+    : examples_keyword NEWLINE+ SPACE SPACE examples_table ;
+
+examples_table
+    : table ;
 
 table
     : table_row+;
@@ -39,10 +42,13 @@ step
     : step_keyword step_line (NEWLINE SPACE SPACE step_line)*;
 
 step_line
-    : (step_text_line|table) ;
+    : (step_text_line|step_table_line) ;
 
 step_text_line
     : line ;
+
+step_table_line
+    : table ;
 
 line
     : (SPACE|TEXT)*;
