@@ -36,10 +36,13 @@ cell
     : (SPACE|TEXT)*? '|';
 
 step
-    : step_keyword step_line;
+    : step_keyword step_line (NEWLINE SPACE SPACE step_line)*;
 
 step_line
-    : line (NEWLINE SPACE SPACE (line|table))* ;
+    : (step_text_line|table) ;
+
+step_text_line
+    : line ;
 
 line
     : (SPACE|TEXT)*;

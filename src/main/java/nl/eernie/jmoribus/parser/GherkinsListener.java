@@ -16,7 +16,7 @@ public class GherkinsListener extends GherkinsBaseListener {
 
     private Step step;
     private StepType stepType;
-    private Table table = new Table();
+    private Table table;
     private List<String> row = new ArrayList<>();
 
     @Override
@@ -138,7 +138,7 @@ public class GherkinsListener extends GherkinsBaseListener {
     }
 
     @Override
-    public void exitStep_line(@NotNull GherkinsParser.Step_lineContext ctx) {
+    public void exitStep_text_line(@NotNull GherkinsParser.Step_text_lineContext ctx) {
         step.getStepLines().add(new Line(ctx.getText().trim()));
     }
 
