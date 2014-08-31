@@ -3,6 +3,9 @@ package nl.eernie.jmoribus.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Step consists of multiple steplines. This class represents a table.
+ */
 public class Table implements StepLine {
 
     private List<String> header;
