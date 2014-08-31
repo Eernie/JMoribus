@@ -47,11 +47,11 @@ public class JMoribus {
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
             reporter.beforeBackground(story.getPrologue());
-            runStepTeller(methodMather, stepRunner, reporter, story.getPrologue());
+            runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
-                runStepTeller(methodMather, stepRunner, reporter, scenario);
+                runStepContainer(methodMather, stepRunner, reporter, scenario);
                 reporter.afterScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
             }
@@ -65,12 +65,12 @@ public class JMoribus {
         return new MethodMatcher(objects);
     }
 
-    private void runStepTeller(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepTeller) {
-        if(stepTeller == null){
+    private void runStepContainer(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepContainer) {
+        if(stepContainer == null){
             return;
         }
 
-        for(Step step : stepTeller.getSteps())
+        for(Step step : stepContainer.getSteps())
         {
 
                 reporter.beforeStep(step);
