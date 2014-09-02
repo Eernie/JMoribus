@@ -29,18 +29,18 @@ public class Step  {
     }
 
     public String getCombinedStepLines(){
-        String combined = "";
+        StringBuffer buffer = new StringBuffer();
         for(StepLine stepLine: stepLines){
-            if(StringUtils.isNotBlank(combined)){
-                combined = combined + " ";
+            if(StringUtils.isNotBlank(buffer.toString())){
+                buffer.append(" ");
             }
             if(stepLine instanceof Table){
                 int index = stepLines.indexOf(stepLine);
-                combined = combined + "TABLE"+index;
+                buffer.append("TABLE"+index);
             }else{
-                combined = combined + stepLine.getText();
+                buffer.append(stepLine.getText());
             }
         }
-        return combined;
+        return buffer.toString();
     }
 }
