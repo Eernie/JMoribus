@@ -18,16 +18,37 @@ prologue
     : NEWLINE*? prologue_keyword (NEWLINE step)+;
 
 scenario
-    : NEWLINE*? scenario_keyword scenario_title (NEWLINE step)+;
+    : NEWLINE*? scenario_keyword scenario_title (NEWLINE step)+ NEWLINE* examples*;
 
 scenario_title
     : line ;
 
+examples
+    : examples_keyword NEWLINE+ SPACE SPACE examples_table ;
+
+examples_table
+    : table ;
+
+table
+    : table_row+;
+
+table_row
+    : (SPACE SPACE)? '|' cell+  NEWLINE?;
+
+cell
+    : (SPACE|TEXT)*? '|';
+
 step
-    : step_keyword step_line;
+    : step_keyword step_line (NEWLINE SPACE SPACE step_line)*;
 
 step_line
-    : line (NEWLINE SPACE SPACE line)* ;
+    : (step_text_line|step_table_line) ;
+
+step_text_line
+    : line ;
+
+step_table_line
+    : table ;
 
 line
     : (SPACE|TEXT)*;
@@ -41,8 +62,11 @@ prologue_keyword
 scenario_keyword
 	: 	'Scenario:';
 
+examples_keyword
+    :   'Examples:';
+
 step_keyword
-	: 	'Given' | 'When' | 'Then' | 'And' | 'Revering:';
+	: 	'Given' | 'When' | 'Then' | 'And' | 'Referring';
 
 SPACE	: ' ' | '\t';
 

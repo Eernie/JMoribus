@@ -31,13 +31,12 @@ public class ParserTest {
         Assert.assertEquals("Story 1", story.getUniqueIdentifier());
         Assert.assertEquals("test.story", story.getTitle());
         Assert.assertEquals("Some awsome title", story.getFeature().getTitle());
-        Assert.assertEquals("In order to realize a named business value\n  As a explicit system actor\n  I want to gain some beneficial outcome which furthers the goal", story.getFeature().getContent());
+        Assert.assertEquals("In order to realize a named business value" + System.lineSeparator() + "  As a explicit system actor" + System.lineSeparator() + "  I want to gain some beneficial outcome which furthers the goal", story.getFeature().getContent());
 
         Assert.assertEquals(1,story.getScenarios().size());
 
         Scenario scenario = story.getScenarios().get(0);
         Assert.assertEquals("scenario description", scenario.getTitle());
-        Assert.assertSame(story, scenario.getStory());
 
         Assert.assertEquals(4,scenario.getSteps().size());
 
@@ -52,9 +51,8 @@ public class ParserTest {
     }
 
     private void assertStep(StepType type, String stepString, Scenario scenario, Step step) {
-        Assert.assertSame(scenario, step.getStepTeller());
         Assert.assertEquals(type, step.getStepType());
-        Assert.assertEquals(stepString, step.getValue());
+        Assert.assertEquals(stepString, step.getFirstStepLine().getText());
     }
 
     @Test

@@ -84,23 +84,30 @@ public class ConcurrentReporter implements Reporter {
     }
 
     @Override
-    public void beforeBackground(Prologue prologue) {
+    public void beforePrologue(Prologue prologue) {
         for (Reporter reporter : reporters) {
-            reporter.beforeBackground(prologue);
+            reporter.beforePrologue(prologue);
         }
     }
 
     @Override
-    public void beforePrologue(Scenario scenario) {
+    public void afterPrologue(Prologue prologue) {
         for (Reporter reporter : reporters) {
-            reporter.beforePrologue(scenario);
+            reporter.beforePrologue(prologue);
         }
     }
 
     @Override
-    public void afterPrologue(Scenario scenario) {
+    public void beforeReferringScenario(Scenario scenario) {
         for (Reporter reporter : reporters) {
-            reporter.afterPrologue(scenario);
+            reporter.beforeReferringScenario(scenario);
+        }
+    }
+
+    @Override
+    public void afterReferringScenario(Scenario scenario) {
+        for (Reporter reporter : reporters) {
+            reporter.afterReferringScenario(scenario);
         }
     }
 

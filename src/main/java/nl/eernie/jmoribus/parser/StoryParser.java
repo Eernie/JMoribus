@@ -19,7 +19,6 @@ import java.util.Map;
 
 public final class StoryParser {
 
-
     private StoryParser(){}
 
     public static List<Story> parseStories(List<ParseableStory> parseableStories) throws IOException {
@@ -43,7 +42,6 @@ public final class StoryParser {
         CommonTokenStream token = new CommonTokenStream(lexer);
         GherkinsParser parser = new GherkinsParser(token);
         GherkinsListener listener = new GherkinsListener();
-        listener.setKnownScenarios(knownScenarios);
         parser.addParseListener(listener);
         parser.story();
 
@@ -53,6 +51,4 @@ public final class StoryParser {
 
         return story;
     }
-
-
 }

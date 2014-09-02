@@ -9,7 +9,7 @@ import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.PossibleStep;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.StepTeller;
+import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.reporter.Reporter;
 import nl.eernie.jmoribus.runner.StepRunner;
@@ -46,12 +46,13 @@ public class JMoribus {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
-            reporter.beforeBackground(story.getPrologue());
-            runStepTeller(methodMather, stepRunner, reporter, story.getPrologue());
+            reporter.beforePrologue(story.getPrologue());
+            runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
+            reporter.afterPrologue(story.getPrologue());
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
-                runStepTeller(methodMather, stepRunner, reporter, scenario);
+                runStepContainer(methodMather, stepRunner, reporter, scenario);
                 reporter.afterScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
             }
@@ -65,35 +66,35 @@ public class JMoribus {
         return new MethodMatcher(objects);
     }
 
-    private void runStepTeller(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepTeller stepTeller) {
-        if(stepTeller == null){
+    private void runStepContainer(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepContainer) {
+        if(stepContainer == null){
             return;
         }
-        for (Step step : stepTeller.getSteps()) {
+
+        for(Step step : stepContainer.getSteps())
+        {
             if(step instanceof Scenario){
-                Scenario scenario = (Scenario) step;
-                reporter.beforePrologue(scenario);
-                runStepTeller(methodMather, stepRunner, reporter, scenario);
-                reporter.afterPrologue(scenario);
+                Scenario referringScenario = (Scenario)step;
+                reporter.beforeReferringScenario(referringScenario);
+                runStepContainer(methodMather,stepRunner,reporter,referringScenario);
+                reporter.afterReferringScenario(referringScenario);
                 continue;
             }
             reporter.beforeStep(step);
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
-            if(matchedStep !=null){
-                try{
-                    stepRunner.run(matchedStep,step);
+            if (matchedStep != null) {
+                try {
+                    stepRunner.run(matchedStep, step);
                     reporter.successStep(step);
-                }catch(AssertionError e){
+                } catch (AssertionError e) {
                     reporter.failedStep(step, e);
-                }catch(Throwable e){
+                } catch (Throwable e) {
                     reporter.errorStep(step, e);
                 }
-            }
-            else{
+            } else {
                 reporter.pendingStep(step);
             }
         }
     }
-
-
 }
+

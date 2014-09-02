@@ -16,17 +16,17 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void beforeStep(Step step) {
-        System.out.println("Before Step:    "+ step.getValue() + " - " + step.getStepType());
+        System.out.println("Before Step:    "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void successStep(Step step) {
-        System.out.println("Success Step:   "+ step.getValue() + " - " + step.getStepType());
+        System.out.println("Success Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void pendingStep(Step step) {
-        System.out.println("Pending Step:   "+ step.getValue() + " - " + step.getStepType());
+        System.out.println("Pending Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
@@ -41,12 +41,12 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void failedStep(Step step, AssertionError e) {
-        System.out.println("Failed step:   " + step.getValue() + " Assertion error:" + e.getMessage());
+        System.out.println("Failed step:   " + step.getCombinedStepLines() + " Assertion error:" + e.getMessage());
     }
 
     @Override
     public void errorStep(Step step, Throwable e) {
-        System.out.println("Error in step: " + step.getValue() + "Exception :" + e.getMessage());
+        System.out.println("Error in step: " + step.getCombinedStepLines() + "Exception :" + e.getMessage());
     }
 
     @Override
@@ -55,19 +55,25 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
-    public void beforeBackground(Prologue prologue) {
-        System.out.println("Before Background.");
+    public void beforePrologue(Prologue prologue) {
+        System.out.println("Before Prologue.");
     }
 
     @Override
-    public void beforePrologue(Scenario scenario) {
-        System.out.println("before Prologue scenario: " + scenario.getTitle());
+    public void afterPrologue(Prologue prologue) {
+        System.out.println("After Prologue.");
     }
 
     @Override
-    public void afterPrologue(Scenario scenario) {
-        System.out.println("after Prologue scenario: " + scenario.getTitle());
+    public void beforeReferringScenario(Scenario scenario) {
+        System.out.println("before Referring scenario: " + scenario.getTitle());
     }
+
+    @Override
+    public void afterReferringScenario(Scenario scenario) {
+        System.out.println("after Referring scenario: " + scenario.getTitle());
+    }
+
 
 
 }
