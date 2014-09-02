@@ -6,9 +6,13 @@ import nl.eernie.jmoribus.model.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GherkinsListener extends GherkinsBaseListener {
+
+    private Map<String,Scenario> scenarios = new HashMap<>();
 
     private Story story;
     private Feature feature;
@@ -57,7 +61,9 @@ public class GherkinsListener extends GherkinsBaseListener {
 
     @Override
     public void exitScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
-        story.getScenarios().add((Scenario)prologueOrScenario);
+        Scenario scenario = (Scenario) prologueOrScenario;
+        story.getScenarios().add(scenario);
+        scenarios.put(scenario.getTitle(), scenario);
         prologueOrScenario = null;
     }
 
@@ -100,7 +106,15 @@ public class GherkinsListener extends GherkinsBaseListener {
 
     @Override
     public void exitStep(@NotNull GherkinsParser.StepContext ctx) {
-        prologueOrScenario.getSteps().add(step);
+        if(stepType == StepType.REFERRING){
+            Scenario scenario = scenarios.get(step.getCombinedStepLines());
+            if(scenario == null){
+                throw new IllegalArgumentException("Scenario with name "+ step.getCombinedStepLines() +" doesn't excist in this context");
+            }
+            prologueOrScenario.getSteps().add(scenario);
+        }else {
+            prologueOrScenario.getSteps().add(step);
+        }
         step = null;
     }
 
@@ -146,5 +160,13 @@ public class GherkinsListener extends GherkinsBaseListener {
 
     public Story getStory() {
         return story;
+    }
+
+    public Map<String, Scenario> getScenarios() {
+        return scenarios;
+    }
+
+    public void setScenarios(Map<String, Scenario> scenarios) {
+        this.scenarios = scenarios;
     }
 }

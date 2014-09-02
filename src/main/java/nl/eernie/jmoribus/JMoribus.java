@@ -46,8 +46,9 @@ public class JMoribus {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
-            reporter.beforeBackground(story.getPrologue());
+            reporter.beforePrologue(story.getPrologue());
             runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
+            reporter.afterPrologue(story.getPrologue());
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
@@ -72,22 +73,28 @@ public class JMoribus {
 
         for(Step step : stepContainer.getSteps())
         {
-
-                reporter.beforeStep(step);
-                PossibleStep matchedStep = methodMather.findMatchedStep(step);
-                if (matchedStep != null) {
-                    try {
-                        stepRunner.run(matchedStep, step);
-                        reporter.successStep(step);
-                    } catch (AssertionError e) {
-                        reporter.failedStep(step, e);
-                    } catch (Throwable e) {
-                        reporter.errorStep(step, e);
-                    }
-                } else {
-                    reporter.pendingStep(step);
+            if(step instanceof Scenario){
+                Scenario referringScenario = (Scenario)step;
+                reporter.beforeReferringScenario(referringScenario);
+                runStepContainer(methodMather,stepRunner,reporter,referringScenario);
+                reporter.afterReferringScenario(referringScenario);
+                continue;
+            }
+            reporter.beforeStep(step);
+            PossibleStep matchedStep = methodMather.findMatchedStep(step);
+            if (matchedStep != null) {
+                try {
+                    stepRunner.run(matchedStep, step);
+                    reporter.successStep(step);
+                } catch (AssertionError e) {
+                    reporter.failedStep(step, e);
+                } catch (Throwable e) {
+                    reporter.errorStep(step, e);
                 }
+            } else {
+                reporter.pendingStep(step);
             }
         }
     }
+}
 

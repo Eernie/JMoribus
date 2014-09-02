@@ -55,19 +55,25 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
-    public void beforeBackground(Prologue prologue) {
-        System.out.println("Before Background.");
+    public void beforePrologue(Prologue prologue) {
+        System.out.println("Before Prologue.");
     }
 
     @Override
-    public void beforePrologue(Scenario scenario) {
-        System.out.println("before Prologue scenario: " + scenario.getTitle());
+    public void afterPrologue(Prologue prologue) {
+        System.out.println("After Prologue.");
     }
 
     @Override
-    public void afterPrologue(Scenario scenario) {
-        System.out.println("after Prologue scenario: " + scenario.getTitle());
+    public void beforeReferringScenario(Scenario scenario) {
+        System.out.println("before Referring scenario: " + scenario.getTitle());
     }
+
+    @Override
+    public void afterReferringScenario(Scenario scenario) {
+        System.out.println("after Referring scenario: " + scenario.getTitle());
+    }
+
 
 
 }
