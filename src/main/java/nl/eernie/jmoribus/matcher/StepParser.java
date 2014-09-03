@@ -39,30 +39,20 @@ public class StepParser {
         this.characterClass = characterClass;
     }
 
-    public RegexStepMatcher parseStep(StepType stepType, String stepPattern) {
+    public RegexStepMatcher parseStep(String stepPattern) {
         String escapingPunctuation = escapingPunctuation(stepPattern);
         List<Parameter> parameters = findParameters(escapingPunctuation);
         Pattern regexPattern = buildPattern(escapingPunctuation, parameters);
-        return new RegexStepMatcher(stepType, escapingPunctuation, regexPattern,
-                parameterNames(parameters));
+        return new RegexStepMatcher(regexPattern);
     }
 
     private Pattern buildPattern(String stepPattern, List<Parameter> parameters) {
-        return Pattern.compile(
-                parameterCapturingRegex(stepPattern, parameters),
-                Pattern.DOTALL);
-    }
-
-    private String[] parameterNames(List<Parameter> parameters) {
-        List<String> names = new ArrayList<String>();
-        for (Parameter parameter : parameters) {
-            names.add(parameter.getName());
-        }
-        return names.toArray(new String[names.size()]);
+        String regex = parameterCapturingRegex(stepPattern, parameters);
+        return Pattern.compile(regex, Pattern.DOTALL);
     }
 
     private List<Parameter> findParameters(String pattern) {
-        List<Parameter> parameters = new ArrayList<Parameter>();
+        List<Parameter> parameters = new ArrayList<>();
         Matcher findingAllParameterNames = findingAllParameterNames().matcher(
                 pattern);
         while (findingAllParameterNames.find()) {
@@ -79,16 +69,14 @@ public class StepParser {
     }
 
     private String escapingPunctuation(String pattern) {
-        return pattern.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])",
-                "\\\\$1");
+        return pattern.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])", "\\\\$1");
     }
 
     private String ignoringWhitespace(String pattern) {
         return pattern.replaceAll("\\s+", "\\\\s+");
     }
 
-    private String parameterCapturingRegex(String stepPattern,
-                                           List<Parameter> parameters) {
+    private String parameterCapturingRegex(String stepPattern, List<Parameter> parameters) {
         String regex = stepPattern;
         String capture = "(.*)";
         for (int i = parameters.size(); i > 0; i--) {

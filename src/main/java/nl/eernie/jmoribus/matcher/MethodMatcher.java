@@ -64,7 +64,7 @@ public class MethodMatcher {
 
     private void setRegexMatchers() {
         for (PossibleStep possibleStep : possibleSteps) {
-            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStepType(), possibleStep.getStep());
+            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStep());
             possibleStep.setRegexStepMatcher(regexStepMatcher);
         }
     }
