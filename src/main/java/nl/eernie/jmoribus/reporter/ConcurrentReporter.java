@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ConcurrentReporter implements Reporter {
 
-    List<Reporter> reporters = new ArrayList<Reporter>();
+    private List<Reporter> reporters = new ArrayList<>();
 
     public void addReporter(Reporter reporter) {
         reporters.add(reporter);

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Prologue implements StepContainer{
 
-    private List<Step> steps = new ArrayList<Step>();
+    private List<Step> steps = new ArrayList<>();
 
     public List<Step> getSteps() {
         return steps;

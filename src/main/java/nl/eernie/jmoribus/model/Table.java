@@ -15,12 +15,6 @@ public class Table implements StepLine {
         rows = new ArrayList<>();
     }
 
-    public Table(List<String> header, List<List<String>> rows)
-    {
-        this.header = header;
-        this.rows = rows;
-    }
-
     public List<String> getHeader() {
         return header;
     }

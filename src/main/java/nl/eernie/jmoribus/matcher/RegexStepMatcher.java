@@ -1,8 +1,6 @@
 package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.StepLine;
-import nl.eernie.jmoribus.model.StepType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +40,7 @@ public class RegexStepMatcher {
     public List<String> getParameterValues(Step step) {
         Matcher matcher = regexPattern.matcher(step.getCombinedStepLines());
         matcher.find();
-        List<String> parameters = new ArrayList<String>();
+        List<String> parameters = new ArrayList<>();
         if(matcher.groupCount()>0){
             for (int i = 1; i <= matcher.groupCount(); i++) {
                 parameters.add(matcher.group(i));

@@ -6,7 +6,7 @@ import java.util.List;
 public class Scenario extends Step implements StepContainer {
 
     private String title;
-    private List<Step> steps = new ArrayList<Step>();
+    private List<Step> steps = new ArrayList<>();
 
     private Table examplesTable;
 

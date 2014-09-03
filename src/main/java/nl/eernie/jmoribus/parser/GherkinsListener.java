@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GherkinsListener extends GherkinsBaseListener {
+class GherkinsListener extends GherkinsBaseListener {
 
     private Map<String,Scenario> scenarios = new HashMap<>();
 

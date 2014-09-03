@@ -1,8 +1,6 @@
 package nl.eernie.jmoribus.matcher;
 
 
-import nl.eernie.jmoribus.matcher.RegexStepMatcher;
-import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.StepType;
 
 import java.lang.reflect.Method;

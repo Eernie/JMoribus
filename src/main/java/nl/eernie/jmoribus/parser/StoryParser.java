@@ -2,16 +2,12 @@ package nl.eernie.jmoribus.parser;
 
 import nl.eernie.jmoribus.GherkinsLexer;
 import nl.eernie.jmoribus.GherkinsParser;
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Story;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +18,8 @@ public final class StoryParser {
     private StoryParser(){}
 
     public static List<Story> parseStories(List<ParseableStory> parseableStories) throws IOException {
-        Map<String, Scenario> knownScenarios = new HashMap<String, Scenario>();
-        List<Story> stories = new ArrayList<Story>();
+        Map<String, Scenario> knownScenarios = new HashMap<>();
+        List<Story> stories = new ArrayList<>();
         for (ParseableStory parseableStory : parseableStories) {
             stories.add(parseStory(parseableStory,knownScenarios));
         }
@@ -31,7 +27,7 @@ public final class StoryParser {
     }
 
     public static Story parseStory(ParseableStory parseableStory) throws IOException {
-        Map<String, Scenario> knownScenarios = new HashMap<String, Scenario>();
+        Map<String, Scenario> knownScenarios = new HashMap<>();
         return parseStory(parseableStory,knownScenarios);
     }
 
@@ -42,12 +38,14 @@ public final class StoryParser {
         CommonTokenStream token = new CommonTokenStream(lexer);
         GherkinsParser parser = new GherkinsParser(token);
         GherkinsListener listener = new GherkinsListener();
+        listener.setScenarios(knownScenarios);
         parser.addParseListener(listener);
         parser.story();
 
         Story story= listener.getStory();
         story.setTitle(parseableStory.getTitle());
         story.setUniqueIdentifier(parseableStory.getUniqueIdentifier());
+
 
         return story;
     }

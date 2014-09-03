@@ -1,17 +1,12 @@
 package nl.eernie.jmoribus.matcher;
 
-import nl.eernie.jmoribus.matcher.Parameter;
-import nl.eernie.jmoribus.matcher.RegexStepMatcher;
-import nl.eernie.jmoribus.model.Feature;
-import nl.eernie.jmoribus.model.StepType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class StepParser {
+class StepParser {
 
 
     /**
@@ -31,7 +26,7 @@ public class StepParser {
     }
 
     public StepParser(String defaultPrefix) {
-        this(defaultPrefix, DEFAULT_CHARACTER_CLASS);
+        this(StepParser.DEFAULT_PREFIX, DEFAULT_CHARACTER_CLASS);
     }
 
     public StepParser(String prefix, String characterClass) {
