@@ -14,11 +14,11 @@ public class MethodMatcher {
 
     private List<Object> objects;
 
-    private List<PossibleStep> possibleSteps = new ArrayList<PossibleStep>();
+    private List<PossibleStep> possibleSteps = new ArrayList<>();
 
-    private List<ParameterConverter> parameterConverters = new ArrayList<ParameterConverter>();
+    private List<ParameterConverter> parameterConverters = new ArrayList<>();
 
-    private Map<BeforeAfterType, List<BeforeAfterMethod>> beforeAfterMethods = new HashMap<BeforeAfterType, List<BeforeAfterMethod>>();
+    private Map<BeforeAfterType, List<BeforeAfterMethod>> beforeAfterMethods = new HashMap<>();
 
     private StepParser parser = new StepParser();
 
@@ -64,7 +64,7 @@ public class MethodMatcher {
 
     private void setRegexMatchers() {
         for (PossibleStep possibleStep : possibleSteps) {
-            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStepType(), possibleStep.getStep());
+            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStep());
             possibleStep.setRegexStepMatcher(regexStepMatcher);
         }
     }

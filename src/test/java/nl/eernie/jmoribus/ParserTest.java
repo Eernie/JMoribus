@@ -1,22 +1,17 @@
 package nl.eernie.jmoribus;
 
-import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ParserTest {
@@ -73,7 +68,7 @@ public class ParserTest {
         parseableStories.add(new ParseableStory(fileInputStream,"MultiScenario", "MultiScenarioTitle"));
         fileInputStream = getClass().getResourceAsStream("/test2.story");
         parseableStories.add(new ParseableStory(fileInputStream,"test2", "testTitle"));
-        fileInputStream = getClass().getResourceAsStream("/prologue.story");
+        fileInputStream = getClass().getResourceAsStream("/referring.story");
         parseableStories.add(new ParseableStory(fileInputStream,"prologue", "PrologueTest"));
 
         List<Story> stories = StoryParser.parseStories(parseableStories);

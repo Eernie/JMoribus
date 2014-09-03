@@ -12,7 +12,7 @@ public final class PossibleStepsConverter {
     }
 
     public static List<PossibleStepTO> convert(List<PossibleStep> source) {
-        ArrayList<PossibleStepTO> target = new ArrayList<PossibleStepTO>(source.size());
+        ArrayList<PossibleStepTO> target = new ArrayList<>(source.size());
         for (PossibleStep possibleStep : source) {
             target.add(convert(possibleStep));
         }

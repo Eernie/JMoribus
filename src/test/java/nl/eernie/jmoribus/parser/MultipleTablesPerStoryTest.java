@@ -63,4 +63,14 @@ public class MultipleTablesPerStoryTest extends TestCase {
         jMoribus.playAct(Arrays.asList(story));
 
     }
+
+    @Test
+    public void testParametrizedStory() throws IOException {
+        InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
+        Story story = StoryParser.parseStory(parseableStory);
+        Assert.assertEquals(story.getScenarios().size(), 2);
+        int numberOfSteps = story.getScenarios().get(0).getSteps().size();
+        Assert.assertNotNull(story.getScenarios().get(0).getExamplesTable());
+    }
 }

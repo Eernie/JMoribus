@@ -1,6 +1,6 @@
 package nl.eernie.jmoribus.matcher;
 
-public class Parameter {
+class Parameter {
     private final int start;
     private final int end;
     private final String whitespaceIfAny;

@@ -8,7 +8,7 @@ public class Story {
     private String title;
     private Feature feature;
     private Prologue prologue;
-    private List<Scenario> scenarios = new ArrayList<Scenario>();
+    private List<Scenario> scenarios = new ArrayList<>();
     private String uniqueIdentifier;
 
 

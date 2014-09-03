@@ -15,7 +15,6 @@ import nl.eernie.jmoribus.reporter.Reporter;
 import nl.eernie.jmoribus.runner.StepRunner;
 import nl.eernie.jmoribus.to.PossibleStepTO;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class JMoribus {
@@ -32,7 +31,7 @@ public class JMoribus {
         return PossibleStepsConverter.convert(possibleSteps);
     }
 
-    public void playAct(List<Story> stories) throws InvocationTargetException, IllegalAccessException {
+    public void playAct(List<Story> stories) {
 
         MethodMatcher methodMather = createMethodMatcher();
         StepRunner stepRunner = new StepRunner(methodMather);

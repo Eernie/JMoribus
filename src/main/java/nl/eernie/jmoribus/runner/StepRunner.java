@@ -24,9 +24,7 @@ public class StepRunner {
         try {
             Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
             matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
-        } catch (IllegalAccessException e) {
-            throw e.getCause();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw e.getCause();
         }
 
@@ -62,9 +60,7 @@ public class StepRunner {
             for (BeforeAfterMethod method : methods) {
                 try {
                     method.getMethod().invoke(method.getMethodObject());
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }

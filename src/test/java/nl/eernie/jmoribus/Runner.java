@@ -64,30 +64,6 @@ public class Runner {
 
     }
 
-    @Test
-    public void testPossibleSteps(){
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        defaultConfiguration.addReporter(new DefaultReporter());
-        ArrayList<Object> steps = new ArrayList<Object>();
-
-        steps.add(new Object(){
-            @Category({"User","Login"})
-            @When("aMethod")
-            @Then("aMethod")
-            public void aMethod(){
-
-            }
-        });
-
-        defaultConfiguration.addSteps(steps);
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
-
-        Assert.assertEquals(2,possibleSteps.size());
-        Assert.assertEquals(new String[]{"User","Login"},possibleSteps.get(0).getCategories());
-
-    }
-
     private Scenario createScenario() {
         Scenario scenario = new Scenario();
         scenario.setTitle("This AwsomeScenario");

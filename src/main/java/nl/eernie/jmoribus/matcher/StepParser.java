@@ -1,17 +1,12 @@
 package nl.eernie.jmoribus.matcher;
 
-import nl.eernie.jmoribus.matcher.Parameter;
-import nl.eernie.jmoribus.matcher.RegexStepMatcher;
-import nl.eernie.jmoribus.model.Feature;
-import nl.eernie.jmoribus.model.StepType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class StepParser {
+class StepParser {
 
 
     /**
@@ -31,7 +26,7 @@ public class StepParser {
     }
 
     public StepParser(String defaultPrefix) {
-        this(defaultPrefix, DEFAULT_CHARACTER_CLASS);
+        this(StepParser.DEFAULT_PREFIX, DEFAULT_CHARACTER_CLASS);
     }
 
     public StepParser(String prefix, String characterClass) {
@@ -39,30 +34,20 @@ public class StepParser {
         this.characterClass = characterClass;
     }
 
-    public RegexStepMatcher parseStep(StepType stepType, String stepPattern) {
+    public RegexStepMatcher parseStep(String stepPattern) {
         String escapingPunctuation = escapingPunctuation(stepPattern);
         List<Parameter> parameters = findParameters(escapingPunctuation);
         Pattern regexPattern = buildPattern(escapingPunctuation, parameters);
-        return new RegexStepMatcher(stepType, escapingPunctuation, regexPattern,
-                parameterNames(parameters));
+        return new RegexStepMatcher(regexPattern);
     }
 
     private Pattern buildPattern(String stepPattern, List<Parameter> parameters) {
-        return Pattern.compile(
-                parameterCapturingRegex(stepPattern, parameters),
-                Pattern.DOTALL);
-    }
-
-    private String[] parameterNames(List<Parameter> parameters) {
-        List<String> names = new ArrayList<String>();
-        for (Parameter parameter : parameters) {
-            names.add(parameter.getName());
-        }
-        return names.toArray(new String[names.size()]);
+        String regex = parameterCapturingRegex(stepPattern, parameters);
+        return Pattern.compile(regex, Pattern.DOTALL);
     }
 
     private List<Parameter> findParameters(String pattern) {
-        List<Parameter> parameters = new ArrayList<Parameter>();
+        List<Parameter> parameters = new ArrayList<>();
         Matcher findingAllParameterNames = findingAllParameterNames().matcher(
                 pattern);
         while (findingAllParameterNames.find()) {
@@ -79,16 +64,14 @@ public class StepParser {
     }
 
     private String escapingPunctuation(String pattern) {
-        return pattern.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])",
-                "\\\\$1");
+        return pattern.replaceAll("([\\[\\]\\{\\}\\?\\^\\.\\*\\(\\)\\+\\\\])", "\\\\$1");
     }
 
     private String ignoringWhitespace(String pattern) {
         return pattern.replaceAll("\\s+", "\\\\s+");
     }
 
-    private String parameterCapturingRegex(String stepPattern,
-                                           List<Parameter> parameters) {
+    private String parameterCapturingRegex(String stepPattern, List<Parameter> parameters) {
         String regex = stepPattern;
         String capture = "(.*)";
         for (int i = parameters.size(); i > 0; i--) {
