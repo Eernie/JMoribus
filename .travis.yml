@@ -11,3 +11,5 @@ addons:
     build_command_prepend: 
     build_command: mvn clean compile
     branch_pattern: develop
+after_success:
+  - mvn clean test jacoco:report coveralls:jacoco
