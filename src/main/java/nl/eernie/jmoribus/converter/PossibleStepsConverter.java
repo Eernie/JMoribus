@@ -20,6 +20,6 @@ public final class PossibleStepsConverter {
     }
 
     private static PossibleStepTO convert(PossibleStep possibleStep) {
-        return new PossibleStepTO(possibleStep.getStep(),possibleStep.getStepType(),possibleStep.getCategories());
+        return new PossibleStepTO(possibleStep.getStep(), possibleStep.getStepType(), possibleStep.getCategories());
     }
 }

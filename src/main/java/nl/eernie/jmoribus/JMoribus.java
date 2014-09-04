@@ -25,7 +25,7 @@ public class JMoribus {
         this.config = config;
     }
 
-    public List<PossibleStepTO> getPossibleSteps(){
+    public List<PossibleStepTO> getPossibleSteps() {
         MethodMatcher methodMather = createMethodMatcher();
         List<PossibleStep> possibleSteps = methodMather.getPossibleSteps();
         return PossibleStepsConverter.convert(possibleSteps);
@@ -39,9 +39,9 @@ public class JMoribus {
         Reporter reporter = config.getConcurrentReporter();
 
 
-        for(Story story: stories){
+        for (Story story : stories) {
             reporter.beforeStory(story);
-            if(story.getFeature() != null){
+            if (story.getFeature() != null) {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
@@ -66,16 +66,15 @@ public class JMoribus {
     }
 
     private void runStepContainer(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepContainer) {
-        if(stepContainer == null){
+        if (stepContainer == null) {
             return;
         }
 
-        for(Step step : stepContainer.getSteps())
-        {
-            if(step instanceof Scenario){
-                Scenario referringScenario = (Scenario)step;
+        for (Step step : stepContainer.getSteps()) {
+            if (step instanceof Scenario) {
+                Scenario referringScenario = (Scenario) step;
                 reporter.beforeReferringScenario(referringScenario);
-                runStepContainer(methodMather,stepRunner,reporter,referringScenario);
+                runStepContainer(methodMather, stepRunner, reporter, referringScenario);
                 reporter.afterReferringScenario(referringScenario);
                 continue;
             }

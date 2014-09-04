@@ -41,7 +41,7 @@ public class RegexStepMatcher {
         Matcher matcher = regexPattern.matcher(step.getCombinedStepLines());
         matcher.find();
         List<String> parameters = new ArrayList<>();
-        if(matcher.groupCount()>0){
+        if (matcher.groupCount() > 0) {
             for (int i = 1; i <= matcher.groupCount(); i++) {
                 parameters.add(matcher.group(i));
             }

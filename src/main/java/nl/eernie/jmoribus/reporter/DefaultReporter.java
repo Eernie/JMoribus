@@ -11,27 +11,27 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void beforeScenario(Scenario scenario) {
-        System.out.println("Before Scenario:"+ scenario.getTitle());
+        System.out.println("Before Scenario:" + scenario.getTitle());
     }
 
     @Override
     public void beforeStep(Step step) {
-        System.out.println("Before Step:    "+ step.getCombinedStepLines() + " - " + step.getStepType());
+        System.out.println("Before Step:    " + step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void successStep(Step step) {
-        System.out.println("Success Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
+        System.out.println("Success Step:   " + step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void pendingStep(Step step) {
-        System.out.println("Pending Step:   "+ step.getCombinedStepLines() + " - " + step.getStepType());
+        System.out.println("Pending Step:   " + step.getCombinedStepLines() + " - " + step.getStepType());
     }
 
     @Override
     public void afterScenario(Scenario scenario) {
-        System.out.println("After Scenario: "+ scenario.getTitle());
+        System.out.println("After Scenario: " + scenario.getTitle());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void feature(Feature feature) {
-        System.out.println("Feature: "+ feature.toString());
+        System.out.println("Feature: " + feature.toString());
     }
 
     @Override
@@ -73,7 +73,6 @@ public class DefaultReporter implements Reporter {
     public void afterReferringScenario(Scenario scenario) {
         System.out.println("after Referring scenario: " + scenario.getTitle());
     }
-
 
 
 }

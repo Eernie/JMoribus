@@ -17,7 +17,7 @@ public class DefaultConfiguration implements Configuration {
         return concurrentReporter;
     }
 
-    public void addReporter(Reporter reporter){
+    public void addReporter(Reporter reporter) {
         concurrentReporter.addReporter(reporter);
     }
 

@@ -5,13 +5,13 @@ import nl.eernie.jmoribus.model.*;
 public interface Reporter {
 
     void beforeStory(Story story);
-    
+
     void beforeScenario(Scenario scenario);
-    
+
     void beforeStep(Step step);
-    
+
     void successStep(Step step);
-    
+
     void pendingStep(Step step);
 
     void afterScenario(Scenario scenario);
