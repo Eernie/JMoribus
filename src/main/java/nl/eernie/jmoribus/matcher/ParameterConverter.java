@@ -15,19 +15,11 @@ public class ParameterConverter {
         this.returnType = returnType;
     }
 
-    public Method getMethod() {
-        return method;
-    }
-
-    public Object getMethodObject() {
-        return methodObject;
-    }
-
     public Class<?> getReturnType() {
         return returnType;
     }
 
     public Object convert(Object... args) throws InvocationTargetException, IllegalAccessException {
-        return getMethod().invoke(getMethodObject(), args);
+        return method.invoke(methodObject, args);
     }
 }

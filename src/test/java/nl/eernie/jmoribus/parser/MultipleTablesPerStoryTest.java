@@ -3,6 +3,8 @@ package nl.eernie.jmoribus.parser;
 import junit.framework.TestCase;
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.Steps;
+import nl.eernie.jmoribus.annotation.ParameterConverter;
+import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
@@ -58,6 +60,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
+
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
         jMoribus.playAct(Arrays.asList(story));

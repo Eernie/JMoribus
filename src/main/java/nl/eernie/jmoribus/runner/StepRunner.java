@@ -48,6 +48,7 @@ public class StepRunner {
             } else if (parameterValue.startsWith("TABLE")) {
                 StepLine table = getTable(step, parameterValue);
                 Object object = ReflectionParser.parse((Table) table, method.getGenericParameterTypes()[i], methodMatcher);
+                parameters[i] = object;
             }
             if (parameters[i] == null) {
                 ParameterConverter converter = methodMatcher.findConverterFor(parameterType);

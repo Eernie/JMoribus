@@ -47,10 +47,12 @@ public final class ReflectionParser {
                     Class<?> parameter = method.getParameterTypes()[0];
                     if (parameter.equals(String.class)) {
                         method.invoke(object, row.get(i));
+                        break;
                     } else {
                         ParameterConverter parameterConverter = methodMatcher.findConverterFor(parameter);
                         Object value = parameterConverter.convert(row.get(i));
                         method.invoke(object, value);
+                        break;
                     }
                 }
             }
