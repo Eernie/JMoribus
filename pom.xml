@@ -6,7 +6,12 @@
 
     <groupId>nl.eernie.jmoribus</groupId>
     <artifactId>jmoribus-core</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>JMoribus (aka Behavior) is a bdd test tool</description>
+    <url>http://jmoribus.github.io/</url>
+
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -52,7 +57,16 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
     </distributionManagement>
+    <scm>
+        <connection>scm:git:git@github.com:Eernie/JMoribus.git</connection>
+        <url>scm:git:git@github.com:Eernie/JMoribus.git</url>
+        <developerConnection>scm:git:git@github.com:Eernie/JMoribus.git</developerConnection>
+    </scm>
     <build>
         <plugins>
             <plugin>
@@ -104,6 +118,60 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <licenses>
+        <license>
+            <name>MIT Licence</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Erwin Oldenkamp</name>
+            <email>oldenkamperwin@gmail.com</email>
+        </developer>
+    </developers>
 </project>
