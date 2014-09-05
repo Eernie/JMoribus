@@ -2,16 +2,29 @@ package nl.eernie.jmoribus.model;
 
 public class Feature {
     private String title;
-    private String inOrder;
-    private String asA;
-    private String iWant;
+    private String content;
 
-    /**
-     * Created by erwin on 09/07/14.
-     */
-    public static enum StepType {
-        WHEN,
-        THEN,
-        GIVEN
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Override
+    public String toString() {
+        return "Feature{" +
+                "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

@@ -1,13 +1,16 @@
 package nl.eernie.jmoribus.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Story {
 
     private String title;
     private Feature feature;
-    private List<Scenario> scenarios;
+    private Prologue prologue;
+    private List<Scenario> scenarios = new ArrayList<>();
     private String uniqueIdentifier;
+
 
     public String getTitle() {
         return title;
@@ -25,12 +28,16 @@ public class Story {
         this.feature = feature;
     }
 
-    public List<Scenario> getScenarios() {
-        return scenarios;
+    public Prologue getPrologue() {
+        return prologue;
     }
 
-    public void setScenarios(List<Scenario> scenarios) {
-        this.scenarios = scenarios;
+    public void setPrologue(Prologue prologue) {
+        this.prologue = prologue;
+    }
+
+    public List<Scenario> getScenarios() {
+        return scenarios;
     }
 
     public String getUniqueIdentifier() {

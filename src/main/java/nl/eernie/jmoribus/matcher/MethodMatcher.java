@@ -1,73 +1,106 @@
 package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.annotation.*;
-import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepType;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MethodMatcher {
 
     private List<Object> objects;
 
-    private List<PossibleStep> possibleSteps = new ArrayList<PossibleStep>();
+    private List<PossibleStep> possibleSteps = new ArrayList<>();
 
-    private List<ParameterConverter> parameterConverters = new ArrayList<ParameterConverter>();
+    private List<ParameterConverter> parameterConverters = new ArrayList<>();
+
+    private Map<BeforeAfterType, List<BeforeAfterMethod>> beforeAfterMethods = new HashMap<>();
 
     private StepParser parser = new StepParser();
 
     public MethodMatcher(List<Object> objects) {
         this.objects = objects;
-        createPossibleStepsAndParameterConverters();
+        findUsableMethods();
+        setRegexMatchers();
 
     }
 
-    private void createPossibleStepsAndParameterConverters() {
+    private void findUsableMethods() {
         for (Object object : objects) {
             for (Method method : object.getClass().getMethods()) {
-                createPossibleStep(method,object);
-                setRegexMatchers();
+                createPossibleStep(method, object);
                 createParameterConverter(method, object);
+                createBeforeAfterMethods(method, object);
             }
         }
     }
 
+    private void createBeforeAfterMethods(Method method, Object object) {
+        if (method.isAnnotationPresent(BeforeStory.class)) {
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.BEFORE_STORY));
+        }
+        if (method.isAnnotationPresent(BeforeScenario.class)) {
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.BEFORE_SCENARIO));
+        }
+        if (method.isAnnotationPresent(AfterScenario.class)) {
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.AFTER_SCENARIO));
+        }
+        if (method.isAnnotationPresent(AfterStory.class)) {
+            addBeforeAfterMethod(new BeforeAfterMethod(method, object, BeforeAfterType.AFTER_STORY));
+        }
+    }
+
+    private void addBeforeAfterMethod(BeforeAfterMethod beforeAfterMethod) {
+        BeforeAfterType type = beforeAfterMethod.getBeforeAfterType();
+        if (!beforeAfterMethods.containsKey(type)) {
+            beforeAfterMethods.put(type, new ArrayList<BeforeAfterMethod>());
+        }
+        beforeAfterMethods.get(type).add(beforeAfterMethod);
+    }
+
     private void setRegexMatchers() {
         for (PossibleStep possibleStep : possibleSteps) {
-            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStepType(), possibleStep.getStep());
+            RegexStepMatcher regexStepMatcher = parser.parseStep(possibleStep.getStep());
             possibleStep.setRegexStepMatcher(regexStepMatcher);
         }
     }
 
     private void createParameterConverter(Method method, Object object) {
-        if(method.isAnnotationPresent(nl.eernie.jmoribus.annotation.ParameterConverter.class)){
+        if (method.isAnnotationPresent(nl.eernie.jmoribus.annotation.ParameterConverter.class)) {
             Class<?> returnType = method.getReturnType();
-            parameterConverters.add(new ParameterConverter(method,object,returnType));
+            parameterConverters.add(new ParameterConverter(method, object, returnType));
 
         }
     }
 
     private void createPossibleStep(Method method, Object object) {
+        String[] categories = null;
+        if (method.isAnnotationPresent(Category.class)) {
+            Category category = method.getAnnotation(Category.class);
+            categories = category.value();
+        }
         if (method.isAnnotationPresent(Given.class)) {
             Given annotation = method.getAnnotation(Given.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.GIVEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object, categories));
         }
         if (method.isAnnotationPresent(When.class)) {
             When annotation = method.getAnnotation(When.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.WHEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object, categories));
         }
         if (method.isAnnotationPresent(Then.class)) {
             Then annotation = method.getAnnotation(Then.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, Feature.StepType.THEN, object));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object, categories));
         }
     }
 
     public PossibleStep findMatchedStep(Step step) {
         for (PossibleStep possibleStep : possibleSteps) {
-            if(possibleStep.getStepType().equals(step.getStepType())) {
-                if (possibleStep.getRegexStepMatcher().matches(step.getValue())) {
+            if (possibleStep.getStepType().equals(step.getStepType())) {
+                if (possibleStep.getRegexStepMatcher().matches(step.getCombinedStepLines())) {
                     return possibleStep;
                 }
             }
@@ -77,10 +110,18 @@ public class MethodMatcher {
 
     public ParameterConverter findConverterFor(Class<?> parameterType) {
         for (ParameterConverter parameterConverter : parameterConverters) {
-            if(parameterConverter.getReturnType().equals(parameterType)){
+            if (parameterConverter.getReturnType().equals(parameterType)) {
                 return parameterConverter;
             }
         }
         throw new RuntimeException("Converter not found"); // TODO: refactor me!
+    }
+
+    public List<BeforeAfterMethod> findBeforeAfters(BeforeAfterType beforeAfterType) {
+        return beforeAfterMethods.get(beforeAfterType);
+    }
+
+    public List<PossibleStep> getPossibleSteps() {
+        return this.possibleSteps;
     }
 }

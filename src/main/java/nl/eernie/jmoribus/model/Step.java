@@ -1,36 +1,44 @@
 package nl.eernie.jmoribus.model;
 
-public class Step {
-    private String value;
-    private Scenario scenario;
-    private Feature.StepType stepType;
+import org.apache.commons.lang3.StringUtils;
 
-    public Step(String value, Feature.StepType stepType) {
-        this.value = value;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Step {
+
+    private StepType stepType;
+    private List<StepLine> stepLines = new ArrayList<>();
+
+    public Step(StepType stepType) {
         this.stepType = stepType;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Scenario getScenario() {
-        return scenario;
-    }
-
-    public void setScenario(Scenario scenario) {
-        this.scenario = scenario;
-    }
-
-    public Feature.StepType getStepType() {
+    public StepType getStepType() {
         return stepType;
     }
 
-    public void setStepType(Feature.StepType stepType) {
-        this.stepType = stepType;
+    public StepLine getFirstStepLine() {
+        return stepLines.get(0);
+    }
+
+    public List<StepLine> getStepLines() {
+        return stepLines;
+    }
+
+    public String getCombinedStepLines() {
+        StringBuilder builder = new StringBuilder();
+        for (StepLine stepLine : stepLines) {
+            if (StringUtils.isNotBlank(builder.toString())) {
+                builder.append(" ");
+            }
+            if (stepLine instanceof Table) {
+                int index = stepLines.indexOf(stepLine);
+                builder.append("TABLE").append(index);
+            } else {
+                builder.append(stepLine.getText());
+            }
+        }
+        return builder.toString();
     }
 }

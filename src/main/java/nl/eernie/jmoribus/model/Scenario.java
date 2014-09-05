@@ -1,19 +1,17 @@
 package nl.eernie.jmoribus.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Scenario {
+public class Scenario extends Step implements StepContainer {
 
     private String title;
-    private Story story;
-    private List<Step> steps;
+    private List<Step> steps = new ArrayList<>();
 
-    public Story getStory() {
-        return story;
-    }
+    private Table examplesTable;
 
-    public void setStory(Story story) {
-        this.story = story;
+    public Scenario() {
+        super(StepType.REFERRING);
     }
 
     public String getTitle() {
@@ -28,7 +26,12 @@ public class Scenario {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
-        this.steps = steps;
+    public Table getExamplesTable() {
+        return examplesTable;
     }
+
+    public void setExamplesTable(Table examplesTable) {
+        this.examplesTable = examplesTable;
+    }
+
 }

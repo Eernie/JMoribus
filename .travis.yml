@@ -1,0 +1,15 @@
+language: java
+env:
+  global:
+  - secure: db/n3YTrUt/0FUmceSFb6CyyS9rKQ7Zw292wBJRi+yjyeDuReIz+OqZeVZaSXaVoeSR1cGCxuwignvNOd2pPiwUHjiVgui00y8OVoj9vbddncDQAtmyfdaxZbcsWpykvd/97akDtGE9MzcyVgfkuBk4iT6x0VDZ63fMR25wTk6k=
+addons:
+  coverity_scan:
+    project:
+      name: Eernie/JMoribus
+      description: Your project description here
+    notification_email: oldenkamperwin@gmail.com
+    build_command_prepend: 
+    build_command: mvn clean compile
+    branch_pattern: develop
+after_success:
+  - mvn clean test jacoco:report coveralls:jacoco
