@@ -57,6 +57,11 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+    <scm>
+        <connection>scm:git:git@github.com:Eernie/JMoribus.git</connection>
+        <url>scm:git:git@github.com:Eernie/JMoribus.git</url>
+        <developerConnection>scm:git:git@github.com:Eernie/JMoribus.git</developerConnection>
+    </scm>
     <build>
         <plugins>
             <plugin>
