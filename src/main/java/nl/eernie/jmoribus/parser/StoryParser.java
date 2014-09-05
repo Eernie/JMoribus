@@ -15,20 +15,21 @@ import java.util.Map;
 
 public final class StoryParser {
 
-    private StoryParser(){}
+    private StoryParser() {
+    }
 
     public static List<Story> parseStories(List<ParseableStory> parseableStories) throws IOException {
         Map<String, Scenario> knownScenarios = new HashMap<>();
         List<Story> stories = new ArrayList<>();
         for (ParseableStory parseableStory : parseableStories) {
-            stories.add(parseStory(parseableStory,knownScenarios));
+            stories.add(parseStory(parseableStory, knownScenarios));
         }
         return stories;
     }
 
     public static Story parseStory(ParseableStory parseableStory) throws IOException {
         Map<String, Scenario> knownScenarios = new HashMap<>();
-        return parseStory(parseableStory,knownScenarios);
+        return parseStory(parseableStory, knownScenarios);
     }
 
     private static Story parseStory(ParseableStory parseableStory, Map<String, Scenario> knownScenarios) throws IOException {
@@ -42,7 +43,7 @@ public final class StoryParser {
         parser.addParseListener(listener);
         parser.story();
 
-        Story story= listener.getStory();
+        Story story = listener.getStory();
         story.setTitle(parseableStory.getTitle());
         story.setUniqueIdentifier(parseableStory.getUniqueIdentifier());
 

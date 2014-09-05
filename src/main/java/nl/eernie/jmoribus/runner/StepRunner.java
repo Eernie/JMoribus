@@ -5,6 +5,7 @@ import nl.eernie.jmoribus.matcher.*;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.Table;
+import nl.eernie.jmoribus.parser.ReflectionParser;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,7 +15,7 @@ public class StepRunner {
 
     private MethodMatcher methodMatcher;
 
-    public StepRunner(MethodMatcher methodMatcher){
+    public StepRunner(MethodMatcher methodMatcher) {
 
         this.methodMatcher = methodMatcher;
     }
@@ -23,7 +24,7 @@ public class StepRunner {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
         try {
             Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
-            matchedStep.getMethod().invoke(matchedStep.getMethodObject(),parameters);
+            matchedStep.getMethod().invoke(matchedStep.getMethodObject(), parameters);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw e.getCause();
         }
@@ -33,30 +34,39 @@ public class StepRunner {
     private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
-        if(parameterValues.size()!=parameterTypes.length){
+        if (parameterValues.size() != parameterTypes.length) {
             throw new RuntimeException("Velden en waarden komen niet overeen"); //TODO: refactor me
         }
         for (int i = 0; i < parameterTypes.length; i++) {
             Class<?> parameterType = parameterTypes[i];
             String parameterValue = parameterValues.get(i);
-            if(parameterType.equals(String.class)){
+            if (parameterType.equals(String.class)) {
                 parameters[i] = parameterValue;
-            }else if(parameterType.equals(Table.class)){
-                String indexString = parameterValue.replace("TABLE","");
-                int lineIndex = Integer.valueOf(indexString);
-                StepLine table = step.getStepLines().get(lineIndex);
+            } else if (parameterType.equals(Table.class)) {
+                StepLine table = getTable(step, parameterValue);
                 parameters[i] = table;
-            }else{
+            } else if (parameterValue.startsWith("TABLE")) {
+                StepLine table = getTable(step, parameterValue);
+                Object object = ReflectionParser.parse((Table) table, method.getGenericParameterTypes()[i], methodMatcher);
+                parameters[i] = object;
+            }
+            if (parameters[i] == null) {
                 ParameterConverter converter = methodMatcher.findConverterFor(parameterType);
-                parameters[i] = converter.getMethod().invoke(converter.getMethodObject(), parameterValue);
+                parameters[i] = converter.convert(parameterValue);
             }
         }
         return parameters;
     }
 
-    public void runBeforeAfter(BeforeAfterType beforeAfterType){
+    private StepLine getTable(Step step, String parameterValue) {
+        String indexString = parameterValue.replace("TABLE", "");
+        int lineIndex = Integer.valueOf(indexString);
+        return step.getStepLines().get(lineIndex);
+    }
+
+    public void runBeforeAfter(BeforeAfterType beforeAfterType) {
         List<BeforeAfterMethod> methods = methodMatcher.findBeforeAfters(beforeAfterType);
-        if(methods != null){
+        if (methods != null) {
             for (BeforeAfterMethod method : methods) {
                 try {
                     method.getMethod().invoke(method.getMethodObject());

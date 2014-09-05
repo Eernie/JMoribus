@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus.matcher;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ParameterConverter {
@@ -14,15 +15,11 @@ public class ParameterConverter {
         this.returnType = returnType;
     }
 
-    public Method getMethod() {
-        return method;
-    }
-
-    public Object getMethodObject() {
-        return methodObject;
-    }
-
     public Class<?> getReturnType() {
         return returnType;
+    }
+
+    public Object convert(Object... args) throws InvocationTargetException, IllegalAccessException {
+        return method.invoke(methodObject, args);
     }
 }

@@ -10,7 +10,7 @@ public class Scenario extends Step implements StepContainer {
 
     private Table examplesTable;
 
-    public Scenario(){
+    public Scenario() {
         super(StepType.REFERRING);
     }
 
@@ -26,14 +26,12 @@ public class Scenario extends Step implements StepContainer {
         return steps;
     }
 
-    public void setExamplesTable(Table examplesTable)
-    {
-        this.examplesTable = examplesTable;
+    public Table getExamplesTable() {
+        return examplesTable;
     }
 
-    public Table getExamplesTable()
-    {
-        return examplesTable;
+    public void setExamplesTable(Table examplesTable) {
+        this.examplesTable = examplesTable;
     }
 
 }

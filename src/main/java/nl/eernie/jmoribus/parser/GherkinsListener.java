@@ -12,7 +12,7 @@ import java.util.Map;
 
 class GherkinsListener extends GherkinsBaseListener {
 
-    private Map<String,Scenario> scenarios = new HashMap<>();
+    private Map<String, Scenario> scenarios = new HashMap<>();
 
     private Story story;
     private Feature feature;
@@ -81,7 +81,7 @@ class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void exitStep_keyword(@NotNull GherkinsParser.Step_keywordContext ctx) {
 
-        switch (ctx.getText()){
+        switch (ctx.getText()) {
             case "Given":
                 stepType = StepType.GIVEN;
                 break;
@@ -106,13 +106,13 @@ class GherkinsListener extends GherkinsBaseListener {
 
     @Override
     public void exitStep(@NotNull GherkinsParser.StepContext ctx) {
-        if(stepType == StepType.REFERRING){
+        if (stepType == StepType.REFERRING) {
             Scenario scenario = scenarios.get(step.getCombinedStepLines());
-            if(scenario == null){
-                throw new IllegalArgumentException("Scenario with name "+ step.getCombinedStepLines() +" doesn't excist in this context");
+            if (scenario == null) {
+                throw new IllegalArgumentException("Scenario with name " + step.getCombinedStepLines() + " doesn't excist in this context");
             }
             prologueOrScenario.getSteps().add(scenario);
-        }else {
+        } else {
             prologueOrScenario.getSteps().add(step);
         }
         step = null;
@@ -126,15 +126,15 @@ class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void exitCell(@NotNull GherkinsParser.CellContext ctx) {
         String cell = ctx.getText();
-        cell = cell.replace("|","").trim();
+        cell = cell.replace("|", "").trim();
         row.add(cell);
     }
 
     @Override
     public void exitTable_row(@NotNull GherkinsParser.Table_rowContext ctx) {
-        if(table.getHeader() == null){
+        if (table.getHeader() == null) {
             table.setHeader(row);
-        }else{
+        } else {
             table.getRows().add(row);
         }
         row = new ArrayList<>();

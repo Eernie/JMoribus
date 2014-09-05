@@ -10,3 +10,7 @@ And the system should have the following state transitions:
   |ID|STATE |
   | 1|STATE1|
   | 2|STATE2|
+And a second table
+  |ColumnA|ColumnB|ColumnC|
+  |aaaa   |bbb    |100    |
+  |aaaa2  |bbb2   |100    |

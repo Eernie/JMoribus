@@ -9,7 +9,7 @@ import java.util.List;
 public class Table implements StepLine {
 
     private List<String> header;
-    private List<List<String>> rows ;
+    private List<List<String>> rows;
 
     public Table() {
         rows = new ArrayList<>();
