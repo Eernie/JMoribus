@@ -26,9 +26,7 @@ public class RequiredVariablesTest {
     }
 
     @Test
-    public void main() throws InvocationTargetException, IllegalAccessException {
-
-
+    public void testRequiredVariableError() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter()
@@ -56,6 +54,37 @@ public class RequiredVariablesTest {
 
         Assert.assertEquals(step, lastReportedErrorStep);
         Assert.assertEquals("Missing required variables: [requiredVariableA]", lastReportedError);
+    }
+
+    @Test
+    public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException {
+        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+        JMoribus jMoribus = new JMoribus(defaultConfiguration);
+        defaultConfiguration.addReporter(new DefaultReporter()
+        {
+            @Override
+            public void errorStep(final Step step, String cause) {
+                super.errorStep(step, cause);
+                setLastReportedError(step, cause);
+            }
+        });
+
+        ArrayList<Object> steps = new ArrayList<Object>();
+        steps.add(new RequiredVariableSteps());
+        defaultConfiguration.addSteps(steps);
+
+        Story story = createStory();
+        Scenario scenario = createScenario();
+        Step step = new Step(StepType.WHEN);
+        step.getStepLines().add(new Line("step b"));
+
+        scenario.getSteps().addAll(Arrays.asList(step));
+        story.getScenarios().add(scenario);
+
+        jMoribus.playAct(Arrays.asList(story));
+
+        Assert.assertEquals(step, lastReportedErrorStep);
+        Assert.assertEquals("Missing output variables: [outputVariableA]", lastReportedError);
     }
 
     private Scenario createScenario() {

@@ -84,12 +84,22 @@ public class JMoribus {
             reporter.beforeStep(step);
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
             if (matchedStep != null) {
-                List<String> missingRequiredVariables = checkMissingRequiredVariables(matchedStep);
+                List<String> missingRequiredVariables = checkMissingVariables(matchedStep.getRequiredVariables());
                 if(missingRequiredVariables.isEmpty())
                 {
                     try {
                         stepRunner.run(matchedStep, step);
-                        reporter.successStep(step);
+
+                        List<String> missingOutputVariables = checkMissingVariables(matchedStep.getOutputVariables());
+                        if(missingOutputVariables.isEmpty())
+                        {
+                            reporter.successStep(step);
+                        }
+                        else
+                        {
+                            String error = "Missing output variables: " + missingOutputVariables;
+                            reporter.errorStep(step, error);
+                        }
                     } catch (AssertionError e) {
                         reporter.failedStep(step, e);
                     } catch (Throwable e) {
@@ -107,12 +117,12 @@ public class JMoribus {
         }
     }
 
-    private List<String> checkMissingRequiredVariables(PossibleStep matchedStep)
+    private List<String> checkMissingVariables(String[] variablesToCheck)
     {
         List<String> missingRequiredVariables = new ArrayList<>();
-        if(matchedStep.getRequiredVariables() != null) {
+        if(variablesToCheck != null) {
 
-            List<String> requiredVariables = Arrays.asList(matchedStep.getRequiredVariables());
+            List<String> requiredVariables = Arrays.asList(variablesToCheck);
 
             for (String requiredVariable : requiredVariables) {
                 if (!config.getContextProvider().isVariableSet(requiredVariable)) {

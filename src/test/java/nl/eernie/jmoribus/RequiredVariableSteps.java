@@ -1,9 +1,6 @@
 package nl.eernie.jmoribus;
 
-import nl.eernie.jmoribus.annotation.Given;
-import nl.eernie.jmoribus.annotation.RequiredVariables;
-import nl.eernie.jmoribus.annotation.Then;
-import nl.eernie.jmoribus.annotation.When;
+import nl.eernie.jmoribus.annotation.*;
 
 public class RequiredVariableSteps
 {
@@ -14,16 +11,10 @@ public class RequiredVariableSteps
         // do something with requiredVariableA here
     }
 
+    @OutputVariables(outputVariables = "outputVariableA")
     @When("step b")
     public void methodB()
     {
-
+        // set the output variable here
     }
-
-    @Then("step c")
-    public void methodC()
-    {
-
-    }
-
 }
