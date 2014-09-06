@@ -7,6 +7,7 @@ public class Scenario extends Step implements StepContainer {
 
     private String title;
     private List<Step> steps = new ArrayList<>();
+    private Story story;
 
     private Table examplesTable;
 
@@ -34,4 +35,11 @@ public class Scenario extends Step implements StepContainer {
         this.examplesTable = examplesTable;
     }
 
+    public Story getStory() {
+        return story;
+    }
+
+    public void setStory(Story story) {
+        this.story = story;
+    }
 }

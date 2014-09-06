@@ -31,6 +31,7 @@ class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void enterFeature(@NotNull GherkinsParser.FeatureContext ctx) {
         feature = new Feature();
+        feature.setStory(story);
     }
 
     @Override
@@ -63,6 +64,7 @@ class GherkinsListener extends GherkinsBaseListener {
     public void exitScenario(@NotNull GherkinsParser.ScenarioContext ctx) {
         Scenario scenario = (Scenario) prologueOrScenario;
         story.getScenarios().add(scenario);
+        prologueOrScenario.setStory(story);
         scenarios.put(scenario.getTitle(), scenario);
         prologueOrScenario = null;
     }
@@ -75,6 +77,7 @@ class GherkinsListener extends GherkinsBaseListener {
     @Override
     public void exitPrologue(@NotNull GherkinsParser.PrologueContext ctx) {
         story.setPrologue((Prologue) prologueOrScenario);
+        prologueOrScenario.setStory(story);
         prologueOrScenario = null;
     }
 
@@ -113,6 +116,7 @@ class GherkinsListener extends GherkinsBaseListener {
             }
             prologueOrScenario.getSteps().add(scenario);
         } else {
+            step.setStepContainer(prologueOrScenario);
             prologueOrScenario.getSteps().add(step);
         }
         step = null;

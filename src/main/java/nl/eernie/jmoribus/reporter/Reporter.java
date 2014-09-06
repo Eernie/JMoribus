@@ -28,7 +28,7 @@ public interface Reporter {
 
     void afterPrologue(Prologue prologue);
 
-    void beforeReferringScenario(Scenario scenario);
+    void beforeReferringScenario(StepContainer stepContainer, Scenario scenario);
 
-    void afterReferringScenario(Scenario scenario);
+    void afterReferringScenario(StepContainer stepContainer, Scenario scenario);
 }
