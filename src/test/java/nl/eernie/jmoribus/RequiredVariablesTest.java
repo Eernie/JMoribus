@@ -6,6 +6,7 @@ import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.theories.Theory;
 
@@ -15,12 +16,29 @@ import java.util.Arrays;
 
 public class RequiredVariablesTest {
 
+    Step lastReportedErrorStep = null;
+    String lastReportedError = null;
+
+    private void setLastReportedError(Step errorStep, String error)
+    {
+        this.lastReportedError = error;
+        this.lastReportedErrorStep = errorStep;
+    }
+
     @Test
     public void main() throws InvocationTargetException, IllegalAccessException {
 
+
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter());
+        defaultConfiguration.addReporter(new DefaultReporter()
+        {
+            @Override
+            public void errorStep(final Step step, String cause) {
+                super.errorStep(step, cause);
+                setLastReportedError(step, cause);
+            }
+        });
 
         ArrayList<Object> steps = new ArrayList<Object>();
         steps.add(new RequiredVariableSteps());
@@ -31,16 +49,13 @@ public class RequiredVariablesTest {
         Step step = new Step(StepType.GIVEN);
         step.getStepLines().add(new Line("step a"));
 
-        Step step2 = new Step(StepType.WHEN);
-        step2.getStepLines().add(new Line("step b"));
-
-        Step step3 = new Step(StepType.THEN);
-        step3.getStepLines().add(new Line("step c"));
-
-        scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
+        scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
 
         jMoribus.playAct(Arrays.asList(story));
+
+        Assert.assertEquals(step, lastReportedErrorStep);
+        Assert.assertEquals("Missing required variables: [requiredVariableA]", lastReportedError);
     }
 
     private Scenario createScenario() {
