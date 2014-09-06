@@ -65,12 +65,12 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
-    public void beforeReferringScenario(Scenario scenario) {
+    public void beforeReferringScenario(StepContainer stepContainer, Scenario scenario) {
         System.out.println("before Referring scenario: " + scenario.getTitle());
     }
 
     @Override
-    public void afterReferringScenario(Scenario scenario) {
+    public void afterReferringScenario(StepContainer stepContainer, Scenario scenario) {
         System.out.println("after Referring scenario: " + scenario.getTitle());
     }
 
