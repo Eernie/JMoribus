@@ -105,16 +105,16 @@ public class ConcurrentReporter implements Reporter {
     }
 
     @Override
-    public void beforeReferringScenario(Scenario scenario) {
+    public void beforeReferringScenario(StepContainer stepContainer, Scenario scenario) {
         for (Reporter reporter : reporters) {
-            reporter.beforeReferringScenario(scenario);
+            reporter.beforeReferringScenario(stepContainer, scenario);
         }
     }
 
     @Override
-    public void afterReferringScenario(Scenario scenario) {
+    public void afterReferringScenario(StepContainer stepContainer, Scenario scenario) {
         for (Reporter reporter : reporters) {
-            reporter.afterReferringScenario(scenario);
+            reporter.afterReferringScenario(stepContainer, scenario);
         }
     }
 

@@ -3,6 +3,7 @@ package nl.eernie.jmoribus.model;
 public class Feature {
     private String title;
     private String content;
+    private Story story;
 
     public String getTitle() {
         return title;
@@ -18,6 +19,14 @@ public class Feature {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Story getStory() {
+        return story;
+    }
+
+    public void setStory(Story story) {
+        this.story = story;
     }
 
     @Override

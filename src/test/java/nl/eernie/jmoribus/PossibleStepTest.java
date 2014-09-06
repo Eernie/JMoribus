@@ -1,7 +1,6 @@
 package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.annotation.Category;
-import nl.eernie.jmoribus.annotation.Given;
 import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
@@ -17,15 +16,15 @@ import java.util.List;
 public class PossibleStepTest {
 
     @Test
-    public void testPossibleSteps(){
+    public void testPossibleSteps() {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
 
-        steps.add(new Object(){
-            @Category({"User","Login"})
+        steps.add(new Object() {
+            @Category({"User", "Login"})
             @When("aMethod")
-            public void aMethod(){
+            public void aMethod() {
 
             }
         });
@@ -37,27 +36,27 @@ public class PossibleStepTest {
         Assert.assertEquals(1, possibleSteps.size());
         PossibleStepTO possibleStepTO = possibleSteps.get(0);
         Assert.assertEquals(new String[]{"User", "Login"}, possibleStepTO.getCategories());
-        Assert.assertEquals("aMethod",possibleStepTO.getStep());
-        Assert.assertEquals(StepType.WHEN,possibleStepTO.getStepType());
+        Assert.assertEquals("aMethod", possibleStepTO.getStep());
+        Assert.assertEquals(StepType.WHEN, possibleStepTO.getStepType());
 
     }
 
     @Test
-    public void testMultiplePossibleSteps(){
+    public void testMultiplePossibleSteps() {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
 
-        steps.add(new Object(){
-            @Category({"User","Login"})
+        steps.add(new Object() {
+            @Category({"User", "Login"})
             @When("aMethod")
-            public void aMethod(){
+            public void aMethod() {
 
             }
 
             @Category({"test"})
             @Then("bMethod")
-            public void bMethod(){
+            public void bMethod() {
 
             }
         });
