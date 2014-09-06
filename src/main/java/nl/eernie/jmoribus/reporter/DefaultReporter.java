@@ -50,6 +50,12 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
+    public void errorStep(Step step, String cause)
+    {
+        System.out.println("Error in step: " + step.getCombinedStepLines() + "Error :" + cause);
+    }
+
+    @Override
     public void feature(Feature feature) {
         System.out.println("Feature: " + feature.toString());
     }

@@ -22,6 +22,8 @@ public interface Reporter {
 
     void errorStep(Step step, Throwable e);
 
+    void errorStep(Step step, String cause);
+
     void feature(Feature feature);
 
     void beforePrologue(Prologue prologue);
