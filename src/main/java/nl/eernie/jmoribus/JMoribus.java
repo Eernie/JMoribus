@@ -15,6 +15,9 @@ import nl.eernie.jmoribus.reporter.Reporter;
 import nl.eernie.jmoribus.runner.StepRunner;
 import nl.eernie.jmoribus.to.PossibleStepTO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class JMoribus {
@@ -81,18 +84,43 @@ public class JMoribus {
             reporter.beforeStep(step);
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
             if (matchedStep != null) {
-                try {
-                    stepRunner.run(matchedStep, step);
-                    reporter.successStep(step);
-                } catch (AssertionError e) {
-                    reporter.failedStep(step, e);
-                } catch (Throwable e) {
-                    reporter.errorStep(step, e);
+                List<String> missingRequiredVariables = checkMissingRequiredVariables(matchedStep);
+                if(missingRequiredVariables.isEmpty())
+                {
+                    try {
+                        stepRunner.run(matchedStep, step);
+                        reporter.successStep(step);
+                    } catch (AssertionError e) {
+                        reporter.failedStep(step, e);
+                    } catch (Throwable e) {
+                        reporter.errorStep(step, e);
+                    }
+                }
+                else
+                {
+                    String error = "Missing required variables: " + missingRequiredVariables;
+                    reporter.errorStep(step, error);
                 }
             } else {
                 reporter.pendingStep(step);
             }
         }
+    }
+
+    private List<String> checkMissingRequiredVariables(PossibleStep matchedStep)
+    {
+        List<String> missingRequiredVariables = new ArrayList<>();
+        if(matchedStep.getRequiredVariables() != null) {
+
+            List<String> requiredVariables = Arrays.asList(matchedStep.getRequiredVariables());
+
+            for (String requiredVariable : requiredVariables) {
+                if (!config.getContextProvider().isVariableSet(requiredVariable)) {
+                    missingRequiredVariables.add(requiredVariable);
+                }
+            }
+        }
+        return missingRequiredVariables;
     }
 }
 
