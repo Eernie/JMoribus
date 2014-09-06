@@ -73,9 +73,9 @@ public class JMoribus {
         for (Step step : stepContainer.getSteps()) {
             if (step instanceof Scenario) {
                 Scenario referringScenario = (Scenario) step;
-                reporter.beforeReferringScenario(referringScenario);
+                reporter.beforeReferringScenario(stepContainer, referringScenario);
                 runStepContainer(methodMather, stepRunner, reporter, referringScenario);
-                reporter.afterReferringScenario(referringScenario);
+                reporter.afterReferringScenario(stepContainer, referringScenario);
                 continue;
             }
             reporter.beforeStep(step);
