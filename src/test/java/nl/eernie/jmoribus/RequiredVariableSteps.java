@@ -4,14 +4,14 @@ import nl.eernie.jmoribus.annotation.*;
 
 public class RequiredVariableSteps
 {
-    @RequiredVariables(requiredVariables = "requiredVariableA")
+    @RequiredVariables("requiredVariableA")
     @Given("step a")
     public void methodA()
     {
         // do something with requiredVariableA here
     }
 
-    @OutputVariables(outputVariables = "outputVariableA")
+    @OutputVariables("outputVariableA")
     @When("step b")
     public void methodB()
     {
