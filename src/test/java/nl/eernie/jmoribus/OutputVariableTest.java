@@ -1,20 +1,16 @@
 package nl.eernie.jmoribus;
 
-import nl.eernie.jmoribus.annotation.Given;
-import nl.eernie.jmoribus.annotation.Then;
-import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.experimental.theories.Theory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RequiredVariablesTest {
+public class OutputVariableTest {
 
     Step lastReportedErrorStep = null;
     String lastReportedError = null;
@@ -26,7 +22,7 @@ public class RequiredVariablesTest {
     }
 
     @Test
-    public void testRequiredVariableError() throws InvocationTargetException, IllegalAccessException {
+    public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter()
@@ -39,13 +35,13 @@ public class RequiredVariablesTest {
         });
 
         ArrayList<Object> steps = new ArrayList<Object>();
-        steps.add(new RequiredVariableSteps());
+        steps.add(new OutputVariableSteps());
         defaultConfiguration.addSteps(steps);
 
         Story story = createStory();
         Scenario scenario = createScenario();
-        Step step = new Step(StepType.GIVEN);
-        step.getStepLines().add(new Line("step a"));
+        Step step = new Step(StepType.WHEN);
+        step.getStepLines().add(new Line("step b"));
 
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
@@ -53,11 +49,11 @@ public class RequiredVariablesTest {
         jMoribus.playAct(Arrays.asList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
-        Assert.assertEquals("Missing required variables: [requiredVariableA]", lastReportedError);
+        Assert.assertEquals("Missing output variables: [outputVariableA]", lastReportedError);
     }
 
     @Test
-    public void testRequiredVariableSuccess() throws InvocationTargetException, IllegalAccessException {
+    public void testOutputVariableSuccess() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter()
@@ -70,18 +66,18 @@ public class RequiredVariablesTest {
         });
 
         ArrayList<Object> steps = new ArrayList<Object>();
-        steps.add(new RequiredVariableSteps());
+        steps.add(new OutputVariableSteps());
         defaultConfiguration.addSteps(steps);
 
         Story story = createStory();
         Scenario scenario = createScenario();
-        Step step = new Step(StepType.GIVEN);
-        step.getStepLines().add(new Line("step a"));
+        Step step = new Step(StepType.WHEN);
+        step.getStepLines().add(new Line("step b"));
 
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
 
-        defaultConfiguration.getContextProvider().set("requiredVariableA", "requiredVariableAValue");
+        defaultConfiguration.getContextProvider().set("outputVariableA", "outputVariableAValue");
 
         jMoribus.playAct(Arrays.asList(story));
 

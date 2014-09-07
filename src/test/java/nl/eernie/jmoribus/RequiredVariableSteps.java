@@ -10,11 +10,4 @@ public class RequiredVariableSteps
     {
         // do something with requiredVariableA here
     }
-
-    @OutputVariables("outputVariableA")
-    @When("step b")
-    public void methodB()
-    {
-        // set the output variable here
-    }
 }
