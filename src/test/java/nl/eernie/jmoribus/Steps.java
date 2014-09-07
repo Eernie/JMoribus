@@ -36,6 +36,22 @@ public class Steps {
     public void tabledMethod(Table tableOne, Table tableTwo){
     }
 
+    @Given("failing step")
+    public void failingStep(){
+        throw new AssertionError("Step failed");
+    }
+
+    @When("error step")
+    public void errorStep(){
+        throw new RuntimeException("trigger error hook");
+    }
+
+    @Then("success step")
+    public void successStep(){
+
+    }
+
+
     @Then("a second table $table")
     public void test(List<TestObject> list){
 
