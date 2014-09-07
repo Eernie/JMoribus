@@ -7,11 +7,15 @@ public class PossibleStepTO {
     private String step;
     private StepType stepType;
     private String[] categories;
+    private String[] requiredVariables;
+    private String[] outputVariables;
 
-    public PossibleStepTO(String step, StepType stepType, String[] categories) {
+    public PossibleStepTO(String step, StepType stepType, String[] categories, String[] requiredVariables, String[] outputVariables) {
         this.step = step;
         this.stepType = stepType;
         this.categories = categories;
+        this.requiredVariables = requiredVariables;
+        this.outputVariables = outputVariables;
     }
 
     public String getStep() {
@@ -24,5 +28,13 @@ public class PossibleStepTO {
 
     public String[] getCategories() {
         return categories;
+    }
+
+    public String[] getRequiredVariables() {
+        return requiredVariables;
+    }
+
+    public String[] getOutputVariables() {
+        return outputVariables;
     }
 }
