@@ -2,7 +2,6 @@ package nl.eernie.jmoribus;
 
 
 import nl.eernie.jmoribus.annotation.*;
-import nl.eernie.jmoribus.annotation.ParameterConverter;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.TestObject;
 import org.junit.Assert;
@@ -19,25 +18,25 @@ public class Steps {
 
     @When("dddd $testvar more text")
     public void evenMore(String testVar) {
-        Assert.assertEquals(1,2);
+        Assert.assertEquals(1, 2);
     }
 
     @ParameterConverter
-    public Integer convertToInt(String var){
+    public Integer convertToInt(String var) {
         return Integer.valueOf(var);
     }
 
     @BeforeStory
-    public void beforeScenario(){
+    public void beforeScenario() {
         String test = new String();
     }
 
     @Then("the system should have the following state transitions: $table and the following states should be present: $table")
-    public void tabledMethod(Table tableOne, Table tableTwo){
+    public void tabledMethod(Table tableOne, Table tableTwo) {
     }
 
     @Then("a second table $table")
-    public void test(List<TestObject> list){
+    public void test(List<TestObject> list) {
 
         TestObject o = list.get(0);
         Assert.assertEquals("aaaa", o.getColumnA());

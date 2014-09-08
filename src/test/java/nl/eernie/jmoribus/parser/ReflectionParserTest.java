@@ -22,14 +22,14 @@ public class ReflectionParserTest {
     public void testSingleObject() throws InvocationTargetException, IllegalAccessException {
 
         Table table = new Table();
-        table.setHeader(Arrays.asList("columnA", "columnB","columnC"));
-        table.getRows().add(Arrays.asList("aaaa","bbb","100"));
+        table.setHeader(Arrays.asList("columnA", "columnB", "columnC"));
+        table.getRows().add(Arrays.asList("aaaa", "bbb", "100"));
 
         Object o = ReflectionParser.parse(table, TestObject.class, mockMethodMatcher());
 
         Assert.assertTrue(o instanceof TestObject);
         Assert.assertEquals("aaaa", ((TestObject) o).getColumnA());
-        Assert.assertEquals("bbb",((TestObject) o).getColumnB());
+        Assert.assertEquals("bbb", ((TestObject) o).getColumnB());
         Assert.assertSame(100, ((TestObject) o).getColumnC());
 
     }
@@ -38,9 +38,9 @@ public class ReflectionParserTest {
     public void testListObject() throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
 
         Table table = new Table();
-        table.setHeader(Arrays.asList("columnA", "columnB","columnC"));
+        table.setHeader(Arrays.asList("columnA", "columnB", "columnC"));
         table.getRows().add(Arrays.asList("aaaa", "bbb", "100"));
-        table.getRows().add(Arrays.asList("aaaa2","bbb2","100"));
+        table.getRows().add(Arrays.asList("aaaa2", "bbb2", "100"));
 
         Class<ListTest> listTestClass = ListTest.class;
         Method testMethod = listTestClass.getMethod("testMethod", List.class);
@@ -71,8 +71,8 @@ public class ReflectionParserTest {
         return methodMatcher;
     }
 
-    private class ListTest{
-        public void testMethod(List<TestObject> testObjects){
+    private class ListTest {
+        public void testMethod(List<TestObject> testObjects) {
 
         }
     }

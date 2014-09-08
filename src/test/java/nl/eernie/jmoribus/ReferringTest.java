@@ -6,17 +6,14 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +37,7 @@ public class ReferringTest {
     }
 
     @Test
-    public void testRunner(){
+    public void testRunner() {
 
         Step step = mock(Step.class);
         List<Step> steps = new ArrayList<>();
@@ -61,6 +58,6 @@ public class ReferringTest {
         JMoribus jMoribus = new JMoribus(configuration);
         jMoribus.playAct(Arrays.asList(story));
 
-        Mockito.verify(referring,times(1)).getSteps();
+        Mockito.verify(referring, times(1)).getSteps();
     }
 }
