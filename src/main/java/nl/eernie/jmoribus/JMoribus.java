@@ -104,7 +104,11 @@ public class JMoribus {
                     } catch (AssertionError e) {
                         reporter.failedStep(step, e);
                     } catch (Throwable e) {
-                        reporter.errorStep(step, e);
+                        if(e.getCause() instanceof AssertionError){
+                            reporter.failedStep(step, (AssertionError) e.getCause());
+                        }else{
+                            reporter.errorStep(step, e);
+                        }
                     }
                 }
                 else

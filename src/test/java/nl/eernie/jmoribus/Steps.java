@@ -37,7 +37,7 @@ public class Steps {
 
     @Given("failing step")
     public void failingStep(){
-        throw new AssertionError("Step failed");
+        Assert.assertTrue(false);
     }
 
     @When("error step")
