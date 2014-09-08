@@ -22,13 +22,8 @@ public class StepRunner {
 
     public void run(PossibleStep matchedStep, Step step) throws Throwable {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
-        try {
-            Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
-            matchedStep.getMethod().invoke(matchedStep.getMethodObject(), parameters);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw e.getCause();
-        }
-
+        Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
+        matchedStep.getMethod().invoke(matchedStep.getMethodObject(), parameters);
     }
 
     private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException {

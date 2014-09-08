@@ -77,6 +77,13 @@ public class ConcurrentReporter implements Reporter {
     }
 
     @Override
+    public void errorStep(Step step, String cause) {
+        for (Reporter reporter : reporters) {
+            reporter.errorStep(step, cause);
+        }
+    }
+
+    @Override
     public void feature(Feature feature) {
         for (Reporter reporter : reporters) {
             reporter.feature(feature);

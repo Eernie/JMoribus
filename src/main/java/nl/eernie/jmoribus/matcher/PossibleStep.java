@@ -12,13 +12,17 @@ public class PossibleStep {
     private StepType stepType;
     private RegexStepMatcher regexStepMatcher;
     private String[] categories;
+    private String[] requiredVariables;
+    private String[] outputVariables;
 
-    public PossibleStep(String step, Method method, StepType stepType, Object object, String[] categories) {
+    public PossibleStep(String step, Method method, StepType stepType, Object object, String[] categories, String[] requiredVariables, String[] outputVariables) {
         this.step = step;
         this.method = method;
         this.stepType = stepType;
         this.methodObject = object;
         this.categories = categories;
+        this.requiredVariables = requiredVariables;
+        this.outputVariables = outputVariables;
     }
 
     public String getStep() {
@@ -47,5 +51,13 @@ public class PossibleStep {
 
     public String[] getCategories() {
         return categories;
+    }
+
+    public String[] getRequiredVariables() {
+        return requiredVariables;
+    }
+
+    public String[] getOutputVariables() {
+        return outputVariables;
     }
 }
