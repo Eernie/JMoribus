@@ -12,4 +12,4 @@ addons:
     build_command: mvn clean compile
     branch_pattern: develop
 after_success:
-  - mvn clean test jacoco:report cobertura:cobertura coveralls:chain
+  - mvn clean test cobertura:cobertura coveralls:cobertura
