@@ -47,9 +47,11 @@ public class JMoribus {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
-            reporter.beforePrologue(story.getPrologue());
-            runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
-            reporter.afterPrologue(story.getPrologue());
+            if(story.getPrologue()!=null){
+                reporter.beforePrologue(story.getPrologue());
+                runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
+                reporter.afterPrologue(story.getPrologue());
+            }
             for (Scenario scenario : story.getScenarios()) {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);

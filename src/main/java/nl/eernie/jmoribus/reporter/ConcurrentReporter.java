@@ -100,7 +100,7 @@ public class ConcurrentReporter implements Reporter {
     @Override
     public void afterPrologue(Prologue prologue) {
         for (Reporter reporter : reporters) {
-            reporter.beforePrologue(prologue);
+            reporter.afterPrologue(prologue);
         }
     }
 
