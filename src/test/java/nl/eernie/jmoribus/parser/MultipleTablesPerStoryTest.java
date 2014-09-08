@@ -3,10 +3,11 @@ package nl.eernie.jmoribus.parser;
 import junit.framework.TestCase;
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.Steps;
-import nl.eernie.jmoribus.annotation.ParameterConverter;
-import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepType;
+import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MultipleTablesPerStoryTest extends TestCase {
 
