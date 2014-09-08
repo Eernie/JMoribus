@@ -2,7 +2,6 @@ package nl.eernie.jmoribus;
 
 
 import nl.eernie.jmoribus.configuration.Configuration;
-import nl.eernie.jmoribus.configuration.Context;
 import nl.eernie.jmoribus.converter.PossibleStepsConverter;
 import nl.eernie.jmoribus.matcher.BeforeAfterType;
 import nl.eernie.jmoribus.matcher.MethodMatcher;
@@ -64,7 +63,7 @@ public class JMoribus {
     }
 
     private MethodMatcher createMethodMatcher() {
-        List<Object> objects = config.getSteps(new Context());
+        List<Object> objects = config.getSteps();
         return new MethodMatcher(objects);
     }
 

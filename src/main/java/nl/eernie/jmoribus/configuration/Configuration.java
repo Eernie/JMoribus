@@ -10,7 +10,7 @@ public interface Configuration {
 
     ConcurrentReporter getConcurrentReporter();
 
-    List<Object> getSteps(Context context);
+    List<Object> getSteps();
 
     void addSteps(List<Object> steps);
 

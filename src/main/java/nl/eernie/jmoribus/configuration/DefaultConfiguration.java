@@ -26,7 +26,7 @@ public class DefaultConfiguration implements Configuration {
     }
 
     @Override
-    public List<Object> getSteps(Context context) {
+    public List<Object> getSteps() {
         return steps;
     }
 

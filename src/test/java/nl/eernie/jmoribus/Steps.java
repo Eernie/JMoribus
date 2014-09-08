@@ -29,7 +29,7 @@ public class Steps {
 
     @BeforeStory
     public void beforeScenario(){
-        String test = new String();
+        String test = "";
     }
 
     @Then("the system should have the following state transitions: $table and the following states should be present: $table")
