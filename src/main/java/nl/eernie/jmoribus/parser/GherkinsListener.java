@@ -36,7 +36,7 @@ class GherkinsListener extends GherkinsBaseListener {
 
     @Override
     public void exitFeature_title(@NotNull GherkinsParser.Feature_titleContext ctx) {
-        feature.setTitle(ctx.getText().trim());
+        story.setTitle(ctx.getText().trim());
     }
 
     @Override

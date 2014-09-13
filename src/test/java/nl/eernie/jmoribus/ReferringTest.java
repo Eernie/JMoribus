@@ -29,7 +29,7 @@ public class ReferringTest {
     public void testParser() throws IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/referring.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Referring Story", "referring.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "referring.story");
 
         Story story = StoryParser.parseStory(parseableStory);
         Scenario scenario = story.getScenarios().get(1);
