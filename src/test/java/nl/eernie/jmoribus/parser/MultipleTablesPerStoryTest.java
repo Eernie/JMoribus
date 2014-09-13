@@ -23,7 +23,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testMultipleTablesPerStep() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story with multiple tables per step", "storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
         //Assert.assertEquals(story.getScenarios().size(), 2);
         //int numberOfSteps = story.getScenarios().get(0).getSteps().size();
@@ -53,7 +53,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story with multiple tables per step", "storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream,"storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
@@ -70,7 +70,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testParametrizedStory() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithExampleTable.story");
         Story story = StoryParser.parseStory(parseableStory);
         Assert.assertEquals(story.getScenarios().size(), 2);
         int numberOfSteps = story.getScenarios().get(0).getSteps().size();

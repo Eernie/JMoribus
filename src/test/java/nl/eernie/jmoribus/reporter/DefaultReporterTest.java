@@ -27,7 +27,7 @@ public class DefaultReporterTest {
     @Test
     public void testAllHooks() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/reporter/reporterTestStory.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "/reporter/reporterTestStory.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream,"/reporter/reporterTestStory.story");
 
         Story story = StoryParser.parseStory(parseableStory);
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();

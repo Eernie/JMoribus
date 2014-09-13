@@ -44,7 +44,6 @@ public final class StoryParser {
         parser.story();
 
         Story story = listener.getStory();
-        story.setTitle(parseableStory.getTitle());
         story.setUniqueIdentifier(parseableStory.getUniqueIdentifier());
 
 
