@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus.matcher;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class BeforeAfterMethod {
@@ -14,15 +15,12 @@ public class BeforeAfterMethod {
         this.beforeAfterType = beforeAfterType;
     }
 
-    public Method getMethod() {
-        return method;
-    }
-
-    public Object getMethodObject() {
-        return methodObject;
-    }
-
     public BeforeAfterType getBeforeAfterType() {
         return beforeAfterType;
     }
+
+    public void invoke() throws InvocationTargetException, IllegalAccessException {
+        method.invoke(methodObject);
+    }
+
 }

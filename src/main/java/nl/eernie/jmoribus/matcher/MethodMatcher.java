@@ -1,6 +1,7 @@
 package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.annotation.*;
+import nl.eernie.jmoribus.exception.NoParameterConverterFoundException;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 
@@ -129,7 +130,7 @@ public class MethodMatcher {
                 return parameterConverter;
             }
         }
-        throw new RuntimeException("Converter not found"); // TODO: refactor me!
+        throw new NoParameterConverterFoundException();
     }
 
     public List<BeforeAfterMethod> findBeforeAfters(BeforeAfterType beforeAfterType) {
