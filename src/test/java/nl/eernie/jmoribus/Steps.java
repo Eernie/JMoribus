@@ -27,6 +27,9 @@ public class Steps {
     }
 
     @BeforeStory
+    @BeforeScenario
+    @AfterScenario
+    @AfterStory
     public void beforeScenario(){
         String test = "";
     }

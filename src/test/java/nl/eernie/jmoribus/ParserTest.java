@@ -1,5 +1,6 @@
 package nl.eernie.jmoribus;
 
+import nl.eernie.jmoribus.exception.UnableToParseStoryException;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
@@ -9,10 +10,14 @@ import nl.eernie.jmoribus.parser.StoryParser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 public class ParserTest {
 
@@ -76,6 +81,15 @@ public class ParserTest {
         List<Story> stories = StoryParser.parseStories(parseableStories);
         Assert.assertEquals(3, stories.size());
         Assert.assertEquals("MultiScenarioTitle", stories.get(0).getTitle());
+
+    }
+
+    @Test(expected = UnableToParseStoryException.class)
+    public void testUnparsableStory() throws IOException {
+        FileInputStream fileInputStream = mock(FileInputStream.class);
+        when(fileInputStream.read()).thenThrow(IOException.class);
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "typo.story");
+        StoryParser.parseStory(parseableStory);
 
     }
 }

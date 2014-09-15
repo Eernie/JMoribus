@@ -64,7 +64,7 @@ public class StepRunner {
         if (methods != null) {
             for (BeforeAfterMethod method : methods) {
                 try {
-                    method.getMethod().invoke(method.getMethodObject());
+                    method.invoke();
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
