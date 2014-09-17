@@ -3,10 +3,11 @@ package nl.eernie.jmoribus.parser;
 import junit.framework.TestCase;
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.Steps;
-import nl.eernie.jmoribus.annotation.ParameterConverter;
-import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepType;
+import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,14 +17,13 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MultipleTablesPerStoryTest extends TestCase {
 
     @Test
     public void testMultipleTablesPerStep() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story with multiple tables per step", "storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
         //Assert.assertEquals(story.getScenarios().size(), 2);
         //int numberOfSteps = story.getScenarios().get(0).getSteps().size();
@@ -53,7 +53,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story with multiple tables per step", "storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream,"storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
@@ -70,7 +70,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testParametrizedStory() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Parametrized story", "storyWithExampleTable.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithExampleTable.story");
         Story story = StoryParser.parseStory(parseableStory);
         Assert.assertEquals(story.getScenarios().size(), 2);
         int numberOfSteps = story.getScenarios().get(0).getSteps().size();

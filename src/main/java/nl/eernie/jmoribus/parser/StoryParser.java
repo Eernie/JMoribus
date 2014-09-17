@@ -2,6 +2,7 @@ package nl.eernie.jmoribus.parser;
 
 import nl.eernie.jmoribus.GherkinsLexer;
 import nl.eernie.jmoribus.GherkinsParser;
+import nl.eernie.jmoribus.exception.UnableToParseStoryException;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Story;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -18,7 +19,7 @@ public final class StoryParser {
     private StoryParser() {
     }
 
-    public static List<Story> parseStories(List<ParseableStory> parseableStories) throws IOException {
+    public static List<Story> parseStories(List<ParseableStory> parseableStories) {
         Map<String, Scenario> knownScenarios = new HashMap<>();
         List<Story> stories = new ArrayList<>();
         for (ParseableStory parseableStory : parseableStories) {
@@ -27,14 +28,19 @@ public final class StoryParser {
         return stories;
     }
 
-    public static Story parseStory(ParseableStory parseableStory) throws IOException {
+    public static Story parseStory(ParseableStory parseableStory){
         Map<String, Scenario> knownScenarios = new HashMap<>();
         return parseStory(parseableStory, knownScenarios);
     }
 
-    private static Story parseStory(ParseableStory parseableStory, Map<String, Scenario> knownScenarios) throws IOException {
+    private static Story parseStory(ParseableStory parseableStory, Map<String, Scenario> knownScenarios) {
 
-        GherkinsLexer lexer = new GherkinsLexer(new ANTLRInputStream(parseableStory.getStream()));
+        GherkinsLexer lexer = null;
+        try {
+            lexer = new GherkinsLexer(new ANTLRInputStream(parseableStory.getStream()));
+        } catch (IOException e) {
+            throw new UnableToParseStoryException("Story "+ parseableStory.getUniqueIdentifier() + " is not parsable", e);
+        }
 
         CommonTokenStream token = new CommonTokenStream(lexer);
         GherkinsParser parser = new GherkinsParser(token);
@@ -44,7 +50,6 @@ public final class StoryParser {
         parser.story();
 
         Story story = listener.getStory();
-        story.setTitle(parseableStory.getTitle());
         story.setUniqueIdentifier(parseableStory.getUniqueIdentifier());
 
 

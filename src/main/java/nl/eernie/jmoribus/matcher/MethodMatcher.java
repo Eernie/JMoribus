@@ -1,6 +1,7 @@
 package nl.eernie.jmoribus.matcher;
 
 import nl.eernie.jmoribus.annotation.*;
+import nl.eernie.jmoribus.exception.NoParameterConverterFoundException;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 
@@ -83,17 +84,32 @@ public class MethodMatcher {
             Category category = method.getAnnotation(Category.class);
             categories = category.value();
         }
+
+        String[] requiredVariables = null;
+        if(method.isAnnotationPresent(RequiredVariables.class))
+        {
+            RequiredVariables requiredVariablesAnnotation = method.getAnnotation(RequiredVariables.class);
+            requiredVariables = requiredVariablesAnnotation.value();
+        }
+
+        String[] outputVariables = null;
+        if(method.isAnnotationPresent(OutputVariables.class))
+        {
+            OutputVariables outputVariablesAnnotation = method.getAnnotation(OutputVariables.class);
+            outputVariables = outputVariablesAnnotation.value();
+        }
+
         if (method.isAnnotationPresent(Given.class)) {
             Given annotation = method.getAnnotation(Given.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object, categories));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object, categories, requiredVariables, outputVariables));
         }
         if (method.isAnnotationPresent(When.class)) {
             When annotation = method.getAnnotation(When.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object, categories));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object, categories, requiredVariables, outputVariables));
         }
         if (method.isAnnotationPresent(Then.class)) {
             Then annotation = method.getAnnotation(Then.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object, categories));
+            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object, categories, requiredVariables, outputVariables));
         }
     }
 
@@ -114,7 +130,7 @@ public class MethodMatcher {
                 return parameterConverter;
             }
         }
-        throw new RuntimeException("Converter not found"); // TODO: refactor me!
+        throw new NoParameterConverterFoundException();
     }
 
     public List<BeforeAfterMethod> findBeforeAfters(BeforeAfterType beforeAfterType) {

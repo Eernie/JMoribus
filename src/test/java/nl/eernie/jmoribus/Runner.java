@@ -1,15 +1,10 @@
 package nl.eernie.jmoribus;
 
-import nl.eernie.jmoribus.annotation.Category;
-import nl.eernie.jmoribus.annotation.Then;
-import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.*;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
-import nl.eernie.jmoribus.to.PossibleStepTO;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,7 +12,6 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Runner {
 
@@ -50,7 +44,7 @@ public class Runner {
     public void runStory() throws InvocationTargetException, IllegalAccessException, IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "Story 1", "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream,  "test.story");
 
         Story story = StoryParser.parseStory(parseableStory);
 
