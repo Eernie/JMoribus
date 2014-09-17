@@ -22,7 +22,7 @@ public class JunitTestRunnerImpl extends JunitTestRunner{
     }
 
     @Override
-    protected Configuration getConfiguration() {
+    protected Configuration createConfiguration() {
 
         Configuration config = new DefaultConfiguration();
         config.addSteps(Arrays.<Object>asList(new Steps()));
@@ -31,7 +31,7 @@ public class JunitTestRunnerImpl extends JunitTestRunner{
     }
 
     @Override
-    protected List<ParseableStory> getParseAbleStories() {
+    protected List<ParseableStory> createParseAbleStories() {
 
         List<ParseableStory> parseableStories = new ArrayList<>(3);
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
