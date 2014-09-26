@@ -17,7 +17,7 @@ public abstract class JunitTestRunner  {
 
     public void runStories(){
         JMoribus jMoribus = new JMoribus(configuration);
-        jMoribus.playAct(stories);
+        jMoribus.runStories(stories);
     }
 
     protected abstract Configuration createConfiguration();

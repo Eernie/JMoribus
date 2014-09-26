@@ -46,7 +46,7 @@ public class OutputVariableTest {
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
         Assert.assertEquals("Missing output variables: [outputVariableA]", lastReportedError);
@@ -79,7 +79,7 @@ public class OutputVariableTest {
 
         defaultConfiguration.getContextProvider().set("outputVariableA", "outputVariableAValue");
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertNull(lastReportedErrorStep);
         Assert.assertNull(lastReportedError);

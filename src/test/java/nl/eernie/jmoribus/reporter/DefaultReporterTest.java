@@ -37,7 +37,7 @@ public class DefaultReporterTest {
         ArrayList<Object> steps = new ArrayList<>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         verify(reporter,atLeast(1)).beforePrologue(story.getPrologue());
         verify(reporter,atLeast(1)).afterPrologue(story.getPrologue());

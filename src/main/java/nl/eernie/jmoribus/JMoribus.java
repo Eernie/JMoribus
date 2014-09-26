@@ -33,7 +33,7 @@ public class JMoribus {
         return PossibleStepsConverter.convert(possibleSteps);
     }
 
-    public void playAct(List<Story> stories) {
+    public void runStories(List<Story> stories) {
 
         MethodMatcher methodMather = createMethodMatcher();
         StepRunner stepRunner = new StepRunner(methodMather);
