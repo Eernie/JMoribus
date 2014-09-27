@@ -50,7 +50,7 @@ public class RequiredVariablesTest {
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
         Assert.assertEquals("Missing required variables: [requiredVariableA]", lastReportedError);
@@ -83,7 +83,7 @@ public class RequiredVariablesTest {
 
         defaultConfiguration.getContextProvider().set("requiredVariableA", "requiredVariableAValue");
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertNull(lastReportedErrorStep);
         Assert.assertNull(lastReportedError);

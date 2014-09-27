@@ -63,7 +63,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
 
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
     }
 
