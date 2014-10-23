@@ -5,6 +5,7 @@ import nl.eernie.jmoribus.annotation.*;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.TestObject;
 import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
@@ -52,7 +53,6 @@ public class Steps {
     public void successStep() {
 
     }
-
 
     @Then("a second table $table")
     public void test(List<TestObject> list) {

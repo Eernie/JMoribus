@@ -35,7 +35,7 @@ public class JMoribus {
     public void runStories(List<Story> stories) {
 
         MethodMatcher methodMather = createMethodMatcher();
-        StepRunner stepRunner = new StepRunner(methodMather);
+        StepRunner stepRunner = new StepRunner(methodMather, config);
 
         Reporter reporter = config.getConcurrentReporter();
 

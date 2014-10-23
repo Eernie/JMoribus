@@ -4,6 +4,10 @@ import nl.eernie.jmoribus.context.ContextProvider;
 import nl.eernie.jmoribus.context.DefaultContextProvider;
 import nl.eernie.jmoribus.reporter.ConcurrentReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +16,9 @@ import java.util.List;
 public class DefaultConfiguration implements Configuration {
 
     private ConcurrentReporter concurrentReporter = new ConcurrentReporter();
-
     private ContextProvider contextProvider = new DefaultContextProvider();
-
     private List<Object> steps = new ArrayList<>();
+    private WebDriver webDriver = new HtmlUnitDriver();
 
     public ConcurrentReporter getConcurrentReporter() {
         return concurrentReporter;
@@ -37,5 +40,10 @@ public class DefaultConfiguration implements Configuration {
 
     public ContextProvider getContextProvider() {
         return contextProvider;
+    }
+
+    @Override
+    public WebDriver getWebDriver() {
+        return webDriver;
     }
 }
