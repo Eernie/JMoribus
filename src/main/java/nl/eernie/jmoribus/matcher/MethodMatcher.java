@@ -86,15 +86,13 @@ public class MethodMatcher {
         }
 
         String[] requiredVariables = null;
-        if(method.isAnnotationPresent(RequiredVariables.class))
-        {
+        if (method.isAnnotationPresent(RequiredVariables.class)) {
             RequiredVariables requiredVariablesAnnotation = method.getAnnotation(RequiredVariables.class);
             requiredVariables = requiredVariablesAnnotation.value();
         }
 
         String[] outputVariables = null;
-        if(method.isAnnotationPresent(OutputVariables.class))
-        {
+        if (method.isAnnotationPresent(OutputVariables.class)) {
             OutputVariables outputVariablesAnnotation = method.getAnnotation(OutputVariables.class);
             outputVariables = outputVariablesAnnotation.value();
         }

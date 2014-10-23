@@ -12,7 +12,7 @@ class Parameter {
         this.end = end;
         this.whitespaceIfAny = whitespaceIfAny;
         this.name = pattern.substring(start + prefix.length(),
-                end - whitespaceIfAny.length()).trim();
+            end - whitespaceIfAny.length()).trim();
     }
 
 

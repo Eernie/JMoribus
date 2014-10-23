@@ -28,7 +28,7 @@ public final class StoryParser {
         return stories;
     }
 
-    public static Story parseStory(ParseableStory parseableStory){
+    public static Story parseStory(ParseableStory parseableStory) {
         Map<String, Scenario> knownScenarios = new HashMap<>();
         return parseStory(parseableStory, knownScenarios);
     }
@@ -39,7 +39,7 @@ public final class StoryParser {
         try {
             lexer = new GherkinsLexer(new ANTLRInputStream(parseableStory.getStream()));
         } catch (IOException e) {
-            throw new UnableToParseStoryException("Story "+ parseableStory.getUniqueIdentifier() + " is not parsable", e);
+            throw new UnableToParseStoryException("Story " + parseableStory.getUniqueIdentifier() + " is not parsable", e);
         }
 
         CommonTokenStream token = new CommonTokenStream(lexer);

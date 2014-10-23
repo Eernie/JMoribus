@@ -15,8 +15,7 @@ public class OutputVariableTest {
     Step lastReportedErrorStep = null;
     String lastReportedError = null;
 
-    private void setLastReportedError(Step errorStep, String error)
-    {
+    private void setLastReportedError(Step errorStep, String error) {
         this.lastReportedError = error;
         this.lastReportedErrorStep = errorStep;
     }
@@ -25,8 +24,7 @@ public class OutputVariableTest {
     public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter()
-        {
+        defaultConfiguration.addReporter(new DefaultReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);
@@ -56,8 +54,7 @@ public class OutputVariableTest {
     public void testOutputVariableSuccess() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter()
-        {
+        defaultConfiguration.addReporter(new DefaultReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);

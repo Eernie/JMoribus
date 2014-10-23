@@ -60,7 +60,7 @@ public class ParserTest {
     @Test
     public void testMultipleScenarioParse() throws IOException {
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream,"test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "test.story");
 
         Story story = StoryParser.parseStory(parseableStory);
 
@@ -74,7 +74,7 @@ public class ParserTest {
         InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
         parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
         fileInputStream = getClass().getResourceAsStream("/test2.story");
-        parseableStories.add(new ParseableStory(fileInputStream,"testTitle"));
+        parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
         fileInputStream = getClass().getResourceAsStream("/referring.story");
         parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
 

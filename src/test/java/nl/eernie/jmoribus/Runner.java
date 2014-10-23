@@ -44,7 +44,7 @@ public class Runner {
     public void runStory() throws InvocationTargetException, IllegalAccessException, IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream,  "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "test.story");
 
         Story story = StoryParser.parseStory(parseableStory);
 

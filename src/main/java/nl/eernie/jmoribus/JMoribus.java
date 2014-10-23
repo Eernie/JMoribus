@@ -16,7 +16,6 @@ import nl.eernie.jmoribus.to.PossibleStepTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class JMoribus {
@@ -47,7 +46,7 @@ public class JMoribus {
                 reporter.feature(story.getFeature());
             }
             stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_STORY);
-            if(story.getPrologue()!=null){
+            if (story.getPrologue() != null) {
                 reporter.beforePrologue(story.getPrologue());
                 runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
                 reporter.afterPrologue(story.getPrologue());
@@ -86,33 +85,27 @@ public class JMoribus {
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
             if (matchedStep != null) {
                 List<String> missingRequiredVariables = checkMissingVariables(matchedStep.getRequiredVariables());
-                if(missingRequiredVariables.isEmpty())
-                {
+                if (missingRequiredVariables.isEmpty()) {
                     try {
                         stepRunner.run(matchedStep, step);
 
                         List<String> missingOutputVariables = checkMissingVariables(matchedStep.getOutputVariables());
-                        if(missingOutputVariables.isEmpty())
-                        {
+                        if (missingOutputVariables.isEmpty()) {
                             reporter.successStep(step);
-                        }
-                        else
-                        {
+                        } else {
                             String error = "Missing output variables: " + missingOutputVariables;
                             reporter.errorStep(step, error);
                         }
                     } catch (AssertionError e) {
                         reporter.failedStep(step, e);
                     } catch (Throwable e) {
-                        if(e.getCause() instanceof AssertionError){
+                        if (e.getCause() instanceof AssertionError) {
                             reporter.failedStep(step, (AssertionError) e.getCause());
-                        }else{
+                        } else {
                             reporter.errorStep(step, e);
                         }
                     }
-                }
-                else
-                {
+                } else {
                     String error = "Missing required variables: " + missingRequiredVariables;
                     reporter.errorStep(step, error);
                 }
@@ -122,10 +115,9 @@ public class JMoribus {
         }
     }
 
-    private List<String> checkMissingVariables(String[] variablesToCheck)
-    {
+    private List<String> checkMissingVariables(String[] variablesToCheck) {
         List<String> missingRequiredVariables = new ArrayList<>();
-        if(variablesToCheck != null) {
+        if (variablesToCheck != null) {
 
             List<String> requiredVariables = Arrays.asList(variablesToCheck);
 

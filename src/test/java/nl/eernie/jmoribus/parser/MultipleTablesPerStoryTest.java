@@ -53,7 +53,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
     @Test
     public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream,"storyWithMultipleTablesPerStep.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
