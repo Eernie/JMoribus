@@ -34,16 +34,16 @@ public class StepRunner {
     private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
-        int extraValues = ArrayUtils.contains(parameterTypes, WebDriver.class)? 1 : 0;
+        int extraValues = ArrayUtils.contains(parameterTypes, WebDriver.class) ? 1 : 0;
         if (parameterValues.size() + extraValues != parameterTypes.length) {
             throw new RuntimeException("Velden en waarden komen niet overeen"); //TODO: refactor me
         }
         Iterator<String> values = parameterValues.iterator();
         for (int i = 0; i < parameterTypes.length; i++) {
             Class<?> parameterType = parameterTypes[i];
-            if(parameterType.equals(WebDriver.class)) {
+            if (parameterType.equals(WebDriver.class)) {
                 parameters[i] = config.getWebDriver();
-            }else{
+            } else {
                 String parameterValue = values.next();
                 if (parameterType.equals(String.class)) {
                     parameters[i] = parameterValue;

@@ -5,9 +5,7 @@ import nl.eernie.jmoribus.context.DefaultContextProvider;
 import nl.eernie.jmoribus.reporter.ConcurrentReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.safari.SafariDriver;
 
 import java.util.ArrayList;
 import java.util.List;

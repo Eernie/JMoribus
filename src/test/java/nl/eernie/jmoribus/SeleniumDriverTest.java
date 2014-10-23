@@ -14,12 +14,10 @@ import org.mockito.internal.verification.Times;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import static org.mockito.Matchers.any;
-
 public class SeleniumDriverTest {
 
     @Test
-    public void testMethodSignature(){
+    public void testMethodSignature() {
         InputStream fileInputStream = getClass().getResourceAsStream("/selenium.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "selenium.story");
 
@@ -33,7 +31,7 @@ public class SeleniumDriverTest {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         jMoribus.runStories(Arrays.asList(story));
 
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(),Mockito.<String>any());
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(),Mockito.<Throwable>any());
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<String>any());
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
     }
 }
