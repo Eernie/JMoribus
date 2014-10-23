@@ -24,6 +24,7 @@ public class PossibleStepTest {
         steps.add(new Object() {
             @Category({"User", "Login"})
             @When("aMethod")
+            @Then({"first title","a second title"})
             public void aMethod() {
 
             }
@@ -33,7 +34,7 @@ public class PossibleStepTest {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
 
-        Assert.assertEquals(1, possibleSteps.size());
+        Assert.assertEquals(3, possibleSteps.size());
         PossibleStepTO possibleStepTO = possibleSteps.get(0);
         Assert.assertEquals(new String[]{"User", "Login"}, possibleStepTO.getCategories());
         Assert.assertEquals("aMethod", possibleStepTO.getStep());
