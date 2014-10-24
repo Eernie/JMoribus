@@ -53,7 +53,6 @@ public class Steps {
 
     }
 
-
     @Then("a second table $table")
     public void test(List<TestObject> list) {
 
