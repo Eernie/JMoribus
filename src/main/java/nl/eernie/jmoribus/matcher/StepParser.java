@@ -51,9 +51,9 @@ class StepParser {
         Matcher findingAllParameterNames = findingAllParameterNames().matcher(
             pattern);
         while (findingAllParameterNames.find()) {
-            parameters.add(new Parameter(pattern, findingAllParameterNames
+            parameters.add(new Parameter(findingAllParameterNames
                 .start(), findingAllParameterNames.end(),
-                findingAllParameterNames.group(2), prefix));
+                findingAllParameterNames.group(2)));
         }
         return parameters;
     }

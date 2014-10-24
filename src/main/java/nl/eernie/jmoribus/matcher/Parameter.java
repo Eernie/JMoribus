@@ -4,15 +4,12 @@ class Parameter {
     private final int start;
     private final int end;
     private final String whitespaceIfAny;
-    private final String name;
 
-    public Parameter(String pattern, int start, int end,
-                     String whitespaceIfAny, String prefix) {
+    public Parameter(int start, int end,
+                     String whitespaceIfAny) {
         this.start = start;
         this.end = end;
         this.whitespaceIfAny = whitespaceIfAny;
-        this.name = pattern.substring(start + prefix.length(),
-            end - whitespaceIfAny.length()).trim();
     }
 
 
@@ -26,9 +23,5 @@ class Parameter {
 
     public String getWhitespaceIfAny() {
         return whitespaceIfAny;
-    }
-
-    public String getName() {
-        return name;
     }
 }
