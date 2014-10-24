@@ -11,7 +11,7 @@ import java.util.List;
 public class Steps {
 
     @Category({"Multiple", "Test"})
-    @When("bla bla bla $integer")
+    @When({"bla bla bla $integer", "another $integer"})
     public void method(Integer integer) {
 
     }
