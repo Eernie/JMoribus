@@ -49,18 +49,18 @@ class StepParser {
     private List<Parameter> findParameters(String pattern) {
         List<Parameter> parameters = new ArrayList<>();
         Matcher findingAllParameterNames = findingAllParameterNames().matcher(
-                pattern);
+            pattern);
         while (findingAllParameterNames.find()) {
-            parameters.add(new Parameter(pattern, findingAllParameterNames
-                    .start(), findingAllParameterNames.end(),
-                    findingAllParameterNames.group(2), prefix));
+            parameters.add(new Parameter(findingAllParameterNames
+                .start(), findingAllParameterNames.end(),
+                findingAllParameterNames.group(2)));
         }
         return parameters;
     }
 
     private Pattern findingAllParameterNames() {
         return Pattern.compile("(\\" + prefix + characterClass + "*)(\\W|\\Z)",
-                Pattern.DOTALL);
+            Pattern.DOTALL);
     }
 
     private String escapingPunctuation(String pattern) {

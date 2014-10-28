@@ -86,31 +86,37 @@ public class MethodMatcher {
         }
 
         String[] requiredVariables = null;
-        if(method.isAnnotationPresent(RequiredVariables.class))
-        {
+        if (method.isAnnotationPresent(RequiredVariables.class)) {
             RequiredVariables requiredVariablesAnnotation = method.getAnnotation(RequiredVariables.class);
             requiredVariables = requiredVariablesAnnotation.value();
         }
 
         String[] outputVariables = null;
-        if(method.isAnnotationPresent(OutputVariables.class))
-        {
+        if (method.isAnnotationPresent(OutputVariables.class)) {
             OutputVariables outputVariablesAnnotation = method.getAnnotation(OutputVariables.class);
             outputVariables = outputVariablesAnnotation.value();
         }
 
         if (method.isAnnotationPresent(Given.class)) {
             Given annotation = method.getAnnotation(Given.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.GIVEN, object, categories, requiredVariables, outputVariables));
+            possibleSteps.addAll(createPossibleSteps(annotation.value(), method, StepType.GIVEN, object, categories, requiredVariables, outputVariables));
         }
         if (method.isAnnotationPresent(When.class)) {
             When annotation = method.getAnnotation(When.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.WHEN, object, categories, requiredVariables, outputVariables));
+            possibleSteps.addAll(createPossibleSteps(annotation.value(), method, StepType.WHEN, object, categories, requiredVariables, outputVariables));
         }
         if (method.isAnnotationPresent(Then.class)) {
             Then annotation = method.getAnnotation(Then.class);
-            possibleSteps.add(new PossibleStep(annotation.value(), method, StepType.THEN, object, categories, requiredVariables, outputVariables));
+            possibleSteps.addAll(createPossibleSteps(annotation.value(), method, StepType.THEN, object, categories, requiredVariables, outputVariables));
         }
+    }
+
+    private List<PossibleStep> createPossibleSteps(String[] values, Method method, StepType stepType, Object object, String[] categories, String[] requiredVariables, String[] outputVariables) {
+        ArrayList<PossibleStep> possibleSteps = new ArrayList<>();
+        for (String value : values) {
+            possibleSteps.add(new PossibleStep(value, method, stepType, object, categories, requiredVariables, outputVariables));
+        }
+        return possibleSteps;
     }
 
     public PossibleStep findMatchedStep(Step step) {

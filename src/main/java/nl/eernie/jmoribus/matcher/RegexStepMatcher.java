@@ -28,15 +28,6 @@ public class RegexStepMatcher {
         matcher = regexPattern.matcher(patternToMatch);
     }
 
-    public Matcher getMatcher() {
-        return matcher;
-    }
-
-    public void setMatcher(Matcher matcher) {
-        this.matcher = matcher;
-    }
-
-
     public List<String> getParameterValues(Step step) {
         Matcher matcher = regexPattern.matcher(step.getCombinedStepLines());
         matcher.find();

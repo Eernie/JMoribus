@@ -37,14 +37,14 @@ public class Runner {
 
         scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
         story.getScenarios().add(scenario);
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
     }
 
     @Test
     public void runStory() throws InvocationTargetException, IllegalAccessException, IOException {
 
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream,  "test.story");
+        ParseableStory parseableStory = new ParseableStory(fileInputStream, "test.story");
 
         Story story = StoryParser.parseStory(parseableStory);
 
@@ -54,7 +54,7 @@ public class Runner {
         ArrayList<Object> steps = new ArrayList<Object>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
     }
 

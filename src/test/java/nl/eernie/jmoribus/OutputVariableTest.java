@@ -15,8 +15,7 @@ public class OutputVariableTest {
     Step lastReportedErrorStep = null;
     String lastReportedError = null;
 
-    private void setLastReportedError(Step errorStep, String error)
-    {
+    private void setLastReportedError(Step errorStep, String error) {
         this.lastReportedError = error;
         this.lastReportedErrorStep = errorStep;
     }
@@ -25,8 +24,7 @@ public class OutputVariableTest {
     public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter()
-        {
+        defaultConfiguration.addReporter(new DefaultReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);
@@ -46,7 +44,7 @@ public class OutputVariableTest {
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
         Assert.assertEquals("Missing output variables: [outputVariableA]", lastReportedError);
@@ -56,8 +54,7 @@ public class OutputVariableTest {
     public void testOutputVariableSuccess() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter()
-        {
+        defaultConfiguration.addReporter(new DefaultReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);
@@ -79,7 +76,7 @@ public class OutputVariableTest {
 
         defaultConfiguration.getContextProvider().set("outputVariableA", "outputVariableAValue");
 
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertNull(lastReportedErrorStep);
         Assert.assertNull(lastReportedError);
