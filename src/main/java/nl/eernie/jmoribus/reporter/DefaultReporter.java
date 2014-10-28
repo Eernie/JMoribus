@@ -50,8 +50,7 @@ public class DefaultReporter implements Reporter {
     }
 
     @Override
-    public void errorStep(Step step, String cause)
-    {
+    public void errorStep(Step step, String cause) {
         System.out.println("Error in step: " + step.getCombinedStepLines() + "Error :" + cause);
     }
 

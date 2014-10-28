@@ -9,7 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Given {
 
-    String value();
-
-
+    String[] value();
 }

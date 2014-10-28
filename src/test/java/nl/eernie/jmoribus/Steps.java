@@ -11,7 +11,7 @@ import java.util.List;
 public class Steps {
 
     @Category({"Multiple", "Test"})
-    @When("bla bla bla $integer")
+    @When({"bla bla bla $integer", "another $integer"})
     public void method(Integer integer) {
 
     }
@@ -30,7 +30,7 @@ public class Steps {
     @BeforeScenario
     @AfterScenario
     @AfterStory
-    public void beforeScenario(){
+    public void beforeScenario() {
         String test = "";
     }
 
@@ -39,20 +39,19 @@ public class Steps {
     }
 
     @Given("failing step")
-    public void failingStep(){
+    public void failingStep() {
         Assert.assertTrue(false);
     }
 
     @When("error step")
-    public void errorStep(){
+    public void errorStep() {
         throw new RuntimeException("trigger error hook");
     }
 
     @Then("success step")
-    public void successStep(){
+    public void successStep() {
 
     }
-
 
     @Then("a second table $table")
     public void test(List<TestObject> list) {

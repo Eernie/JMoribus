@@ -11,7 +11,7 @@ import java.util.List;
 public class MethodMatcherTest {
 
     @Test
-    public void matcherTest(){
+    public void matcherTest() {
 
         MethodMatcher methodMatcher = new MethodMatcher(Arrays.<Object>asList(new Steps()));
 
@@ -33,7 +33,7 @@ public class MethodMatcherTest {
     }
 
     @Test(expected = NoParameterConverterFoundException.class)
-    public void noParameterConverterFoundExceptionTest(){
+    public void noParameterConverterFoundExceptionTest() {
         MethodMatcher methodMatcher = new MethodMatcher(Arrays.<Object>asList(new Steps()));
         methodMatcher.findConverterFor(Test.class);
     }

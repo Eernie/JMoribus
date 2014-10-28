@@ -3,9 +3,9 @@ package nl.eernie.jmoribus.context;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DefaultContextProvider implements ContextProvider{
+public class DefaultContextProvider implements ContextProvider {
 
-    ThreadLocal<java.util.Map<String, String>> tlVariablesMap = new ThreadLocal<Map<String, String>>(){
+    ThreadLocal<java.util.Map<String, String>> tlVariablesMap = new ThreadLocal<Map<String, String>>() {
         @Override
         protected Map<String, String> initialValue() {
             return new HashMap<String, String>();

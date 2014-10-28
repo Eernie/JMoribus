@@ -56,7 +56,7 @@ public class ReferringTest {
         DefaultConfiguration configuration = new DefaultConfiguration();
         configuration.addSteps(Arrays.<Object>asList(new Steps()));
         JMoribus jMoribus = new JMoribus(configuration);
-        jMoribus.playAct(Arrays.asList(story));
+        jMoribus.runStories(Arrays.asList(story));
 
         Mockito.verify(referring, times(1)).getSteps();
     }
