@@ -75,7 +75,7 @@ public class ParserTest {
         parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
         fileInputStream = getClass().getResourceAsStream("/test2.story");
         parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
-        fileInputStream = getClass().getResourceAsStream("/referring.story");
+        fileInputStream = getClass().getResourceAsStream("/referring/referring.story");
         parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
 
         List<Story> stories = StoryParser.parseStories(parseableStories);
