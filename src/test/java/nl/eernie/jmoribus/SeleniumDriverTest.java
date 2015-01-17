@@ -10,9 +10,14 @@ import nl.eernie.jmoribus.reporter.Reporter;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class SeleniumDriverTest {
 
@@ -26,6 +31,7 @@ public class SeleniumDriverTest {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         Reporter reporter = Mockito.mock(DefaultReporter.class);
         defaultConfiguration.addReporter(reporter);
+        defaultConfiguration.setWebDriver(new WebdriverDummy());
         defaultConfiguration.addSteps(Arrays.<Object>asList(new SeleniumSteps()));
 
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
@@ -33,5 +39,72 @@ public class SeleniumDriverTest {
 
         Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<String>any());
         Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
+    }
+
+    class WebdriverDummy implements WebDriver{
+        @Override
+        public void get(String url) {
+
+        }
+
+        @Override
+        public String getCurrentUrl() {
+            return null;
+        }
+
+        @Override
+        public String getTitle() {
+            return null;
+        }
+
+        @Override
+        public List<WebElement> findElements(By by) {
+            return null;
+        }
+
+        @Override
+        public WebElement findElement(By by) {
+            return null;
+        }
+
+        @Override
+        public String getPageSource() {
+            return null;
+        }
+
+        @Override
+        public void close() {
+
+        }
+
+        @Override
+        public void quit() {
+
+        }
+
+        @Override
+        public Set<String> getWindowHandles() {
+            return null;
+        }
+
+        @Override
+        public String getWindowHandle() {
+            return null;
+        }
+
+        @Override
+        public TargetLocator switchTo() {
+            return null;
+        }
+
+        @Override
+        public Navigation navigate() {
+            return null;
+        }
+
+        @Override
+        public Options manage() {
+            return null;
+        }
     }
 }
