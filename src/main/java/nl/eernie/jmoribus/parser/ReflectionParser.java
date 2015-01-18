@@ -43,7 +43,8 @@ public final class ReflectionParser {
         Object object = argumentType.newInstance();
         for (int i = 0; i < header.size(); i++) {
             for (Method method : argumentType.getMethods()) {
-                if (method.getName().equalsIgnoreCase("set" + header.get(i))) {
+                String cleaned = header.get(i).replace("_","");
+                if (method.getName().equalsIgnoreCase("set" + header.get(i)) || method.getName().equalsIgnoreCase(cleaned)) {
                     Class<?> parameter = method.getParameterTypes()[0];
                     if (parameter.equals(String.class)) {
                         method.invoke(object, row.get(i));

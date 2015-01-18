@@ -9,8 +9,13 @@ import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.Reporter;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.internal.verification.Times;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,13 +63,17 @@ public class MultipleTablesPerStoryTest extends TestCase {
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter());
+        Reporter reporter = Mockito.mock(DefaultReporter.class);
+
+        defaultConfiguration.addReporter(reporter);
         ArrayList<Object> steps = new ArrayList<Object>();
 
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
         jMoribus.runStories(Arrays.asList(story));
 
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<String>any());
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
     }
 
     @Test
