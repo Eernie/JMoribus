@@ -40,6 +40,7 @@ public class OutputVariableTest {
         Scenario scenario = createScenario();
         Step step = new Step(StepType.WHEN);
         step.getStepLines().add(new Line("step b"));
+        step.setStepContainer(scenario);
 
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);
@@ -70,6 +71,7 @@ public class OutputVariableTest {
         Scenario scenario = createScenario();
         Step step = new Step(StepType.WHEN);
         step.getStepLines().add(new Line("step b"));
+        step.setStepContainer(scenario);
 
         scenario.getSteps().addAll(Arrays.asList(step));
         story.getScenarios().add(scenario);

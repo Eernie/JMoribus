@@ -39,6 +39,7 @@ public class RequiredVariablesTest {
         Story story = createStory();
         Scenario scenario = createScenario();
         Step step = new Step(StepType.GIVEN);
+        step.setStepContainer(scenario);
         step.getStepLines().add(new Line("step a"));
 
         scenario.getSteps().addAll(Arrays.asList(step));
@@ -69,6 +70,7 @@ public class RequiredVariablesTest {
         Story story = createStory();
         Scenario scenario = createScenario();
         Step step = new Step(StepType.GIVEN);
+        step.setStepContainer(scenario);
         step.getStepLines().add(new Line("step a"));
 
         scenario.getSteps().addAll(Arrays.asList(step));

@@ -46,11 +46,14 @@ public class ReferringTest {
         when(referring.getSteps()).thenReturn(steps);
 
         Scenario scenario = mock(Scenario.class);
+        when(scenario.getTitle()).thenReturn("Scenario Title");
+        when(step.getStepContainer()).thenReturn(scenario);
         List<Step> referrings = new ArrayList<>();
         referrings.add(referring);
         when(scenario.getSteps()).thenReturn(referrings);
 
         Story story = new Story();
+        story.setUniqueIdentifier("unique");
         story.getScenarios().add(scenario);
 
         DefaultConfiguration configuration = new DefaultConfiguration();

@@ -1,11 +1,16 @@
 package nl.eernie.jmoribus.reporter;
 
 import nl.eernie.jmoribus.model.*;
+import org.slf4j.MDC;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConcurrentReporter implements Reporter {
+
+    private static final String STORY = "story";
+    private static final String SCENARIO = "scenario";
+    private static final String STEP = "step";
 
     private List<Reporter> reporters = new ArrayList<>();
 
@@ -15,6 +20,7 @@ public class ConcurrentReporter implements Reporter {
 
     @Override
     public void beforeStory(Story story) {
+        MDC.put(STORY, story.getUniqueIdentifier());
         for (Reporter reporter : reporters) {
             reporter.beforeStory(story);
         }
@@ -22,6 +28,7 @@ public class ConcurrentReporter implements Reporter {
 
     @Override
     public void beforeScenario(Scenario scenario) {
+        MDC.put(SCENARIO, scenario.getTitle());
         for (Reporter reporter : reporters) {
             reporter.beforeScenario(scenario);
         }
@@ -29,6 +36,8 @@ public class ConcurrentReporter implements Reporter {
 
     @Override
     public void beforeStep(Step step) {
+        Integer index = step.getStepContainer().getSteps().indexOf(step) + 1;
+        MDC.put(STEP, index.toString());
         for (Reporter reporter : reporters) {
             reporter.beforeStep(step);
         }
@@ -53,6 +62,8 @@ public class ConcurrentReporter implements Reporter {
         for (Reporter reporter : reporters) {
             reporter.afterScenario(scenario);
         }
+        MDC.remove(STEP);
+        MDC.remove(SCENARIO);
     }
 
     @Override
@@ -60,6 +71,7 @@ public class ConcurrentReporter implements Reporter {
         for (Reporter reporter : reporters) {
             reporter.afterStory(story);
         }
+        MDC.remove(STORY);
     }
 
     @Override
