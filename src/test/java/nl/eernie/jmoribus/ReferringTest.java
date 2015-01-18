@@ -28,12 +28,60 @@ public class ReferringTest {
     @Test
     public void testParser() throws IOException {
 
-        InputStream fileInputStream = getClass().getResourceAsStream("/referring.story");
+        InputStream fileInputStream = getClass().getResourceAsStream("/referring/referring.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "referring.story");
 
         Story story = StoryParser.parseStory(parseableStory);
         Scenario scenario = story.getScenarios().get(1);
         Assert.assertTrue(scenario.getSteps().get(0) instanceof Scenario);
+        Assert.assertEquals(story.getScenarios().get(0), scenario.getSteps().get(0));
+    }
+
+    @Test
+     public void testMutlipleStoryParser(){
+        List<ParseableStory> parseableStories = new ArrayList<>(2);
+        InputStream story1Stream = getClass().getResourceAsStream("/referring/referring.story");
+        parseableStories.add(new ParseableStory(story1Stream, "referring.story"));
+
+        InputStream story2Stream = getClass().getResourceAsStream("/referring/referringBetweenStories.story");
+        parseableStories.add(new ParseableStory(story2Stream, "referring2.story"));
+        List<Story> stories = StoryParser.parseStories(parseableStories);
+
+        Assert.assertEquals(2, stories.size());
+        Story story1 = stories.get(0);
+        Assert.assertEquals(2, story1.getScenarios().size());
+        Scenario scenario1 = story1.getScenarios().get(0);
+        Scenario scenario2 = story1.getScenarios().get(1);
+        Assert.assertEquals(scenario1,scenario2.getSteps().get(0));
+
+        Story story2 = stories.get(1);
+        Assert.assertEquals(1,story2.getScenarios().size());
+        Assert.assertEquals(scenario2, story2.getScenarios().get(0).getSteps().get(0));
+    }
+
+    @Test
+    public void testMutlipleStoryOrderIndependent(){
+        List<ParseableStory> parseableStories = new ArrayList<>(2);
+        InputStream story1Stream = getClass().getResourceAsStream("/referring/referringBetweenStories.story");
+        parseableStories.add(new ParseableStory(story1Stream, "referring.story"));
+
+        InputStream story2Stream = getClass().getResourceAsStream("/referring/referring.story");
+        parseableStories.add(new ParseableStory(story2Stream, "referring2.story"));
+        List<Story> stories = StoryParser.parseStories(parseableStories);
+
+        Assert.assertEquals(2, stories.size());
+        
+        Story story1 = stories.get(0);
+        Assert.assertEquals(1,story1.getScenarios().size());
+
+        Story story2 = stories.get(1);
+        Assert.assertEquals(2, story2.getScenarios().size());
+        Scenario scenario1 = story2.getScenarios().get(0);
+        Scenario scenario2 = story2.getScenarios().get(1);
+        Assert.assertEquals(scenario1,scenario2.getSteps().get(0));
+
+        Assert.assertEquals(scenario2, story1.getScenarios().get(0).getSteps().get(0));
+
     }
 
     @Test
