@@ -1,82 +1,86 @@
 package nl.eernie.jmoribus.reporter;
 
 import nl.eernie.jmoribus.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultReporter implements Reporter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultReporter.class);
+
     @Override
     public void beforeStory(Story story) {
-        System.out.println("Before Story:   " + story.getTitle() + " - " + story.getUniqueIdentifier());
+        LOGGER.info("Before Story");
     }
 
     @Override
     public void beforeScenario(Scenario scenario) {
-        System.out.println("Before Scenario:" + scenario.getTitle());
+        LOGGER.info("Before Scenario");
     }
 
     @Override
     public void beforeStep(Step step) {
-        System.out.println("Before Step:    " + step.getCombinedStepLines() + " - " + step.getStepType());
+        LOGGER.info("Before Step: {}", step.getCombinedStepLines());
     }
 
     @Override
     public void successStep(Step step) {
-        System.out.println("Success Step:   " + step.getCombinedStepLines() + " - " + step.getStepType());
+        LOGGER.info("Success Step: {}", step.getCombinedStepLines());
     }
 
     @Override
     public void pendingStep(Step step) {
-        System.out.println("Pending Step:   " + step.getCombinedStepLines() + " - " + step.getStepType());
+        LOGGER.info("Pending Step: {}",step.getCombinedStepLines());
     }
 
     @Override
     public void afterScenario(Scenario scenario) {
-        System.out.println("After Scenario: " + scenario.getTitle());
+        LOGGER.info("After Scenario: {}", scenario.getTitle());
     }
 
     @Override
     public void afterStory(Story story) {
-        System.out.println("After Story:    " + story.getTitle() + " - " + story.getUniqueIdentifier());
+        LOGGER.info("After Story: {}", story.getTitle());
     }
 
     @Override
     public void failedStep(Step step, AssertionError e) {
-        System.out.println("Failed step:   " + step.getCombinedStepLines() + " Assertion error:" + e.getMessage());
+        LOGGER.error("Failed step: {}", step.getCombinedStepLines(), e);
     }
 
     @Override
     public void errorStep(Step step, Throwable e) {
-        System.out.println("Error in step: " + step.getCombinedStepLines() + "Exception :" + e.getMessage());
+        LOGGER.error("Error in step: {}",step.getCombinedStepLines(), e);
     }
 
     @Override
     public void errorStep(Step step, String cause) {
-        System.out.println("Error in step: " + step.getCombinedStepLines() + "Error :" + cause);
+        LOGGER.error("Error in step: {} Error: {}", step.getCombinedStepLines(), cause);
     }
 
     @Override
     public void feature(Feature feature) {
-        System.out.println("Feature: " + feature.toString());
+        LOGGER.info("Feature: {}", feature.toString());
     }
 
     @Override
     public void beforePrologue(Prologue prologue) {
-        System.out.println("Before Prologue.");
+        LOGGER.info("Before Prologue.");
     }
 
     @Override
     public void afterPrologue(Prologue prologue) {
-        System.out.println("After Prologue.");
+        LOGGER.info("After Prologue.");
     }
 
     @Override
     public void beforeReferringScenario(StepContainer stepContainer, Scenario scenario) {
-        System.out.println("before Referring scenario: " + scenario.getTitle());
+        LOGGER.info("before Referring scenario: " + scenario.getTitle());
     }
 
     @Override
     public void afterReferringScenario(StepContainer stepContainer, Scenario scenario) {
-        System.out.println("after Referring scenario: " + scenario.getTitle());
+        LOGGER.info("after Referring scenario: " + scenario.getTitle());
     }
 
 

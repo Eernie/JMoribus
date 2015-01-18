@@ -22,17 +22,19 @@ public class Runner {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
-        steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
         Story story = createStory();
         Scenario scenario = createScenario();
         Step step = new Step(StepType.WHEN);
+        step.setStepContainer(scenario);
         step.getStepLines().add(new Line("dddd Dit is een hele lange var more text"));
 
         Step step2 = new Step(StepType.THEN);
+        step2.setStepContainer(scenario);
         step2.getStepLines().add(new Line("dddd $testvar more text"));
 
         Step step3 = new Step(StepType.WHEN);
+        step3.setStepContainer(scenario);
         step3.getStepLines().add(new Line("bla bla bla 400"));
 
         scenario.getSteps().addAll(Arrays.asList(step, step2, step3));
