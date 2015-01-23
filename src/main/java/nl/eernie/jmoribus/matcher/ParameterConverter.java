@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 
 public class ParameterConverter {
 
-    private Method method;
-    private Object methodObject;
-    private Class<?> returnType;
+    private final Method method;
+    private final Object methodObject;
+    private final Class<?> returnType;
 
     public ParameterConverter(Method method, Object methodObject, Class<?> returnType) {
         this.method = method;

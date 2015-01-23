@@ -26,7 +26,7 @@ class StepParser {
     }
 
     public StepParser(String defaultPrefix) {
-        this(StepParser.DEFAULT_PREFIX, DEFAULT_CHARACTER_CLASS);
+        this(defaultPrefix, DEFAULT_CHARACTER_CLASS);
     }
 
     public StepParser(String prefix, String characterClass) {

@@ -1,7 +1,15 @@
 package nl.eernie.jmoribus;
 
 
-import nl.eernie.jmoribus.annotation.*;
+import nl.eernie.jmoribus.annotation.AfterScenario;
+import nl.eernie.jmoribus.annotation.AfterStory;
+import nl.eernie.jmoribus.annotation.BeforeScenario;
+import nl.eernie.jmoribus.annotation.BeforeStory;
+import nl.eernie.jmoribus.annotation.Category;
+import nl.eernie.jmoribus.annotation.Given;
+import nl.eernie.jmoribus.annotation.ParameterConverter;
+import nl.eernie.jmoribus.annotation.Then;
+import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.TestObject;
 import org.junit.Assert;

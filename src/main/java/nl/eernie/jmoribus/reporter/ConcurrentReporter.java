@@ -1,6 +1,11 @@
 package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.Prologue;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepContainer;
+import nl.eernie.jmoribus.model.Story;
 import org.slf4j.MDC;
 
 import java.util.ArrayList;

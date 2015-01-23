@@ -2,10 +2,23 @@ package nl.eernie.jmoribus.parser;
 
 import nl.eernie.jmoribus.GherkinsBaseListener;
 import nl.eernie.jmoribus.GherkinsParser;
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.Line;
+import nl.eernie.jmoribus.model.Prologue;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepContainer;
+import nl.eernie.jmoribus.model.StepType;
+import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.Table;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 class GherkinsListener extends GherkinsBaseListener {
 

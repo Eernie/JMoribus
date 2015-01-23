@@ -1,6 +1,11 @@
 package nl.eernie.jmoribus.reporter;
 
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Feature;
+import nl.eernie.jmoribus.model.Prologue;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepContainer;
+import nl.eernie.jmoribus.model.Story;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +35,7 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void pendingStep(Step step) {
-        LOGGER.info("Pending Step: {}",step.getCombinedStepLines());
+        LOGGER.info("Pending Step: {}", step.getCombinedStepLines());
     }
 
     @Override
@@ -50,7 +55,7 @@ public class DefaultReporter implements Reporter {
 
     @Override
     public void errorStep(Step step, Throwable e) {
-        LOGGER.error("Error in step: {}",step.getCombinedStepLines(), e);
+        LOGGER.error("Error in step: {}", step.getCombinedStepLines(), e);
     }
 
     @Override

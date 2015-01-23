@@ -1,6 +1,15 @@
 package nl.eernie.jmoribus.matcher;
 
-import nl.eernie.jmoribus.annotation.*;
+import nl.eernie.jmoribus.annotation.AfterScenario;
+import nl.eernie.jmoribus.annotation.AfterStory;
+import nl.eernie.jmoribus.annotation.BeforeScenario;
+import nl.eernie.jmoribus.annotation.BeforeStory;
+import nl.eernie.jmoribus.annotation.Category;
+import nl.eernie.jmoribus.annotation.Given;
+import nl.eernie.jmoribus.annotation.OutputVariables;
+import nl.eernie.jmoribus.annotation.RequiredVariables;
+import nl.eernie.jmoribus.annotation.Then;
+import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.exception.NoParameterConverterFoundException;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
@@ -13,7 +22,7 @@ import java.util.Map;
 
 public class MethodMatcher {
 
-    private List<Object> objects;
+    private final List<Object> objects;
 
     private List<PossibleStep> possibleSteps = new ArrayList<>();
 

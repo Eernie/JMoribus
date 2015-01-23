@@ -4,11 +4,11 @@ import nl.eernie.jmoribus.model.StepType;
 
 public class PossibleStepTO {
 
-    private String step;
-    private StepType stepType;
-    private String[] categories;
-    private String[] requiredVariables;
-    private String[] outputVariables;
+    private final String step;
+    private final StepType stepType;
+    private final String[] categories;
+    private final String[] requiredVariables;
+    private final String[] outputVariables;
 
     public PossibleStepTO(String step, StepType stepType, String[] categories, String[] requiredVariables, String[] outputVariables) {
         this.step = step;

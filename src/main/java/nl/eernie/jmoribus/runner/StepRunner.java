@@ -2,7 +2,11 @@ package nl.eernie.jmoribus.runner;
 
 
 import nl.eernie.jmoribus.configuration.Configuration;
-import nl.eernie.jmoribus.matcher.*;
+import nl.eernie.jmoribus.matcher.BeforeAfterMethod;
+import nl.eernie.jmoribus.matcher.BeforeAfterType;
+import nl.eernie.jmoribus.matcher.MethodMatcher;
+import nl.eernie.jmoribus.matcher.ParameterConverter;
+import nl.eernie.jmoribus.matcher.PossibleStep;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.Table;
@@ -17,8 +21,8 @@ import java.util.List;
 
 public class StepRunner {
 
-    private Configuration config;
-    private MethodMatcher methodMatcher;
+    private final Configuration config;
+    private final MethodMatcher methodMatcher;
 
     public StepRunner(MethodMatcher methodMatcher, Configuration config) {
         this.config = config;

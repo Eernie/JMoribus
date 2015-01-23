@@ -12,10 +12,8 @@ import nl.eernie.jmoribus.reporter.DefaultReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.io.InputStream;

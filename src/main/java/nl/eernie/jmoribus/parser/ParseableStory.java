@@ -4,8 +4,8 @@ import java.io.InputStream;
 
 public class ParseableStory {
 
-    private InputStream stream;
-    private String uniqueIdentifier;
+    private final InputStream stream;
+    private final String uniqueIdentifier;
 
     public ParseableStory(InputStream stream, String uniqueIdentifier) {
         this.stream = stream;

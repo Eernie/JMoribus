@@ -41,7 +41,7 @@ public class SeleniumDriverTest {
         Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
     }
 
-    class WebdriverDummy implements WebDriver{
+    class WebdriverDummy implements WebDriver {
         @Override
         public void get(String url) {
 

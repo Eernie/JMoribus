@@ -1,7 +1,11 @@
 package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
-import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.model.Line;
+import nl.eernie.jmoribus.model.Scenario;
+import nl.eernie.jmoribus.model.Step;
+import nl.eernie.jmoribus.model.StepType;
+import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
 import nl.eernie.jmoribus.reporter.DefaultReporter;

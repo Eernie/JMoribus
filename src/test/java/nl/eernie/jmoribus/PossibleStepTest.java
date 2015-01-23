@@ -24,7 +24,7 @@ public class PossibleStepTest {
         steps.add(new Object() {
             @Category({"User", "Login"})
             @When("aMethod")
-            @Then({"first title","a second title"})
+            @Then({"first title", "a second title"})
             public void aMethod() {
 
             }

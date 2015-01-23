@@ -6,14 +6,14 @@ import nl.eernie.jmoribus.model.StepType;
 import java.lang.reflect.Method;
 
 public class PossibleStep {
-    private String step;
-    private Method method;
-    private Object methodObject;
-    private StepType stepType;
+    private final String step;
+    private final Method method;
+    private final Object methodObject;
+    private final StepType stepType;
+    private final String[] categories;
+    private final String[] requiredVariables;
+    private final String[] outputVariables;
     private RegexStepMatcher regexStepMatcher;
-    private String[] categories;
-    private String[] requiredVariables;
-    private String[] outputVariables;
 
     public PossibleStep(String step, Method method, StepType stepType, Object object, String[] categories, String[] requiredVariables, String[] outputVariables) {
         this.step = step;

@@ -44,7 +44,7 @@ public class DefaultConfiguration implements Configuration {
         return webDriver;
     }
 
-    public void setWebDriver(WebDriver webDriver){
+    public void setWebDriver(WebDriver webDriver) {
         this.webDriver = webDriver;
     }
 
