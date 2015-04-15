@@ -8,7 +8,7 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.model.Table;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        Reporter reporter = Mockito.mock(DefaultReporter.class);
+        Reporter reporter = Mockito.mock(DefaultTestReporter.class);
 
         defaultConfiguration.addReporter(reporter);
         ArrayList<Object> steps = new ArrayList<Object>();

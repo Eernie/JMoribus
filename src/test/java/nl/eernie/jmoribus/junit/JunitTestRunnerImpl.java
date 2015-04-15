@@ -4,7 +4,7 @@ import nl.eernie.jmoribus.Steps;
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.parser.ParseableStory;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public class JunitTestRunnerImpl extends JunitTestRunner {
 
         Configuration config = new DefaultConfiguration();
         config.addSteps(Arrays.<Object>asList(new Steps()));
-        config.addReporter(new DefaultReporter());
+        config.addReporter(new DefaultTestReporter());
         return config;
     }
 

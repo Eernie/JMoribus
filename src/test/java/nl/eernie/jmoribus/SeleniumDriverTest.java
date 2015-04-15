@@ -5,7 +5,7 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -29,7 +29,7 @@ public class SeleniumDriverTest {
         Story story = StoryParser.parseStory(parseableStory);
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        Reporter reporter = Mockito.mock(DefaultReporter.class);
+        Reporter reporter = Mockito.mock(DefaultTestReporter.class);
         defaultConfiguration.addReporter(reporter);
         defaultConfiguration.setWebDriver(new WebdriverDummy());
         defaultConfiguration.addSteps(Arrays.<Object>asList(new SeleniumSteps()));

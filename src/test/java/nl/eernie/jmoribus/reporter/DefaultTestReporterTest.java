@@ -23,7 +23,8 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 
-public class DefaultReporterTest {
+public class DefaultTestReporterTest
+{
 
     @Test
     public void testAllHooks() throws IOException {
@@ -33,7 +34,7 @@ public class DefaultReporterTest {
         Story story = StoryParser.parseStory(parseableStory);
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        Reporter reporter = mock(DefaultReporter.class);
+        Reporter reporter = mock(DefaultTestReporter.class);
         defaultConfiguration.addReporter(reporter);
         ArrayList<Object> steps = new ArrayList<>();
         steps.add(new Steps());

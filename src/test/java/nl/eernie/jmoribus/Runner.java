@@ -8,7 +8,7 @@ import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class Runner {
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter());
+        defaultConfiguration.addReporter(new DefaultTestReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
         defaultConfiguration.addSteps(steps);
         Story story = createStory();
@@ -56,7 +56,7 @@ public class Runner {
 
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter());
+        defaultConfiguration.addReporter(new DefaultTestReporter());
         ArrayList<Object> steps = new ArrayList<Object>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);

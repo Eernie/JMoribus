@@ -6,7 +6,7 @@ import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
-import nl.eernie.jmoribus.reporter.DefaultReporter;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class RequiredVariablesTest {
     public void testRequiredVariableError() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter() {
+        defaultConfiguration.addReporter(new DefaultTestReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);
@@ -59,7 +59,7 @@ public class RequiredVariablesTest {
     public void testRequiredVariableSuccess() throws InvocationTargetException, IllegalAccessException {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        defaultConfiguration.addReporter(new DefaultReporter() {
+        defaultConfiguration.addReporter(new DefaultTestReporter() {
             @Override
             public void errorStep(final Step step, String cause) {
                 super.errorStep(step, cause);
