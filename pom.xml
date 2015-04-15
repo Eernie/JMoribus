@@ -37,6 +37,11 @@
             <version>2.43.1</version>
         </dependency>
         <dependency>
+            <groupId>org.apache.cxf.xjc-utils</groupId>
+            <artifactId>cxf-xjc-runtime</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.10</version>
@@ -135,6 +140,25 @@
                     <execution>
                         <goals>
                             <goal>antlr4</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <bindingFiles>serializable.xml</bindingFiles>
+                            <bindingFiles>dateBinding.xml</bindingFiles>
+                        </configuration>
+                        <goals>
+                            <goal>xjc</goal>
                         </goals>
                     </execution>
                 </executions>
