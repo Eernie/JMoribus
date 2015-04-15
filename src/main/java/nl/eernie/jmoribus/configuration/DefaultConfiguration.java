@@ -10,42 +10,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DefaultConfiguration implements Configuration {
-
+public class DefaultConfiguration implements Configuration
+{
     private ConcurrentReporter concurrentReporter = new ConcurrentReporter();
     private ContextProvider contextProvider = new DefaultContextProvider();
     private List<Object> steps = new ArrayList<>();
     private WebDriver webDriver = null;
 
-    public ConcurrentReporter getConcurrentReporter() {
+    public ConcurrentReporter getConcurrentReporter()
+    {
         return concurrentReporter;
     }
 
-    public void addReporter(Reporter reporter) {
+    public void addReporter(Reporter reporter)
+    {
         concurrentReporter.addReporter(reporter);
     }
 
     @Override
-    public List<Object> getSteps() {
+    public List<Object> getSteps()
+    {
         return steps;
     }
 
     @Override
-    public void addSteps(List<Object> steps) {
+    public void addSteps(List<Object> steps)
+    {
         this.steps.addAll(steps);
     }
 
-    public ContextProvider getContextProvider() {
+    public ContextProvider getContextProvider()
+    {
         return contextProvider;
     }
 
     @Override
-    public WebDriver getWebDriver() {
+    public WebDriver getWebDriver()
+    {
         return webDriver;
     }
 
-    public void setWebDriver(WebDriver webDriver) {
+    public void setWebDriver(WebDriver webDriver)
+    {
         this.webDriver = webDriver;
     }
-
 }

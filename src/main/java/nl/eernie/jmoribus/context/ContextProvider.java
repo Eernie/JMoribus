@@ -1,6 +1,7 @@
 package nl.eernie.jmoribus.context;
 
-public interface ContextProvider {
+public interface ContextProvider
+{
 
     String get(String variableName);
 

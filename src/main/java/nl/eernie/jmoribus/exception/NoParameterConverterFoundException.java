@@ -1,4 +1,5 @@
 package nl.eernie.jmoribus.exception;
 
-public class NoParameterConverterFoundException extends RuntimeException {
+public class NoParameterConverterFoundException extends RuntimeException
+{
 }

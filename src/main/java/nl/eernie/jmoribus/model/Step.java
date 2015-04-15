@@ -5,46 +5,58 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Step {
-
+public class Step
+{
     private StepType stepType;
     private List<StepLine> stepLines = new ArrayList<>();
     private StepContainer stepContainer;
 
-    public Step(StepType stepType) {
+    public Step(StepType stepType)
+    {
         this.stepType = stepType;
     }
 
-    public StepType getStepType() {
+    public StepType getStepType()
+    {
         return stepType;
     }
 
-    public StepLine getFirstStepLine() {
+    public StepLine getFirstStepLine()
+    {
         return stepLines.get(0);
     }
 
-    public List<StepLine> getStepLines() {
+    public List<StepLine> getStepLines()
+    {
         return stepLines;
     }
 
-    public StepContainer getStepContainer() {
+    public StepContainer getStepContainer()
+    {
         return stepContainer;
     }
 
-    public void setStepContainer(StepContainer stepContainer) {
+    public void setStepContainer(StepContainer stepContainer)
+    {
         this.stepContainer = stepContainer;
     }
 
-    public String getCombinedStepLines() {
+    public String getCombinedStepLines()
+    {
         StringBuilder builder = new StringBuilder();
-        for (StepLine stepLine : stepLines) {
-            if (StringUtils.isNotBlank(builder.toString())) {
+        for (StepLine stepLine : stepLines)
+        {
+            if (StringUtils.isNotBlank(builder.toString()))
+            {
                 builder.append(" ");
             }
-            if (stepLine instanceof Table) {
+            if (stepLine instanceof Table)
+            {
                 int index = stepLines.indexOf(stepLine);
                 builder.append("TABLE").append(index);
-            } else {
+            }
+            else
+            {
                 builder.append(stepLine.getText());
             }
         }

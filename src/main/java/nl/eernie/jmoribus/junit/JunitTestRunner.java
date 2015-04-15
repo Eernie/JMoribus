@@ -9,13 +9,14 @@ import nl.eernie.jmoribus.parser.StoryParser;
 
 import java.util.List;
 
-public abstract class JunitTestRunner {
-
+public abstract class JunitTestRunner
+{
     private List<Story> stories = StoryParser.parseStories(createParseAbleStories());
 
     private Configuration configuration = createConfiguration();
 
-    public void runStories() {
+    public void runStories()
+    {
         JMoribus jMoribus = new JMoribus(configuration);
         jMoribus.runStories(stories);
     }
@@ -24,11 +25,13 @@ public abstract class JunitTestRunner {
 
     protected abstract List<ParseableStory> createParseAbleStories();
 
-    public List<Story> getStories() {
+    public List<Story> getStories()
+    {
         return stories;
     }
 
-    public Configuration getConfiguration() {
+    public Configuration getConfiguration()
+    {
         return configuration;
     }
 }

@@ -2,7 +2,8 @@ package nl.eernie.jmoribus.to;
 
 import nl.eernie.jmoribus.model.StepType;
 
-public class PossibleStepTO {
+public class PossibleStepTO
+{
 
     private final String step;
     private final StepType stepType;
@@ -10,7 +11,8 @@ public class PossibleStepTO {
     private final String[] requiredVariables;
     private final String[] outputVariables;
 
-    public PossibleStepTO(String step, StepType stepType, String[] categories, String[] requiredVariables, String[] outputVariables) {
+    public PossibleStepTO(String step, StepType stepType, String[] categories, String[] requiredVariables, String[] outputVariables)
+    {
         this.step = step;
         this.stepType = stepType;
         this.categories = categories;
@@ -18,23 +20,28 @@ public class PossibleStepTO {
         this.outputVariables = outputVariables;
     }
 
-    public String getStep() {
+    public String getStep()
+    {
         return step;
     }
 
-    public StepType getStepType() {
+    public StepType getStepType()
+    {
         return stepType;
     }
 
-    public String[] getCategories() {
+    public String[] getCategories()
+    {
         return categories;
     }
 
-    public String[] getRequiredVariables() {
+    public String[] getRequiredVariables()
+    {
         return requiredVariables;
     }
 
-    public String[] getOutputVariables() {
+    public String[] getOutputVariables()
+    {
         return outputVariables;
     }
 }

@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
-public interface Configuration {
-
+public interface Configuration
+{
     ConcurrentReporter getConcurrentReporter();
 
     void addReporter(Reporter reporter);

@@ -7,8 +7,8 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
 
-public interface Reporter {
-
+public interface Reporter
+{
     void beforeStory(Story story);
 
     void beforeScenario(Scenario scenario);

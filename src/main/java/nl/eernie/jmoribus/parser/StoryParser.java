@@ -18,23 +18,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class StoryParser {
-
-    private StoryParser() {
+public final class StoryParser
+{
+    private StoryParser()
+    {
     }
 
-    public static List<Story> parseStories(List<ParseableStory> parseableStories) {
+    public static List<Story> parseStories(List<ParseableStory> parseableStories)
+    {
         Map<String, Scenario> knownScenarios = new HashMap<>();
         List<Story> stories = new ArrayList<>();
         Set<ReferringScenario> referringScenarios = new HashSet<>();
-        for (ParseableStory parseableStory : parseableStories) {
+        for (ParseableStory parseableStory : parseableStories)
+        {
             stories.add(parseStory(parseableStory, knownScenarios, referringScenarios));
         }
         replaceReferringScenarios(referringScenarios, knownScenarios);
         return stories;
     }
 
-    public static Story parseStory(ParseableStory parseableStory) {
+    public static Story parseStory(ParseableStory parseableStory)
+    {
         Map<String, Scenario> knownScenarios = new HashMap<>();
         Set<ReferringScenario> referringScenarios = new HashSet<>();
         Story story = parseStory(parseableStory, knownScenarios, referringScenarios);
@@ -42,12 +46,16 @@ public final class StoryParser {
         return story;
     }
 
-    private static Story parseStory(ParseableStory parseableStory, Map<String, Scenario> knownScenarios, Set<ReferringScenario> referringScenarios) {
+    private static Story parseStory(ParseableStory parseableStory, Map<String, Scenario> knownScenarios, Set<ReferringScenario> referringScenarios)
+    {
 
         GherkinsLexer lexer;
-        try {
+        try
+        {
             lexer = new GherkinsLexer(new ANTLRInputStream(parseableStory.getStream()));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new UnableToParseStoryException("Story " + parseableStory.getUniqueIdentifier() + " is not parsable", e);
         }
 
@@ -65,14 +73,19 @@ public final class StoryParser {
         return story;
     }
 
-    private static void replaceReferringScenarios(Set<ReferringScenario> referringScenarios, Map<String, Scenario> knownScenarios) {
-        for (ReferringScenario referringScenario : referringScenarios) {
-            if (knownScenarios.containsKey(referringScenario.getTitle())) {
+    private static void replaceReferringScenarios(Set<ReferringScenario> referringScenarios, Map<String, Scenario> knownScenarios)
+    {
+        for (ReferringScenario referringScenario : referringScenarios)
+        {
+            if (knownScenarios.containsKey(referringScenario.getTitle()))
+            {
                 Scenario scenario = knownScenarios.get(referringScenario.getTitle());
                 StepContainer stepContainer = referringScenario.getStepContainer();
                 List<Step> steps = stepContainer.getSteps();
                 steps.set(steps.indexOf(referringScenario), scenario);
-            } else {
+            }
+            else
+            {
                 throw new IllegalArgumentException("Unknown scenario with title " + referringScenario.getTitle());
             }
         }
