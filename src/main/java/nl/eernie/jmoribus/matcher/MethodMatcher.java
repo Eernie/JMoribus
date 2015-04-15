@@ -41,7 +41,7 @@ public class MethodMatcher
         {
             for (Method method : object.getClass().getMethods())
             {
-                createPossibleStep(method, object);
+                findUsableMethods(method, object);
                 createParameterConverter(method, object);
                 createBeforeAfterMethods(method, object);
             }
@@ -96,7 +96,7 @@ public class MethodMatcher
         }
     }
 
-    private void createPossibleStep(Method method, Object object)
+    private void findUsableMethods(Method method, Object object)
     {
         String[] categories = null;
         if (method.isAnnotationPresent(Category.class))
