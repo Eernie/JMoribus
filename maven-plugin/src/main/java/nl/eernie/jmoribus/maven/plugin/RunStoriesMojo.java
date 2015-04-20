@@ -22,6 +22,7 @@ public class RunStoriesMojo extends AbstractMojo
     String outputDirectory;
 
     @Parameter(required = true, defaultValue = "${project.compileClasspathElements}")
+
     List<String> compileClasspathElements;
 
     @Parameter(required = true)
@@ -36,8 +37,15 @@ public class RunStoriesMojo extends AbstractMojo
             if (JunitTestRunner.class.isAssignableFrom(runClass))
             {
                 JunitTestRunner testRunner = (JunitTestRunner) runClass.newInstance();
+                getLog().debug("Using directory " + outputDirectory);
                 testRunner.getConfiguration().addReporter(new JunitReporter(outputDirectory));
                 testRunner.runStories();
+            }
+            else
+            {
+                String message = "class " + runClass + "is not an instance of " + JunitTestRunner.class;
+                getLog().error(message);
+                throw new IllegalArgumentException(message);
             }
         }
         catch (MalformedURLException e)

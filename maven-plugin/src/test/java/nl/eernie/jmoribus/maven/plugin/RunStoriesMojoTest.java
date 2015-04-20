@@ -2,14 +2,11 @@ package nl.eernie.jmoribus.maven.plugin;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.junit.Assert;
-import org.junit.Test;
 
 import java.io.File;
 
 public class RunStoriesMojoTest extends AbstractMojoTestCase
 {
-
-    @Test
     public void testInvalidProject() throws Exception
     {
         File pom = getTestFile("src/test/resources/pom.xml");
@@ -19,6 +16,7 @@ public class RunStoriesMojoTest extends AbstractMojoTestCase
         RunStoriesMojo mojo = (RunStoriesMojo) lookupMojo("run-stories", pom);
         Assert.assertNotNull(mojo);
         mojo.execute();
+
         Assert.assertTrue(new File("target/jmoribus/TEST-MultiScenarioTitle.xml").exists());
         Assert.assertTrue(new File("target/jmoribus/TEST-second title.xml").exists());
         Assert.assertTrue(new File("target/jmoribus/TEST-testTitle.xml").exists());
