@@ -29,6 +29,7 @@ public class Runner {
         defaultConfiguration.addSteps(steps);
         Story story = createStory();
         Scenario scenario = createScenario();
+        scenario.setStory(story);
         Step step = new Step(StepType.WHEN);
         step.setStepContainer(scenario);
         step.getStepLines().add(new Line("dddd Dit is een hele lange var more text"));
