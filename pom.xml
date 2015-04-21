@@ -200,6 +200,18 @@
                     <configuration>
                         <format>xml</format>
                         <maxmem>256m</maxmem>
+                        <instrumentation>
+                            <instrumentation>
+                                <ignores>
+                                    <ignore>org.junit.report.*</ignore>
+                                    <ignore>w3._2001.xmlschema.*</ignore>
+                                    <ignore>nl.eernie.jmoribus.GherkinsBaseListener</ignore>
+                                    <ignore>nl.eernie.jmoribus.GherkinsLexer</ignore>
+                                    <ignore>nl.eernie.jmoribus.GherkinsListener</ignore>
+                                    <ignore>nl.eernie.jmoribus.GherkinsParser</ignore>
+                                </ignores>
+                            </instrumentation>
+                        </instrumentation>
                     </configuration>
                 </plugin>
                 <plugin>
