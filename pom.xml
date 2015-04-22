@@ -196,21 +196,19 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.7</version>
                     <configuration>
                         <format>xml</format>
                         <maxmem>256m</maxmem>
                         <instrumentation>
-                            <instrumentation>
-                                <ignores>
-                                    <ignore>org.junit.report.*</ignore>
-                                    <ignore>w3._2001.xmlschema.*</ignore>
-                                    <ignore>nl.eernie.jmoribus.GherkinsBaseListener</ignore>
-                                    <ignore>nl.eernie.jmoribus.GherkinsLexer</ignore>
-                                    <ignore>nl.eernie.jmoribus.GherkinsListener</ignore>
-                                    <ignore>nl.eernie.jmoribus.GherkinsParser</ignore>
-                                </ignores>
-                            </instrumentation>
+                            <ignores>
+                                <ignore>org.junit.report.*</ignore>
+                                <ignore>w3._2001.xmlschema.*</ignore>
+                                <ignore>nl.eernie.jmoribus.GherkinsBaseListener</ignore>
+                                <ignore>nl.eernie.jmoribus.GherkinsLexer</ignore>
+                                <ignore>nl.eernie.jmoribus.GherkinsListener</ignore>
+                                <ignore>nl.eernie.jmoribus.GherkinsParser</ignore>
+                            </ignores>
                         </instrumentation>
                     </configuration>
                 </plugin>
