@@ -204,10 +204,7 @@
                             <ignores>
                                 <ignore>org.junit.report.*</ignore>
                                 <ignore>w3._2001.xmlschema.*</ignore>
-                                <ignore>nl.eernie.jmoribus.GherkinsBaseListener</ignore>
-                                <ignore>nl.eernie.jmoribus.GherkinsLexer</ignore>
-                                <ignore>nl.eernie.jmoribus.GherkinsListener</ignore>
-                                <ignore>nl.eernie.jmoribus.GherkinsParser</ignore>
+                                <ignore>nl.eernie.jmoribus.Gherkins*</ignore>
                             </ignores>
                         </instrumentation>
                     </configuration>
