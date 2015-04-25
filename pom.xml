@@ -200,13 +200,6 @@
                     <configuration>
                         <format>xml</format>
                         <maxmem>256m</maxmem>
-                        <instrumentation>
-                            <ignores>
-                                <ignore>org.junit.report.*</ignore>
-                                <ignore>w3._2001.xmlschema.*</ignore>
-                                <ignore>nl.eernie.jmoribus.Gherkins*</ignore>
-                            </ignores>
-                        </instrumentation>
                     </configuration>
                 </plugin>
                 <plugin>

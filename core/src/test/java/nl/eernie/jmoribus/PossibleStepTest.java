@@ -6,6 +6,7 @@ import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.reporter.DefaultTestReporter;
+import nl.eernie.jmoribus.reporter.JunitReporter;
 import nl.eernie.jmoribus.to.PossibleStepTO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class PossibleStepTest {
     @Test
     public void testPossibleSteps() {
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        defaultConfiguration.addReporter(new DefaultTestReporter());
+        defaultConfiguration.addReporter(new JunitReporter("target"));
         ArrayList<Object> steps = new ArrayList<Object>();
 
         steps.add(new Object() {

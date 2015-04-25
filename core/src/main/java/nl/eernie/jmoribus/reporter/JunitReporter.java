@@ -96,8 +96,7 @@ public class JunitReporter implements Reporter
 
     private void writeToFile()
     {
-        String fileName = testsuite.getName().replace('/', '_');
-        fileName = fileName.replace('\\', '_');
+        String fileName = testsuite.getName().replace('/', '_').replace('\\', '_');
         String path = outputDirectory + File.separator + "jmoribus" + File.separator + "TEST-" + fileName + ".xml";
 
         File output = new File(path);
