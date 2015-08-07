@@ -132,23 +132,12 @@ public class JunitReporter implements Reporter
     }
 
     @Override
-    public void errorStep(Step step, Throwable e)
+    public void errorStep(Step step, Exception e)
     {
         Testcase.Error error = new Testcase.Error();
         error.setMessage(e.getMessage());
         error.setValue(ExceptionUtils.getStackTrace(e));
         error.setType(e.getClass().getCanonicalName());
-        testcase.setError(error);
-        testsuite.setErrors(testsuite.getErrors() + 1);
-    }
-
-    @Override
-    public void errorStep(Step step, String cause)
-    {
-        Testcase.Error error = new Testcase.Error();
-        error.setMessage(cause);
-        error.setValue(cause);
-        error.setType("UNKOWN");
         testcase.setError(error);
         testsuite.setErrors(testsuite.getErrors() + 1);
     }

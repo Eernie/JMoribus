@@ -37,8 +37,7 @@ public class SeleniumDriverTest {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         jMoribus.runStories(Arrays.asList(story));
 
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<String>any());
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Exception>any());
     }
 
     class WebdriverDummy implements WebDriver {

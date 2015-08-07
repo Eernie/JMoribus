@@ -17,9 +17,9 @@ import java.util.Arrays;
 public class OutputVariableTest {
 
     Step lastReportedErrorStep = null;
-    String lastReportedError = null;
+    Exception lastReportedError = null;
 
-    private void setLastReportedError(Step errorStep, String error) {
+    private void setLastReportedError(Step errorStep, Exception error) {
         this.lastReportedError = error;
         this.lastReportedErrorStep = errorStep;
     }
@@ -30,7 +30,7 @@ public class OutputVariableTest {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultTestReporter() {
             @Override
-            public void errorStep(final Step step, String cause) {
+            public void errorStep(final Step step, Exception cause) {
                 super.errorStep(step, cause);
                 setLastReportedError(step, cause);
             }
@@ -52,7 +52,7 @@ public class OutputVariableTest {
         jMoribus.runStories(Arrays.asList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
-        Assert.assertEquals("Missing output variables: [outputVariableA]", lastReportedError);
+        Assert.assertEquals("Missing variables: [outputVariableA]", lastReportedError.getMessage());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class OutputVariableTest {
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new DefaultTestReporter() {
             @Override
-            public void errorStep(final Step step, String cause) {
+            public void errorStep(final Step step, Exception cause) {
                 super.errorStep(step, cause);
                 setLastReportedError(step, cause);
             }

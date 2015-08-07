@@ -25,9 +25,7 @@ public interface Reporter
 
     void failedStep(Step step, AssertionError e);
 
-    void errorStep(Step step, Throwable e);
-
-    void errorStep(Step step, String cause);
+    void errorStep(Step step, Exception e);
 
     void feature(Feature feature);
 

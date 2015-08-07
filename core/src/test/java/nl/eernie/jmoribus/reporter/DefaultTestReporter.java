@@ -62,15 +62,9 @@ public class DefaultTestReporter implements Reporter
     }
 
     @Override
-    public void errorStep(Step step, Throwable e)
+    public void errorStep(Step step, Exception e)
     {
         LOGGER.error("Error in step: {}", step.getCombinedStepLines(), e);
-    }
-
-    @Override
-    public void errorStep(Step step, String cause)
-    {
-        LOGGER.error("Error in step: {} Error: {}", step.getCombinedStepLines(), cause);
     }
 
     @Override

@@ -104,20 +104,11 @@ public class ConcurrentReporter implements Reporter
     }
 
     @Override
-    public void errorStep(Step step, Throwable e)
+    public void errorStep(Step step, Exception e)
     {
         for (Reporter reporter : reporters)
         {
             reporter.errorStep(step, e);
-        }
-    }
-
-    @Override
-    public void errorStep(Step step, String cause)
-    {
-        for (Reporter reporter : reporters)
-        {
-            reporter.errorStep(step, cause);
         }
     }
 

@@ -70,8 +70,7 @@ public class MultipleTablesPerStoryTest extends TestCase {
         defaultConfiguration.addSteps(steps);
         jMoribus.runStories(Arrays.asList(story));
 
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<String>any());
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Throwable>any());
+        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Exception>any());
     }
 
     @Test

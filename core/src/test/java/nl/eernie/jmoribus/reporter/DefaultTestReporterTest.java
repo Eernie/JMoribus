@@ -51,7 +51,7 @@ public class DefaultTestReporterTest
         verify(reporter, atLeast(1)).feature(any(Feature.class));
         verify(reporter, atLeast(1)).beforeStep(any(Step.class));
         verify(reporter, atLeast(1)).failedStep(any(Step.class), any(AssertionError.class));
-        verify(reporter, atLeast(1)).errorStep(any(Step.class), any(Throwable.class));
+        verify(reporter, atLeast(1)).errorStep(any(Step.class), any(Exception.class));
         verify(reporter, atLeast(1)).successStep(any(Step.class));
     }
 }

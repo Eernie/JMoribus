@@ -7,6 +7,7 @@ import nl.eernie.jmoribus.matcher.BeforeAfterType;
 import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.ParameterConverter;
 import nl.eernie.jmoribus.matcher.PossibleStep;
+import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.Table;
@@ -30,7 +31,7 @@ public class StepRunner
         this.methodMatcher = methodMatcher;
     }
 
-    public void run(PossibleStep matchedStep, Step step) throws Throwable
+    public void run(PossibleStep matchedStep, Step step) throws Exception
     {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
         Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
@@ -41,11 +42,6 @@ public class StepRunner
     {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
-        int extraValues = ArrayUtils.contains(parameterTypes, WebDriver.class) ? 1 : 0;
-        if (parameterValues.size() + extraValues != parameterTypes.length)
-        {
-            throw new RuntimeException("Velden en waarden komen niet overeen"); //TODO: refactor me
-        }
         Iterator<String> values = parameterValues.iterator();
         for (int i = 0; i < parameterTypes.length; i++)
         {
@@ -59,6 +55,7 @@ public class StepRunner
                 String parameterValue = values.next();
                 if (parameterType.equals(String.class))
                 {
+                    String parameter = checkForExamplesTable(step, parameterValue);
                     parameters[i] = parameterValue;
                 }
                 else if (parameterType.equals(Table.class))
@@ -80,6 +77,13 @@ public class StepRunner
             }
         }
         return parameters;
+    }
+
+    private String checkForExamplesTable(Step step, String parameterValue) {
+        if(step.getStepContainer() instanceof Scenario){
+
+        }
+        return null;
     }
 
     private StepLine getTable(Step step, String parameterValue)

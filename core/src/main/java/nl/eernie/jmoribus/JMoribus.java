@@ -3,6 +3,7 @@ package nl.eernie.jmoribus;
 
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.converter.PossibleStepsConverter;
+import nl.eernie.jmoribus.exception.MissingVariablesException;
 import nl.eernie.jmoribus.matcher.BeforeAfterType;
 import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.PossibleStep;
@@ -21,6 +22,7 @@ import java.util.List;
 public class JMoribus
 {
     private Configuration config;
+    private StepRunner stepRunner;
 
     public JMoribus(Configuration config)
     {
@@ -37,7 +39,7 @@ public class JMoribus
     public void runStories(List<Story> stories)
     {
         MethodMatcher methodMather = createMethodMatcher();
-        StepRunner stepRunner = new StepRunner(methodMather, config);
+        this.stepRunner = new StepRunner(methodMather, config);
 
         Reporter reporter = config.getConcurrentReporter();
 
@@ -52,14 +54,14 @@ public class JMoribus
             if (story.getPrologue() != null)
             {
                 reporter.beforePrologue(story.getPrologue());
-                runStepContainer(methodMather, stepRunner, reporter, story.getPrologue());
+                runStepContainer(methodMather, reporter, story.getPrologue());
                 reporter.afterPrologue(story.getPrologue());
             }
             for (Scenario scenario : story.getScenarios())
             {
                 reporter.beforeScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
-                runStepContainer(methodMather, stepRunner, reporter, scenario);
+                runStepContainer(methodMather, reporter, scenario);
                 reporter.afterScenario(scenario);
                 stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
             }
@@ -74,7 +76,7 @@ public class JMoribus
         return new MethodMatcher(objects);
     }
 
-    private void runStepContainer(MethodMatcher methodMather, StepRunner stepRunner, Reporter reporter, StepContainer stepContainer)
+    private void runStepContainer(MethodMatcher methodMather, Reporter reporter, StepContainer stepContainer)
     {
         if (stepContainer == null)
         {
@@ -85,54 +87,34 @@ public class JMoribus
         {
             if (step instanceof Scenario)
             {
-                Scenario referringScenario = (Scenario) step;
-                reporter.beforeReferringScenario(stepContainer, referringScenario);
-                runStepContainer(methodMather, stepRunner, reporter, referringScenario);
-                reporter.afterReferringScenario(stepContainer, referringScenario);
+                runReferring(methodMather, reporter, stepContainer, (Scenario) step);
                 continue;
             }
             reporter.beforeStep(step);
             PossibleStep matchedStep = methodMather.findMatchedStep(step);
             if (matchedStep != null)
             {
-                List<String> missingRequiredVariables = checkMissingVariables(matchedStep.getRequiredVariables());
-                if (missingRequiredVariables.isEmpty())
+                try
                 {
-                    try
-                    {
-                        stepRunner.run(matchedStep, step);
-
-                        List<String> missingOutputVariables = checkMissingVariables(matchedStep.getOutputVariables());
-                        if (missingOutputVariables.isEmpty())
-                        {
-                            reporter.successStep(step);
-                        }
-                        else
-                        {
-                            String error = "Missing output variables: " + missingOutputVariables;
-                            reporter.errorStep(step, error);
-                        }
-                    }
-                    catch (AssertionError e)
-                    {
-                        reporter.failedStep(step, e);
-                    }
-                    catch (Throwable e)
-                    {
-                        if (e.getCause() instanceof AssertionError)
-                        {
-                            reporter.failedStep(step, (AssertionError) e.getCause());
-                        }
-                        else
-                        {
-                            reporter.errorStep(step, e);
-                        }
-                    }
+                    checkMissingVariables(matchedStep.getRequiredVariables());
+                    stepRunner.run(matchedStep, step);
+                    checkMissingVariables(matchedStep.getOutputVariables());
+                    reporter.successStep(step);
                 }
-                else
+                catch (AssertionError e)
                 {
-                    String error = "Missing required variables: " + missingRequiredVariables;
-                    reporter.errorStep(step, error);
+                    reporter.failedStep(step, e);
+                }
+                catch (Exception e)
+                {
+                    if (e.getCause() instanceof AssertionError)
+                    {
+                        reporter.failedStep(step, (AssertionError) e.getCause());
+                    }
+                    else
+                    {
+                        reporter.errorStep(step, e);
+                    }
                 }
             }
             else
@@ -142,7 +124,14 @@ public class JMoribus
         }
     }
 
-    private List<String> checkMissingVariables(String[] variablesToCheck)
+    private void runReferring(MethodMatcher methodMather, Reporter reporter, StepContainer stepContainer, Scenario referringScenario)
+    {
+        reporter.beforeReferringScenario(stepContainer, referringScenario);
+        runStepContainer(methodMather, reporter, referringScenario);
+        reporter.afterReferringScenario(stepContainer, referringScenario);
+    }
+
+    private void checkMissingVariables(String[] variablesToCheck) throws MissingVariablesException
     {
         List<String> missingRequiredVariables = new ArrayList<>();
         if (variablesToCheck != null)
@@ -157,7 +146,10 @@ public class JMoribus
                 }
             }
         }
-        return missingRequiredVariables;
+        if(!missingRequiredVariables.isEmpty())
+        {
+            throw new MissingVariablesException(missingRequiredVariables);
+        }
     }
 }
 
