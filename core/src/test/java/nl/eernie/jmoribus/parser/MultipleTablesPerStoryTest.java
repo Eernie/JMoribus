@@ -1,6 +1,11 @@
 package nl.eernie.jmoribus.parser;
 
-import junit.framework.TestCase;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.Steps;
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
@@ -10,21 +15,17 @@ import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.reporter.DefaultTestReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.Times;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class MultipleTablesPerStoryTest extends TestCase {
-
+public class MultipleTablesPerStoryTest
+{
     @Test
-    public void testMultipleTablesPerStep() throws IOException {
+    public void testMultipleTablesPerStep() throws IOException
+    {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
@@ -54,7 +55,8 @@ public class MultipleTablesPerStoryTest extends TestCase {
     }
 
     @Test
-    public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException {
+    public void testMultipleTablesPerStepRun() throws IOException, InvocationTargetException, IllegalAccessException
+    {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithMultipleTablesPerStep.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithMultipleTablesPerStep.story");
         Story story = StoryParser.parseStory(parseableStory);
@@ -64,22 +66,22 @@ public class MultipleTablesPerStoryTest extends TestCase {
         Reporter reporter = Mockito.mock(DefaultTestReporter.class);
 
         defaultConfiguration.addReporter(reporter);
-        ArrayList<Object> steps = new ArrayList<Object>();
+        ArrayList<Object> steps = new ArrayList<>();
 
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.runStories(Arrays.asList(story));
+        jMoribus.runStories(Collections.singletonList(story));
 
         Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Exception>any());
     }
 
     @Test
-    public void testParametrizedStory() throws IOException {
+    public void testParametrizedStory() throws IOException
+    {
         InputStream fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "storyWithExampleTable.story");
         Story story = StoryParser.parseStory(parseableStory);
         Assert.assertEquals(story.getScenarios().size(), 2);
-        int numberOfSteps = story.getScenarios().get(0).getSteps().size();
         Assert.assertNotNull(story.getScenarios().get(0).getExamplesTable());
     }
 }

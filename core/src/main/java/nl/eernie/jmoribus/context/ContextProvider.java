@@ -1,5 +1,7 @@
 package nl.eernie.jmoribus.context;
 
+import java.util.Map;
+
 public interface ContextProvider
 {
 
@@ -8,4 +10,6 @@ public interface ContextProvider
     void set(String variableName, String value);
 
     boolean isVariableSet(String variableName);
+
+    void setCurrentExampleRow(Map<String, String> exampleRow);
 }

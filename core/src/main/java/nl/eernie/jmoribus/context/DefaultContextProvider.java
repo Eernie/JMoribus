@@ -31,4 +31,10 @@ public class DefaultContextProvider implements ContextProvider
     {
         return tlVariablesMap.get().containsKey(variableName);
     }
+
+    @Override
+    public void setCurrentExampleRow(Map<String, String> exampleRow)
+    {
+
+    }
 }

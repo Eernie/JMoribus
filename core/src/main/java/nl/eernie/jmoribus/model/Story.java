@@ -11,7 +11,6 @@ public class Story
     private List<Scenario> scenarios = new ArrayList<>();
     private String uniqueIdentifier;
 
-
     public String getTitle()
     {
         return title;

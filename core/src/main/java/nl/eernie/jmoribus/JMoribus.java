@@ -1,5 +1,10 @@
 package nl.eernie.jmoribus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.converter.PossibleStepsConverter;
@@ -11,13 +16,10 @@ import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
+import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.reporter.Reporter;
 import nl.eernie.jmoribus.runner.StepRunner;
 import nl.eernie.jmoribus.to.PossibleStepTO;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class JMoribus
 {
@@ -54,20 +56,32 @@ public class JMoribus
             if (story.getPrologue() != null)
             {
                 reporter.beforePrologue(story.getPrologue());
-                runStepContainer(methodMather, reporter, story.getPrologue());
+                runStepContainer(methodMather, story.getPrologue());
                 reporter.afterPrologue(story.getPrologue());
             }
             for (Scenario scenario : story.getScenarios())
             {
-                reporter.beforeScenario(scenario);
-                stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
-                runStepContainer(methodMather, reporter, scenario);
-                reporter.afterScenario(scenario);
-                stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
+                if (scenario.getExamplesTable() != null)
+                {
+                    runExamplesTable(methodMather, scenario);
+                }
+                else
+                {
+                    runScenario(methodMather, scenario);
+                }
             }
             reporter.afterStory(story);
             stepRunner.runBeforeAfter(BeforeAfterType.AFTER_STORY);
         }
+    }
+
+    private void runScenario(MethodMatcher methodMather, Scenario scenario)
+    {
+        config.getConcurrentReporter().beforeScenario(scenario);
+        stepRunner.runBeforeAfter(BeforeAfterType.BEFORE_SCENARIO);
+        runStepContainer(methodMather, scenario);
+        config.getConcurrentReporter().afterScenario(scenario);
+        stepRunner.runBeforeAfter(BeforeAfterType.AFTER_SCENARIO);
     }
 
     private MethodMatcher createMethodMatcher()
@@ -76,22 +90,23 @@ public class JMoribus
         return new MethodMatcher(objects);
     }
 
-    private void runStepContainer(MethodMatcher methodMather, Reporter reporter, StepContainer stepContainer)
+    private void runStepContainer(MethodMatcher methodMatcher, StepContainer stepContainer)
     {
         if (stepContainer == null)
         {
             return;
         }
 
+        Reporter reporter = config.getConcurrentReporter();
         for (Step step : stepContainer.getSteps())
         {
             if (step instanceof Scenario)
             {
-                runReferring(methodMather, reporter, stepContainer, (Scenario) step);
+                runReferring(methodMatcher, stepContainer, (Scenario) step);
                 continue;
             }
             reporter.beforeStep(step);
-            PossibleStep matchedStep = methodMather.findMatchedStep(step);
+            PossibleStep matchedStep = methodMatcher.findMatchedStep(step);
             if (matchedStep != null)
             {
                 try
@@ -124,11 +139,36 @@ public class JMoribus
         }
     }
 
-    private void runReferring(MethodMatcher methodMather, Reporter reporter, StepContainer stepContainer, Scenario referringScenario)
+    private void runExamplesTable(MethodMatcher methodMather, Scenario scenario)
     {
-        reporter.beforeReferringScenario(stepContainer, referringScenario);
-        runStepContainer(methodMather, reporter, referringScenario);
-        reporter.afterReferringScenario(stepContainer, referringScenario);
+        Table examplesTable = scenario.getExamplesTable();
+        config.getConcurrentReporter().beforeExamplesTable(scenario);
+        for (List<String> row : examplesTable.getRows())
+        {
+            Map<String, String> exampleRow = toExampleRow(examplesTable.getHeader(), row);
+            config.getConcurrentReporter().beforeExampleRow(scenario, exampleRow);
+            config.getContextProvider().setCurrentExampleRow(exampleRow);
+            runScenario(methodMather, scenario);
+            config.getConcurrentReporter().afterExampleRow(scenario, exampleRow);
+        }
+        config.getConcurrentReporter().afterExamplesTable(scenario);
+    }
+
+    private Map<String, String> toExampleRow(List<String> header, List<String> row)
+    {
+        Map<String, String> exampleRow = new HashMap<>(header.size());
+        for (int i = 0; i < header.size(); i++)
+        {
+            exampleRow.put(header.get(i), row.get(i));
+        }
+        return exampleRow;
+    }
+
+    private void runReferring(MethodMatcher methodMather, StepContainer stepContainer, Scenario referringScenario)
+    {
+        config.getConcurrentReporter().beforeReferringScenario(stepContainer, referringScenario);
+        runStepContainer(methodMather, referringScenario);
+        config.getConcurrentReporter().afterReferringScenario(stepContainer, referringScenario);
     }
 
     private void checkMissingVariables(String[] variablesToCheck) throws MissingVariablesException
@@ -146,7 +186,7 @@ public class JMoribus
                 }
             }
         }
-        if(!missingRequiredVariables.isEmpty())
+        if (!missingRequiredVariables.isEmpty())
         {
             throw new MissingVariablesException(missingRequiredVariables);
         }

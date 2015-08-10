@@ -1,11 +1,24 @@
 package nl.eernie.jmoribus.reporter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.report.ObjectFactory;
 import org.junit.report.Testsuite;
@@ -13,16 +26,6 @@ import org.junit.report.Testsuite.Testcase;
 import org.junit.report.Testsuite.Testcase.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class JunitReporter implements Reporter
 {
@@ -35,6 +38,7 @@ public class JunitReporter implements Reporter
     private Testcase testcase;
     private long startTimeTestCase;
     private final String outputDirectory;
+    private Map<String, String> exampleRow;
 
     public JunitReporter(String outputDirectory)
     {
@@ -57,7 +61,12 @@ public class JunitReporter implements Reporter
     {
         startTimeTestCase = System.currentTimeMillis();
         testcase = new Testcase();
-        testcase.setName(scenario.getTitle());
+        String title = scenario.getTitle();
+        if (exampleRow != null)
+        {
+            title = title + exampleRow;
+        }
+        testcase.setName(title);
         testcase.setClassname(scenario.getStory().getUniqueIdentifier());
         testsuite.getTestcase().add(testcase);
     }
@@ -80,14 +89,14 @@ public class JunitReporter implements Reporter
     @Override
     public void afterScenario(Scenario scenario)
     {
-        BigDecimal testCaseTookTime = BigDecimal.valueOf(System.currentTimeMillis() - startTimeTestCase).setScale(3,BigDecimal.ROUND_HALF_DOWN);
+        BigDecimal testCaseTookTime = BigDecimal.valueOf(System.currentTimeMillis() - startTimeTestCase).setScale(3, BigDecimal.ROUND_HALF_DOWN);
         testcase.setTime(testCaseTookTime.divide(THOUSAND, BigDecimal.ROUND_HALF_UP));
     }
 
     @Override
     public void afterStory(Story story)
     {
-        BigDecimal testSuiteTook = BigDecimal.valueOf(System.currentTimeMillis() - startTimeTestSuite).setScale(3, BigDecimal.ROUND_HALF_DOWN);;
+        BigDecimal testSuiteTook = BigDecimal.valueOf(System.currentTimeMillis() - startTimeTestSuite).setScale(3, BigDecimal.ROUND_HALF_DOWN);
         testsuite.setTime(testSuiteTook.divide(THOUSAND, BigDecimal.ROUND_HALF_UP));
         testsuite.setSystemErr("");
         testsuite.setSystemOut("");
@@ -166,5 +175,29 @@ public class JunitReporter implements Reporter
     @Override
     public void afterReferringScenario(StepContainer stepContainer, Scenario scenario)
     {
+    }
+
+    @Override
+    public void beforeExamplesTable(Scenario scenario)
+    {
+
+    }
+
+    @Override
+    public void beforeExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        this.exampleRow = exampleRow;
+    }
+
+    @Override
+    public void afterExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        this.exampleRow = null;
+    }
+
+    @Override
+    public void afterExamplesTable(Scenario scenario)
+    {
+
     }
 }
