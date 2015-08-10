@@ -33,7 +33,6 @@ public class Runner
     @Test
     public void main() throws InvocationTargetException, IllegalAccessException
     {
-
         DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
         JMoribus jMoribus = new JMoribus(defaultConfiguration);
         defaultConfiguration.addReporter(new JunitReporter("target"));
@@ -62,7 +61,6 @@ public class Runner
     @Test
     public void runStory() throws InvocationTargetException, IllegalAccessException, IOException
     {
-
         InputStream fileInputStream = getClass().getResourceAsStream("/test.story");
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "test.story");
 
@@ -85,11 +83,12 @@ public class Runner
         Story story = StoryParser.parseStory(parseableStory);
 
         Reporter reporter = mock(Reporter.class);
+        Steps steps = new Steps();
 
         Configuration configuration = new DefaultConfiguration();
         configuration.addReporter(new JunitReporter("target"));
         configuration.addReporter(reporter);
-        configuration.addSteps(Collections.<Object>singletonList(new Steps()));
+        configuration.addSteps(Collections.<Object>singletonList(steps));
         JMoribus jMoribus = new JMoribus(configuration);
         jMoribus.runStories(Collections.singletonList(story));
 

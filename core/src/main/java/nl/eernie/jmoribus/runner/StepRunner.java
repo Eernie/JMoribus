@@ -1,5 +1,11 @@
 package nl.eernie.jmoribus.runner;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.matcher.BeforeAfterMethod;
@@ -7,18 +13,12 @@ import nl.eernie.jmoribus.matcher.BeforeAfterType;
 import nl.eernie.jmoribus.matcher.MethodMatcher;
 import nl.eernie.jmoribus.matcher.ParameterConverter;
 import nl.eernie.jmoribus.matcher.PossibleStep;
-import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.ReflectionParser;
-import org.apache.commons.lang3.ArrayUtils;
-import org.openqa.selenium.WebDriver;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
+import org.openqa.selenium.WebDriver;
 
 public class StepRunner
 {
@@ -34,8 +34,30 @@ public class StepRunner
     public void run(PossibleStep matchedStep, Step step) throws Exception
     {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
+        if (config.getContextProvider().get().getCurrentExampleRow() != null)
+        {
+            parameterValues = replaceExampleTableValues(parameterValues);
+        }
         Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
         matchedStep.getMethod().invoke(matchedStep.getMethodObject(), parameters);
+    }
+
+    private List<String> replaceExampleTableValues(List<String> parameterValues)
+    {
+        Map<String, String> currentExampleRow = config.getContextProvider().get().getCurrentExampleRow();
+        List<String> newParameterValues = new ArrayList<>(parameterValues.size());
+        for (String parameterValue : parameterValues)
+        {
+            if (parameterValue.startsWith("<") && parameterValue.endsWith(">"))
+            {
+                newParameterValues.add(currentExampleRow.get(parameterValue.replace("<", "").replace(">", "")));
+            }
+            else
+            {
+                newParameterValues.add(parameterValue);
+            }
+        }
+        return newParameterValues;
     }
 
     private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException
@@ -55,7 +77,6 @@ public class StepRunner
                 String parameterValue = values.next();
                 if (parameterType.equals(String.class))
                 {
-                    String parameter = checkForExamplesTable(step, parameterValue);
                     parameters[i] = parameterValue;
                 }
                 else if (parameterType.equals(Table.class))
@@ -79,12 +100,6 @@ public class StepRunner
         return parameters;
     }
 
-    private String checkForExamplesTable(Step step, String parameterValue) {
-        if(step.getStepContainer() instanceof Scenario){
-
-        }
-        return null;
-    }
 
     private StepLine getTable(Step step, String parameterValue)
     {

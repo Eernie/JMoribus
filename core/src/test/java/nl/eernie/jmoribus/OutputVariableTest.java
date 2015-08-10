@@ -1,5 +1,9 @@
 package nl.eernie.jmoribus;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import nl.eernie.jmoribus.configuration.DefaultConfiguration;
 import nl.eernie.jmoribus.model.Line;
 import nl.eernie.jmoribus.model.Scenario;
@@ -7,12 +11,9 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.reporter.DefaultTestReporter;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class OutputVariableTest {
 
@@ -36,7 +37,7 @@ public class OutputVariableTest {
             }
         });
 
-        ArrayList<Object> steps = new ArrayList<Object>();
+        ArrayList<Object> steps = new ArrayList<>();
         steps.add(new OutputVariableSteps());
         defaultConfiguration.addSteps(steps);
 
@@ -46,10 +47,10 @@ public class OutputVariableTest {
         step.getStepLines().add(new Line("step b"));
         step.setStepContainer(scenario);
 
-        scenario.getSteps().addAll(Arrays.asList(step));
+        scenario.getSteps().addAll(Collections.singletonList(step));
         story.getScenarios().add(scenario);
 
-        jMoribus.runStories(Arrays.asList(story));
+        jMoribus.runStories(Collections.singletonList(story));
 
         Assert.assertEquals(step, lastReportedErrorStep);
         Assert.assertEquals("Missing variables: [outputVariableA]", lastReportedError.getMessage());
@@ -67,7 +68,7 @@ public class OutputVariableTest {
             }
         });
 
-        ArrayList<Object> steps = new ArrayList<Object>();
+        ArrayList<Object> steps = new ArrayList<>();
         steps.add(new OutputVariableSteps());
         defaultConfiguration.addSteps(steps);
 
@@ -77,12 +78,12 @@ public class OutputVariableTest {
         step.getStepLines().add(new Line("step b"));
         step.setStepContainer(scenario);
 
-        scenario.getSteps().addAll(Arrays.asList(step));
+        scenario.getSteps().addAll(Collections.singletonList(step));
         story.getScenarios().add(scenario);
 
-        defaultConfiguration.getContextProvider().set("outputVariableA", "outputVariableAValue");
+        defaultConfiguration.getContextProvider().get().set("outputVariableA", "outputVariableAValue");
 
-        jMoribus.runStories(Arrays.asList(story));
+        jMoribus.runStories(Collections.singletonList(story));
 
         Assert.assertNull(lastReportedErrorStep);
         Assert.assertNull(lastReportedError);

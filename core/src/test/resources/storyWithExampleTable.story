@@ -9,7 +9,7 @@ Given this step is played once in the begin of the story
 #-- awesome comment!!!!
 
 Scenario: parametrized scenario
-Given a system state named <systemStateName>
+Given a system state named <systemState>
 When I do <action>
 Then system is in state <newSystemStateName>
 

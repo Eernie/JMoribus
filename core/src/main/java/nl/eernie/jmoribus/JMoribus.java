@@ -147,8 +147,9 @@ public class JMoribus
         {
             Map<String, String> exampleRow = toExampleRow(examplesTable.getHeader(), row);
             config.getConcurrentReporter().beforeExampleRow(scenario, exampleRow);
-            config.getContextProvider().setCurrentExampleRow(exampleRow);
+            config.getContextProvider().get().setCurrentExampleRow(exampleRow);
             runScenario(methodMather, scenario);
+            config.getContextProvider().get().removeCurrentExampleRow(exampleRow);
             config.getConcurrentReporter().afterExampleRow(scenario, exampleRow);
         }
         config.getConcurrentReporter().afterExamplesTable(scenario);
@@ -180,7 +181,7 @@ public class JMoribus
 
             for (String requiredVariable : requiredVariables)
             {
-                if (!config.getContextProvider().isVariableSet(requiredVariable))
+                if (!config.getContextProvider().get().isVariableSet(requiredVariable))
                 {
                     missingRequiredVariables.add(requiredVariable);
                 }
