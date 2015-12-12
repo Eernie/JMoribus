@@ -1,11 +1,6 @@
 package nl.eernie.jmoribus.context;
 
-public interface ContextProvider
+public interface ContextProvider<T extends RunContext>
 {
-
-    String get(String variableName);
-
-    void set(String variableName, String value);
-
-    boolean isVariableSet(String variableName);
+    T get();
 }

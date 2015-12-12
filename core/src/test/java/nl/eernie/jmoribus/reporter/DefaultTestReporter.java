@@ -1,11 +1,14 @@
 package nl.eernie.jmoribus.reporter;
 
+import java.util.Map;
+
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,15 +65,9 @@ public class DefaultTestReporter implements Reporter
     }
 
     @Override
-    public void errorStep(Step step, Throwable e)
+    public void errorStep(Step step, Exception e)
     {
         LOGGER.error("Error in step: {}", step.getCombinedStepLines(), e);
-    }
-
-    @Override
-    public void errorStep(Step step, String cause)
-    {
-        LOGGER.error("Error in step: {} Error: {}", step.getCombinedStepLines(), cause);
     }
 
     @Override
@@ -101,5 +98,29 @@ public class DefaultTestReporter implements Reporter
     public void afterReferringScenario(StepContainer stepContainer, Scenario scenario)
     {
         LOGGER.info("after Referring scenario: " + scenario.getTitle());
+    }
+
+    @Override
+    public void beforeExamplesTable(Scenario scenario)
+    {
+        LOGGER.info("BeforeExamplesTable");
+    }
+
+    @Override
+    public void beforeExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        LOGGER.info("Before example row");
+    }
+
+    @Override
+    public void afterExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        LOGGER.info("After example row");
+    }
+
+    @Override
+    public void afterExamplesTable(Scenario scenario)
+    {
+        LOGGER.info("After examples table");
     }
 }

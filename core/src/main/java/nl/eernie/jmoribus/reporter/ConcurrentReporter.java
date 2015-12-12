@@ -1,15 +1,17 @@
 package nl.eernie.jmoribus.reporter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
-import org.slf4j.MDC;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.slf4j.MDC;
 
 public class ConcurrentReporter implements Reporter
 {
@@ -104,20 +106,11 @@ public class ConcurrentReporter implements Reporter
     }
 
     @Override
-    public void errorStep(Step step, Throwable e)
+    public void errorStep(Step step, Exception e)
     {
         for (Reporter reporter : reporters)
         {
             reporter.errorStep(step, e);
-        }
-    }
-
-    @Override
-    public void errorStep(Step step, String cause)
-    {
-        for (Reporter reporter : reporters)
-        {
-            reporter.errorStep(step, cause);
         }
     }
 
@@ -163,6 +156,42 @@ public class ConcurrentReporter implements Reporter
         for (Reporter reporter : reporters)
         {
             reporter.afterReferringScenario(stepContainer, scenario);
+        }
+    }
+
+    @Override
+    public void beforeExamplesTable(Scenario scenario)
+    {
+        for (Reporter reporter : reporters)
+        {
+            reporter.beforeExamplesTable(scenario);
+        }
+    }
+
+    @Override
+    public void beforeExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        for (Reporter reporter : reporters)
+        {
+            reporter.beforeExampleRow(scenario, exampleRow);
+        }
+    }
+
+    @Override
+    public void afterExampleRow(Scenario scenario, Map<String, String> exampleRow)
+    {
+        for (Reporter reporter : reporters)
+        {
+            reporter.afterExampleRow(scenario, exampleRow);
+        }
+    }
+
+    @Override
+    public void afterExamplesTable(Scenario scenario)
+    {
+        for (Reporter reporter : reporters)
+        {
+            reporter.afterExamplesTable(scenario);
         }
     }
 }

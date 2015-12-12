@@ -1,5 +1,7 @@
 package nl.eernie.jmoribus.reporter;
 
+import java.util.Map;
+
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
@@ -25,9 +27,7 @@ public interface Reporter
 
     void failedStep(Step step, AssertionError e);
 
-    void errorStep(Step step, Throwable e);
-
-    void errorStep(Step step, String cause);
+    void errorStep(Step step, Exception e);
 
     void feature(Feature feature);
 
@@ -38,4 +38,12 @@ public interface Reporter
     void beforeReferringScenario(StepContainer stepContainer, Scenario scenario);
 
     void afterReferringScenario(StepContainer stepContainer, Scenario scenario);
+
+    void beforeExamplesTable(Scenario scenario);
+
+    void beforeExampleRow(Scenario scenario, Map<String, String> exampleRow);
+
+    void afterExampleRow(Scenario scenario, Map<String, String> exampleRow);
+
+    void afterExamplesTable(Scenario scenario);
 }

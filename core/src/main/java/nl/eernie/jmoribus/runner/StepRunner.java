@@ -1,5 +1,11 @@
 package nl.eernie.jmoribus.runner;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.matcher.BeforeAfterMethod;
@@ -11,13 +17,8 @@ import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepLine;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.ReflectionParser;
-import org.apache.commons.lang3.ArrayUtils;
-import org.openqa.selenium.WebDriver;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
+import org.openqa.selenium.WebDriver;
 
 public class StepRunner
 {
@@ -30,22 +31,39 @@ public class StepRunner
         this.methodMatcher = methodMatcher;
     }
 
-    public void run(PossibleStep matchedStep, Step step) throws Throwable
+    public void run(PossibleStep matchedStep, Step step) throws Exception
     {
         List<String> parameterValues = matchedStep.getRegexStepMatcher().getParameterValues(step);
+        if (config.getContextProvider().get().getCurrentExampleRow() != null)
+        {
+            parameterValues = replaceExampleTableValues(parameterValues);
+        }
         Object[] parameters = createParameters(matchedStep.getMethod(), parameterValues, step);
         matchedStep.getMethod().invoke(matchedStep.getMethodObject(), parameters);
+    }
+
+    private List<String> replaceExampleTableValues(List<String> parameterValues)
+    {
+        Map<String, String> currentExampleRow = config.getContextProvider().get().getCurrentExampleRow();
+        List<String> newParameterValues = new ArrayList<>(parameterValues.size());
+        for (String parameterValue : parameterValues)
+        {
+            if (parameterValue.startsWith("<") && parameterValue.endsWith(">"))
+            {
+                newParameterValues.add(currentExampleRow.get(parameterValue.replace("<", "").replace(">", "")));
+            }
+            else
+            {
+                newParameterValues.add(parameterValue);
+            }
+        }
+        return newParameterValues;
     }
 
     private Object[] createParameters(Method method, List<String> parameterValues, Step step) throws InvocationTargetException, IllegalAccessException
     {
         Class<?>[] parameterTypes = method.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
-        int extraValues = ArrayUtils.contains(parameterTypes, WebDriver.class) ? 1 : 0;
-        if (parameterValues.size() + extraValues != parameterTypes.length)
-        {
-            throw new RuntimeException("Velden en waarden komen niet overeen"); //TODO: refactor me
-        }
         Iterator<String> values = parameterValues.iterator();
         for (int i = 0; i < parameterTypes.length; i++)
         {
@@ -81,6 +99,7 @@ public class StepRunner
         }
         return parameters;
     }
+
 
     private StepLine getTable(Step step, String parameterValue)
     {
