@@ -17,8 +17,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class ParserTest {
 
@@ -85,6 +85,7 @@ public class ParserTest {
         assertEquals("MultiScenarioTitle", stories.get(0).getTitle());
     }
 
+    @SuppressWarnings("unchecked")
     @Test(expected = UnableToParseStoryException.class)
     public void testUnparsableStory() throws IOException {
         FileInputStream fileInputStream = mock(FileInputStream.class);
