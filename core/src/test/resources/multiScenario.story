@@ -33,11 +33,14 @@ And another assertion
 Scenario: scenario description 5
 Given a system state
 When I do something
+
 Then system is in a different state
 And another assertion
 
 Scenario: scenario description 6
 Given a system state
+
+
 When I do something
 Then system is in a different state
 And another assertion
