@@ -10,6 +10,7 @@ public class Step
     private StepType stepType;
     private List<StepLine> stepLines = new ArrayList<>();
     private StepContainer stepContainer;
+    private int lineNumber;
 
     public Step(StepType stepType)
     {
@@ -39,6 +40,16 @@ public class Step
     public void setStepContainer(StepContainer stepContainer)
     {
         this.stepContainer = stepContainer;
+    }
+
+    public int getLineNumber()
+    {
+        return lineNumber;
+    }
+
+    public void setLineNumber(int lineNumber)
+    {
+        this.lineNumber = lineNumber;
     }
 
     public String getCombinedStepLines()
