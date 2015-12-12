@@ -39,7 +39,7 @@ cell
     : (SPACE|TEXT)*? '|';
 
 step
-    : step_keyword step_line (NEWLINE SPACE SPACE step_line)*;
+    : NEWLINE*? step_keyword step_line (NEWLINE SPACE SPACE step_line)*;
 
 step_line
     : (step_text_line|step_table_line) ;
