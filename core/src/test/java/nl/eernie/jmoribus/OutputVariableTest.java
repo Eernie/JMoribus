@@ -1,19 +1,14 @@
 package nl.eernie.jmoribus;
 
+import nl.eernie.jmoribus.configuration.DefaultConfiguration;
+import nl.eernie.jmoribus.model.*;
+import nl.eernie.jmoribus.reporter.DefaultTestReporter;
+import org.junit.Assert;
+import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import nl.eernie.jmoribus.configuration.DefaultConfiguration;
-import nl.eernie.jmoribus.model.Line;
-import nl.eernie.jmoribus.model.Scenario;
-import nl.eernie.jmoribus.model.Step;
-import nl.eernie.jmoribus.model.StepType;
-import nl.eernie.jmoribus.model.Story;
-import nl.eernie.jmoribus.reporter.DefaultTestReporter;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 public class OutputVariableTest {
 
