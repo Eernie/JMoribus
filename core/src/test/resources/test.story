@@ -11,5 +11,7 @@ Given this step is played once in the begin of the story
 Scenario: scenario description
 Given a system state
 When I do something
+
+
 Then system is in a different state
 And another assertion
