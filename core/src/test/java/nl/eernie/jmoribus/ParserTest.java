@@ -7,7 +7,6 @@ import nl.eernie.jmoribus.model.StepType;
 import nl.eernie.jmoribus.model.Story;
 import nl.eernie.jmoribus.parser.ParseableStory;
 import nl.eernie.jmoribus.parser.StoryParser;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.FileInputStream;
@@ -16,8 +15,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 public class ParserTest {
 
@@ -28,33 +29,34 @@ public class ParserTest {
 
         Story story = StoryParser.parseStory(parseableStory);
 
-        Assert.assertEquals("test.story", story.getUniqueIdentifier());
-        Assert.assertEquals("Some awsome title", story.getTitle());
-        Assert.assertEquals("In order to realize a named business value" + System.lineSeparator() + "  As a explicit system actor" + System.lineSeparator() + "  I want to gain some beneficial outcome which furthers the goal", story.getFeature().getContent());
-        Assert.assertSame(story, story.getFeature().getStory());
+        assertEquals("test.story", story.getUniqueIdentifier());
+        assertEquals("Some awsome title", story.getTitle());
+        assertEquals("In order to realize a named business value" + System.lineSeparator() + "  As a explicit system actor" + System.lineSeparator() + "  I want to gain some beneficial outcome which furthers the goal", story.getFeature().getContent());
+        assertSame(story, story.getFeature().getStory());
 
-        Assert.assertEquals(1, story.getScenarios().size());
+        assertEquals(1, story.getScenarios().size());
 
         Scenario scenario = story.getScenarios().get(0);
-        Assert.assertEquals("scenario description", scenario.getTitle());
-        Assert.assertSame(story, scenario.getStory());
+        assertEquals("scenario description", scenario.getTitle());
+        assertSame(story, scenario.getStory());
 
-        Assert.assertEquals(4, scenario.getSteps().size());
+        assertEquals(4, scenario.getSteps().size());
 
         Step step = scenario.getSteps().remove(0);
-        assertStep(StepType.GIVEN, "a system state", scenario, step);
+        assertStep(StepType.GIVEN, "a system state", scenario, 12, step);
         step = scenario.getSteps().remove(0);
-        assertStep(StepType.WHEN, "I do something", scenario, step);
+        assertStep(StepType.WHEN, "I do something", scenario, 13, step);
         step = scenario.getSteps().remove(0);
-        assertStep(StepType.THEN, "system is in a different state", scenario, step);
+        assertStep(StepType.THEN, "system is in a different state", scenario, 16, step);
         step = scenario.getSteps().remove(0);
-        assertStep(StepType.THEN, "another assertion", scenario, step);
+        assertStep(StepType.THEN, "another assertion", scenario, 17, step);
     }
 
-    private void assertStep(StepType type, String stepString, Scenario scenario, Step step) {
-        Assert.assertSame(scenario, step.getStepContainer());
-        Assert.assertEquals(type, step.getStepType());
-        Assert.assertEquals(stepString, step.getFirstStepLine().getText());
+    private void assertStep(StepType type, String stepString, Scenario scenario, int lineNumber, Step step) {
+        assertSame(scenario, step.getStepContainer());
+        assertEquals(type, step.getStepType());
+        assertEquals(stepString, step.getFirstStepLine().getText());
+        assertEquals(lineNumber, step.getLineNumber());
     }
 
     @Test
@@ -64,7 +66,7 @@ public class ParserTest {
 
         Story story = StoryParser.parseStory(parseableStory);
 
-        Assert.assertEquals(6, story.getScenarios().size());
+        assertEquals(6, story.getScenarios().size());
 
     }
 
@@ -79,17 +81,16 @@ public class ParserTest {
         parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
 
         List<Story> stories = StoryParser.parseStories(parseableStories);
-        Assert.assertEquals(3, stories.size());
-        Assert.assertEquals("MultiScenarioTitle", stories.get(0).getTitle());
-
+        assertEquals(3, stories.size());
+        assertEquals("MultiScenarioTitle", stories.get(0).getTitle());
     }
 
+    @SuppressWarnings("unchecked")
     @Test(expected = UnableToParseStoryException.class)
     public void testUnparsableStory() throws IOException {
         FileInputStream fileInputStream = mock(FileInputStream.class);
         when(fileInputStream.read()).thenThrow(IOException.class);
         ParseableStory parseableStory = new ParseableStory(fileInputStream, "typo.story");
         StoryParser.parseStory(parseableStory);
-
     }
 }
