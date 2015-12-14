@@ -13,11 +13,13 @@ public class Prologue implements StepContainer
         return steps;
     }
 
+    @Override
     public Story getStory()
     {
         return story;
     }
 
+    @Override
     public void setStory(Story story)
     {
         this.story = story;

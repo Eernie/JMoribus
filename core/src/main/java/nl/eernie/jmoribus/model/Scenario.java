@@ -41,11 +41,13 @@ public class Scenario extends Step implements StepContainer
         this.examplesTable = examplesTable;
     }
 
+    @Override
     public Story getStory()
     {
         return story;
     }
 
+    @Override
     public void setStory(Story story)
     {
         this.story = story;
