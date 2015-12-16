@@ -1,17 +1,16 @@
 package nl.eernie.jmoribus.reporter;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
-
 import org.slf4j.MDC;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ConcurrentReporter implements Reporter
 {
@@ -111,6 +110,15 @@ public class ConcurrentReporter implements Reporter
         for (Reporter reporter : reporters)
         {
             reporter.errorStep(step, e);
+        }
+    }
+
+    @Override
+    public void skipStep(Step step)
+    {
+        for (Reporter reporter : reporters)
+        {
+            reporter.skipStep(step);
         }
     }
 

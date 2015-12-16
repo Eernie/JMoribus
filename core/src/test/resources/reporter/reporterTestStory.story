@@ -8,13 +8,12 @@ Given this step is played once in the begin of the story
 
 
 Scenario: scenario
-Given a system state
-When I do something
+Given a system state named dasdf
 Then system is in a different state
-And another assertion
+Given failing step
+When error step
 
 Scenario: scenario 2
 Referring scenario
-Given failing step
-When error step
 Then success step
+When error step

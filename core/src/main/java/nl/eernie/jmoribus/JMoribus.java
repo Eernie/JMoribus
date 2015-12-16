@@ -92,56 +92,68 @@ public class JMoribus
 
     private void runStepContainer(MethodMatcher methodMatcher, StepContainer stepContainer)
     {
-        if (stepContainer == null)
-        {
-            return;
-        }
-
         Reporter reporter = config.getConcurrentReporter();
-        for (Step step : stepContainer.getSteps())
-        {
-            if (step instanceof Scenario)
-            {
-                runReferring(methodMatcher, stepContainer, (Scenario) step);
-                continue;
-            }
-            reporter.beforeStep(step);
-            PossibleStep matchedStep = methodMatcher.findMatchedStep(step);
-            if (matchedStep != null)
-            {
-                try
-                {
-                    checkMissingVariables(matchedStep.getRequiredVariables());
-                    stepRunner.run(matchedStep, step);
-                    checkMissingVariables(matchedStep.getOutputVariables());
-                    reporter.successStep(step);
-                }
-                catch (AssertionError e)
-                {
-                    reporter.failedStep(step, e);
-                }
-                catch (Exception e)
-                {
-                    if (e.getCause() instanceof AssertionError)
-                    {
-                        reporter.failedStep(step, (AssertionError) e.getCause());
-                    }
-                    else
-                    {
-                        reporter.errorStep(step, e);
-                    }
-                }
-            }
-            else
-            {
-                reporter.pendingStep(step);
-            }
-        }
-    }
+		boolean success = true;
+		for (Step step : stepContainer.getSteps())
+		{
+			if (!success)
+			{
+				reporter.skipStep(step);
+				continue;
+			}
+			success = runStep(methodMatcher, stepContainer, reporter, step);
+		}
+	}
 
-    private void runExamplesTable(MethodMatcher methodMatcher, Scenario scenario)
-    {
-        Table examplesTable = scenario.getExamplesTable();
+	private boolean runStep(MethodMatcher methodMatcher, StepContainer stepContainer, Reporter reporter, Step step)
+	{
+		boolean success = false;
+		if (step instanceof Scenario)
+		{
+			runReferring(methodMatcher, stepContainer, (Scenario) step);
+			success = true;
+		}
+		else
+		{
+			reporter.beforeStep(step);
+			PossibleStep matchedStep = methodMatcher.findMatchedStep(step);
+			if (matchedStep != null)
+			{
+				try
+				{
+					checkMissingVariables(matchedStep.getRequiredVariables());
+					stepRunner.run(matchedStep, step);
+					checkMissingVariables(matchedStep.getOutputVariables());
+					reporter.successStep(step);
+					success = true;
+				}
+				catch (AssertionError e)
+				{
+					reporter.failedStep(step, e);
+				}
+				catch (Exception e)
+				{
+					if (e.getCause() instanceof AssertionError)
+					{
+						reporter.failedStep(step, (AssertionError) e.getCause());
+					}
+					else
+					{
+						reporter.errorStep(step, e);
+					}
+				}
+			}
+			else
+			{
+				reporter.pendingStep(step);
+			}
+		}
+		return success;
+	}
+
+	private void runExamplesTable(MethodMatcher methodMatcher, Scenario scenario)
+	{
+		Table examplesTable = scenario.getExamplesTable();
         config.getConcurrentReporter().beforeExamplesTable(scenario);
         for (List<String> row : examplesTable.getRows())
         {
