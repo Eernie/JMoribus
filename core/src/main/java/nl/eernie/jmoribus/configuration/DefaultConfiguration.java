@@ -16,6 +16,7 @@ public class DefaultConfiguration implements Configuration
     private ContextProvider contextProvider = new DefaultContextProvider();
     private List<Object> steps = new ArrayList<>();
     private WebDriver webDriver = null;
+    private boolean failOnPending = true;
 
     public ConcurrentReporter getConcurrentReporter()
     {
@@ -53,5 +54,17 @@ public class DefaultConfiguration implements Configuration
     public void setWebDriver(WebDriver webDriver)
     {
         this.webDriver = webDriver;
+    }
+
+    @Override
+    public boolean isFailOnPending()
+    {
+        return failOnPending;
+    }
+
+    @Override
+    public void setFailOnPending(boolean failOnPending)
+    {
+        this.failOnPending = failOnPending;
     }
 }

@@ -146,6 +146,7 @@ public class JMoribus
 			else
 			{
 				reporter.pendingStep(step);
+				success = !config.isFailOnPending();
 			}
 		}
 		return success;

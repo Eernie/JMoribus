@@ -4,6 +4,7 @@ import nl.eernie.jmoribus.junit.JunitTestRunner;
 import nl.eernie.jmoribus.reporter.JunitReporter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
@@ -28,7 +29,7 @@ public class RunStoriesMojo extends AbstractMojo
     @Parameter(required = true)
     String runClass;
 
-    public void execute() throws MojoExecutionException
+    public void execute() throws MojoExecutionException, MojoFailureException
     {
         try
         {
@@ -39,26 +40,38 @@ public class RunStoriesMojo extends AbstractMojo
                 JunitTestRunner testRunner = (JunitTestRunner) runClass.newInstance();
                 getLog().debug("Using directory " + outputDirectory);
                 testRunner.getConfiguration().addReporter(new JunitReporter(outputDirectory));
+                MojoReporter reporter = new MojoReporter();
+                testRunner.getConfiguration().addReporter(reporter);
                 testRunner.runStories();
+
+                String message = String.format("Run finished with %d successful, %d failure, %d error, %d skipped an %d pending", reporter.getSuccess(), reporter.getFailure(), reporter.getError(), reporter.getSkipped(), reporter.getPending());
+                getLog().info(message);
+                if (reporter.getError() > 0 || reporter.getFailure() > 0 || (testRunner.getConfiguration().isFailOnPending() && reporter.getPending() > 0))
+                {
+                    throw new MojoFailureException(message);
+                }
             }
             else
             {
                 String message = "class " + runClass + "is not an instance of " + JunitTestRunner.class;
                 getLog().error(message);
-                throw new IllegalArgumentException(message);
+                throw new MojoExecutionException(message);
             }
         }
         catch (MalformedURLException e)
         {
             getLog().error("Could not create the right classLoader", e);
+            throw new MojoExecutionException("Could not create the right classLoader", e);
         }
         catch (ClassNotFoundException e)
         {
             getLog().error("Could not find the run class", e);
+            throw new MojoExecutionException("Could not find the run class", e);
         }
         catch (InstantiationException | IllegalAccessException e)
         {
             getLog().error("Could not create the run class", e);
+            throw new MojoExecutionException("Could not create the run class", e);
         }
     }
 
