@@ -1,10 +1,13 @@
 package nl.eernie.jmoribus.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class Story
+public class Story implements Serializable
 {
+    private final String uniqueID = UUID.randomUUID().toString();
     private String title;
     private Feature feature;
     private Prologue prologue;
@@ -54,5 +57,10 @@ public class Story
     public void setUniqueIdentifier(String uniqueIdentifier)
     {
         this.uniqueIdentifier = uniqueIdentifier;
+    }
+
+    public String getUniqueID()
+    {
+        return uniqueID;
     }
 }

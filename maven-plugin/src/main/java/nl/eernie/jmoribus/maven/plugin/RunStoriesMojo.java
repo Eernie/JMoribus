@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -15,15 +16,13 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@Mojo(name = "run-stories")
+@Mojo(name = "run-stories", requiresDependencyCollection = ResolutionScope.COMPILE_PLUS_RUNTIME, requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)
 public class RunStoriesMojo extends AbstractMojo
 {
-    @Parameter(required = true, defaultValue = "${project.build.outputDirectory}")
+    @Parameter(required = true, defaultValue = "${project.build.directory}")
     String outputDirectory;
 
     @Parameter(required = true, defaultValue = "${project.compileClasspathElements}")
-
     List<String> compileClasspathElements;
 
     @Parameter(required = true)
@@ -34,6 +33,7 @@ public class RunStoriesMojo extends AbstractMojo
         try
         {
             URLClassLoader classLoader = new URLClassLoader(classpathURLs(compileClasspathElements), getClass().getClassLoader());
+            Thread.currentThread().setContextClassLoader(classLoader);
             Class<?> runClass = classLoader.loadClass(this.runClass);
             if (JunitTestRunner.class.isAssignableFrom(runClass))
             {
