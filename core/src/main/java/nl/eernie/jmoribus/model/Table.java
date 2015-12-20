@@ -36,5 +36,4 @@ public class Table implements StepLine
 	{
 		return null;
 	}
-
 }

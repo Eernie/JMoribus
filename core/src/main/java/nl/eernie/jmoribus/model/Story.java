@@ -55,5 +55,4 @@ public class Story
 	{
 		this.uniqueIdentifier = uniqueIdentifier;
 	}
-
 }

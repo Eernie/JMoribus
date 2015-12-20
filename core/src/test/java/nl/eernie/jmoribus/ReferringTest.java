@@ -36,7 +36,7 @@ public class ReferringTest
 		Story story = StoryParser.parseStory(parseableStory);
 		Scenario scenario = story.getScenarios().get(1);
 		Assert.assertTrue(scenario.getSteps().get(0) instanceof Scenario);
-        Assert.assertEquals(story.getScenarios().get(0), scenario.getSteps().get(0));
+		Assert.assertEquals(story.getScenarios().get(0).getTitle(), ((Scenario) scenario.getSteps().get(0)).getTitle());
 	}
 
 	@Test
@@ -55,11 +55,11 @@ public class ReferringTest
 		Assert.assertEquals(2, story1.getScenarios().size());
 		Scenario scenario1 = story1.getScenarios().get(0);
 		Scenario scenario2 = story1.getScenarios().get(1);
-        Assert.assertEquals(scenario1, scenario2.getSteps().get(0));
+		Assert.assertEquals(scenario1.getTitle(), ((Scenario) scenario2.getSteps().get(0)).getTitle());
 
 		Story story2 = stories.get(1);
 		Assert.assertEquals(1, story2.getScenarios().size());
-        Assert.assertEquals(scenario2, story2.getScenarios().get(0).getSteps().get(0));
+		Assert.assertEquals(scenario2.getTitle(), ((Scenario) story2.getScenarios().get(0).getSteps().get(0)).getTitle());
 	}
 
 	@Test
@@ -82,9 +82,9 @@ public class ReferringTest
 		Assert.assertEquals(2, story2.getScenarios().size());
 		Scenario scenario1 = story2.getScenarios().get(0);
 		Scenario scenario2 = story2.getScenarios().get(1);
-        Assert.assertEquals(scenario1, scenario2.getSteps().get(0));
+		Assert.assertEquals(scenario1.getTitle(), ((Scenario) scenario2.getSteps().get(0)).getTitle());
 
-        Assert.assertEquals(scenario2, story1.getScenarios().get(0).getSteps().get(0));
+		Assert.assertEquals(scenario2.getTitle(), ((Scenario) story1.getScenarios().get(0).getSteps().get(0)).getTitle());
 
 	}
 

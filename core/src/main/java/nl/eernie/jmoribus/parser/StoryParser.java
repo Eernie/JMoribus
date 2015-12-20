@@ -82,10 +82,10 @@ public final class StoryParser
 				Scenario scenario = knownScenarios.get(referringScenario.getTitle());
 				StepContainer stepContainer = referringScenario.getStepContainer();
 				List<Step> steps = stepContainer.getSteps();
-                Scenario replacingScenario = scenario.copy();
-                scenario.setStepContainer(stepContainer);
-                scenario.setStory(referringScenario.getStory());
-                steps.set(steps.indexOf(referringScenario), replacingScenario);
+				Scenario replacingScenario = scenario.copy();
+				scenario.setStepContainer(stepContainer);
+				scenario.setStory(referringScenario.getStory());
+				steps.set(steps.indexOf(referringScenario), replacingScenario);
 			}
 			else
 			{

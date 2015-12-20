@@ -32,7 +32,7 @@ public class JunitReportRunnerTest
 	public void testCreationDescriptions() throws IllegalAccessException, InstantiationException, InitializationError
 	{
 		JunitReportRunner runner = new JunitReportRunner(JunitTestRunnerImpl.class);
-		assertEquals(4, runner.getDescription().getChildren().size());
+		assertEquals(3, runner.getDescription().getChildren().size());
 
 		Description multiScenarioStory = runner.getDescription().getChildren().get(0);
 		assertEquals("MultiScenarioTitle", multiScenarioStory.getClassName());
@@ -116,8 +116,6 @@ public class JunitReportRunnerTest
 			parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
 			fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
 			parseableStories.add(new ParseableStory(fileInputStream, "storyWithExampleTable"));
-			//			fileInputStream = getClass().getResourceAsStream("/reporter/reporterTestStory.story");
-			//			parseableStories.add(new ParseableStory(fileInputStream, "reporterTestStory"));
 
 			return parseableStories;
 		}
