@@ -22,76 +22,80 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
-public class OutputVariableTest {
+public class OutputVariableTest
+{
 
+	@Test
+	public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException
+	{
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		DefaultTestReporter reporter = spy(new DefaultTestReporter());
+		defaultConfiguration.addReporter(reporter);
 
-    @Test
-    public void testOutputVariableError() throws InvocationTargetException, IllegalAccessException {
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        DefaultTestReporter reporter = spy(new DefaultTestReporter());
-        defaultConfiguration.addReporter(reporter);
+		ArrayList<Object> steps = new ArrayList<>();
+		steps.add(new OutputVariableSteps());
+		defaultConfiguration.addSteps(steps);
 
-        ArrayList<Object> steps = new ArrayList<>();
-        steps.add(new OutputVariableSteps());
-        defaultConfiguration.addSteps(steps);
+		Story story = createStory();
+		Scenario scenario = createScenario();
+		Step step = new Step(StepType.WHEN);
+		step.getStepLines().add(new Line("step b"));
+		step.setStepContainer(scenario);
 
-        Story story = createStory();
-        Scenario scenario = createScenario();
-        Step step = new Step(StepType.WHEN);
-        step.getStepLines().add(new Line("step b"));
-        step.setStepContainer(scenario);
+		scenario.getSteps().addAll(Collections.singletonList(step));
+		story.getScenarios().add(scenario);
 
-        scenario.getSteps().addAll(Collections.singletonList(step));
-        story.getScenarios().add(scenario);
+		jMoribus.runStories(Collections.singletonList(story));
 
-        jMoribus.runStories(Collections.singletonList(story));
+		ArgumentCaptor<MissingVariablesException> exception = ArgumentCaptor.forClass(MissingVariablesException.class);
+		verify(reporter).errorStep(eq(step), exception.capture());
+		Assert.assertEquals("Missing variables: [outputVariableA]", exception.getValue().getMessage());
+	}
 
-        ArgumentCaptor<MissingVariablesException> exception = ArgumentCaptor.forClass(MissingVariablesException.class);
-        verify(reporter).errorStep(eq(step), exception.capture());
-        Assert.assertEquals("Missing variables: [outputVariableA]", exception.getValue().getMessage());
-    }
+	@Test
+	public void testOutputVariableSuccess() throws InvocationTargetException, IllegalAccessException
+	{
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		DefaultTestReporter reporter = spy(new DefaultTestReporter());
+		defaultConfiguration.addReporter(reporter);
 
-    @Test
-    public void testOutputVariableSuccess() throws InvocationTargetException, IllegalAccessException {
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        DefaultTestReporter reporter = spy(new DefaultTestReporter());
-        defaultConfiguration.addReporter(reporter);
+		ArrayList<Object> steps = new ArrayList<>();
+		steps.add(new OutputVariableSteps());
+		defaultConfiguration.addSteps(steps);
 
-        ArrayList<Object> steps = new ArrayList<>();
-        steps.add(new OutputVariableSteps());
-        defaultConfiguration.addSteps(steps);
+		Story story = createStory();
+		Scenario scenario = createScenario();
+		Step step = new Step(StepType.WHEN);
+		step.getStepLines().add(new Line("step b"));
+		step.setStepContainer(scenario);
 
-        Story story = createStory();
-        Scenario scenario = createScenario();
-        Step step = new Step(StepType.WHEN);
-        step.getStepLines().add(new Line("step b"));
-        step.setStepContainer(scenario);
+		scenario.getSteps().addAll(Collections.singletonList(step));
+		story.getScenarios().add(scenario);
 
-        scenario.getSteps().addAll(Collections.singletonList(step));
-        story.getScenarios().add(scenario);
+		defaultConfiguration.getContextProvider().get().set("outputVariableA", "outputVariableAValue");
 
-        defaultConfiguration.getContextProvider().get().set("outputVariableA", "outputVariableAValue");
+		jMoribus.runStories(Collections.singletonList(story));
 
-        jMoribus.runStories(Collections.singletonList(story));
+		verify(reporter, never()).errorStep(any(Step.class), any(Exception.class));
+		verify(reporter, never()).failedStep(any(Step.class), any(AssertionError.class));
+	}
 
-        verify(reporter, never()).errorStep(any(Step.class), any(Exception.class));
-        verify(reporter, never()).failedStep(any(Step.class), any(AssertionError.class));
-    }
+	private Scenario createScenario()
+	{
+		Scenario scenario = new Scenario();
+		scenario.setTitle("This AwesomeScenario");
+		return scenario;
+	}
 
-    private Scenario createScenario() {
-        Scenario scenario = new Scenario();
-        scenario.setTitle("This AwesomeScenario");
-        return scenario;
-    }
-
-    private Story createStory() {
-        Story story = new Story();
-        story.setTitle("Story Titles");
-        story.setUniqueIdentifier("/path/or/some/sort");
-        return story;
-    }
+	private Story createStory()
+	{
+		Story story = new Story();
+		story.setTitle("Story Titles");
+		story.setUniqueIdentifier("/path/or/some/sort");
+		return story;
+	}
 }
 
 

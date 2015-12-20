@@ -12,34 +12,37 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+public class JunitTestRunnerImpl extends JunitTestRunner
+{
 
-public class JunitTestRunnerImpl extends JunitTestRunner {
+	@Test
+	public void testRunner()
+	{
+		runStories();
+	}
 
-    @Test
-    public void testRunner() {
-        runStories();
-    }
+	@Override
+	protected Configuration createConfiguration()
+	{
 
-    @Override
-    protected Configuration createConfiguration() {
+		Configuration config = new DefaultConfiguration();
+		config.addSteps(Arrays.<Object>asList(new Steps()));
+		config.addReporter(new JunitReporter("target"));
+		return config;
+	}
 
-        Configuration config = new DefaultConfiguration();
-        config.addSteps(Arrays.<Object>asList(new Steps()));
-        config.addReporter(new JunitReporter("target"));
-        return config;
-    }
+	@Override
+	protected List<ParseableStory> createParseAbleStories()
+	{
 
-    @Override
-    protected List<ParseableStory> createParseAbleStories() {
+		List<ParseableStory> parseableStories = new ArrayList<>(3);
+		InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
+		fileInputStream = getClass().getResourceAsStream("/test2.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
+		fileInputStream = getClass().getResourceAsStream("/referring/referring.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
 
-        List<ParseableStory> parseableStories = new ArrayList<>(3);
-        InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
-        fileInputStream = getClass().getResourceAsStream("/test2.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
-        fileInputStream = getClass().getResourceAsStream("/referring/referring.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
-
-        return parseableStories;
-    }
+		return parseableStories;
+	}
 }

@@ -1,6 +1,5 @@
 package nl.eernie.jmoribus.junit;
 
-
 import nl.eernie.jmoribus.JMoribus;
 import nl.eernie.jmoribus.configuration.Configuration;
 import nl.eernie.jmoribus.model.Story;
@@ -11,27 +10,27 @@ import java.util.List;
 
 public abstract class JunitTestRunner
 {
-    private List<Story> stories = StoryParser.parseStories(createParseAbleStories());
+	private List<Story> stories = StoryParser.parseStories(createParseAbleStories());
 
-    private Configuration configuration = createConfiguration();
+	private Configuration configuration = createConfiguration();
 
-    public void runStories()
-    {
-        JMoribus jMoribus = new JMoribus(configuration);
-        jMoribus.runStories(stories);
-    }
+	public void runStories()
+	{
+		JMoribus jMoribus = new JMoribus(configuration);
+		jMoribus.runStories(stories);
+	}
 
-    protected abstract Configuration createConfiguration();
+	protected abstract Configuration createConfiguration();
 
-    protected abstract List<ParseableStory> createParseAbleStories();
+	protected abstract List<ParseableStory> createParseAbleStories();
 
-    public List<Story> getStories()
-    {
-        return stories;
-    }
+	public List<Story> getStories()
+	{
+		return stories;
+	}
 
-    public Configuration getConfiguration()
-    {
-        return configuration;
-    }
+	public Configuration getConfiguration()
+	{
+		return configuration;
+	}
 }

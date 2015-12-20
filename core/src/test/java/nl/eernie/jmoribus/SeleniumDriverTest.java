@@ -19,91 +19,107 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class SeleniumDriverTest {
+public class SeleniumDriverTest
+{
 
-    @Test
-    public void testMethodSignature() {
-        InputStream fileInputStream = getClass().getResourceAsStream("/selenium.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "selenium.story");
+	@Test
+	public void testMethodSignature()
+	{
+		InputStream fileInputStream = getClass().getResourceAsStream("/selenium.story");
+		ParseableStory parseableStory = new ParseableStory(fileInputStream, "selenium.story");
 
-        Story story = StoryParser.parseStory(parseableStory);
+		Story story = StoryParser.parseStory(parseableStory);
 
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        Reporter reporter = Mockito.mock(DefaultTestReporter.class);
-        defaultConfiguration.addReporter(reporter);
-        defaultConfiguration.setWebDriver(new WebdriverDummy());
-        defaultConfiguration.addSteps(Arrays.<Object>asList(new SeleniumSteps()));
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		Reporter reporter = Mockito.mock(DefaultTestReporter.class);
+		defaultConfiguration.addReporter(reporter);
+		defaultConfiguration.setWebDriver(new WebdriverDummy());
+		defaultConfiguration.addSteps(Arrays.<Object>asList(new SeleniumSteps()));
 
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        jMoribus.runStories(Arrays.asList(story));
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		jMoribus.runStories(Arrays.asList(story));
 
-        Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Exception>any());
-    }
+		Mockito.verify(reporter, new Times(0)).errorStep(Mockito.<Step>any(), Mockito.<Exception>any());
+	}
 
-    class WebdriverDummy implements WebDriver {
-        @Override
-        public void get(String url) {
+	class WebdriverDummy implements WebDriver
+	{
+		@Override
+		public void get(String url)
+		{
 
-        }
+		}
 
-        @Override
-        public String getCurrentUrl() {
-            return null;
-        }
+		@Override
+		public String getCurrentUrl()
+		{
+			return null;
+		}
 
-        @Override
-        public String getTitle() {
-            return null;
-        }
+		@Override
+		public String getTitle()
+		{
+			return null;
+		}
 
-        @Override
-        public List<WebElement> findElements(By by) {
-            return null;
-        }
+		@Override
+		public List<WebElement> findElements(By by)
+		{
+			return null;
+		}
 
-        @Override
-        public WebElement findElement(By by) {
-            return null;
-        }
+		@Override
+		public WebElement findElement(By by)
+		{
+			return null;
+		}
 
-        @Override
-        public String getPageSource() {
-            return null;
-        }
+		@Override
+		public String getPageSource()
+		{
+			return null;
+		}
 
-        @Override
-        public void close() {
+		@Override
+		public void close()
+		{
 
-        }
+		}
 
-        @Override
-        public void quit() {
+		@Override
+		public void quit()
+		{
 
-        }
+		}
 
-        @Override
-        public Set<String> getWindowHandles() {
-            return null;
-        }
+		@Override
+		public Set<String> getWindowHandles()
+		{
+			return null;
+		}
 
-        @Override
-        public String getWindowHandle() {
-            return null;
-        }
+		@Override
+		public String getWindowHandle()
+		{
+			return null;
+		}
 
-        @Override
-        public TargetLocator switchTo() {
-            return null;
-        }
+		@Override
+		public TargetLocator switchTo()
+		{
+			return null;
+		}
 
-        @Override
-        public Navigation navigate() {
-            return null;
-        }
+		@Override
+		public Navigation navigate()
+		{
+			return null;
+		}
 
-        @Override
-        public Options manage() {
-            return null;
-        }
-    }
+		@Override
+		public Options manage()
+		{
+			return null;
+		}
+	}
 }

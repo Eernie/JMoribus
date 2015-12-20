@@ -5,51 +5,51 @@ import java.util.List;
 
 public class Scenario extends Step implements StepContainer
 {
-    private String title;
-    private List<Step> steps = new ArrayList<>();
-    private Story story;
+	private String title;
+	private List<Step> steps = new ArrayList<>();
+	private Story story;
 
-    private Table examplesTable;
+	private Table examplesTable;
 
-    public Scenario()
-    {
-        super(StepType.REFERRING);
-    }
+	public Scenario()
+	{
+		super(StepType.REFERRING);
+	}
 
-    public String getTitle()
-    {
-        return title;
-    }
+	public String getTitle()
+	{
+		return title;
+	}
 
-    public void setTitle(String title)
-    {
-        this.title = title;
-    }
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
 
-    public List<Step> getSteps()
-    {
-        return steps;
-    }
+	public List<Step> getSteps()
+	{
+		return steps;
+	}
 
-    public Table getExamplesTable()
-    {
-        return examplesTable;
-    }
+	public Table getExamplesTable()
+	{
+		return examplesTable;
+	}
 
-    public void setExamplesTable(Table examplesTable)
-    {
-        this.examplesTable = examplesTable;
-    }
+	public void setExamplesTable(Table examplesTable)
+	{
+		this.examplesTable = examplesTable;
+	}
 
-    @Override
-    public Story getStory()
-    {
-        return story;
-    }
+	@Override
+	public Story getStory()
+	{
+		return story;
+	}
 
-    @Override
-    public void setStory(Story story)
-    {
-        this.story = story;
-    }
+	@Override
+	public void setStory(Story story)
+	{
+		this.story = story;
+	}
 }

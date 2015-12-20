@@ -14,59 +14,67 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PossibleStepTest {
+public class PossibleStepTest
+{
 
-    @Test
-    public void testPossibleSteps() {
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        defaultConfiguration.addReporter(new JunitReporter("target"));
-        ArrayList<Object> steps = new ArrayList<Object>();
+	@Test
+	public void testPossibleSteps()
+	{
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		defaultConfiguration.addReporter(new JunitReporter("target"));
+		ArrayList<Object> steps = new ArrayList<Object>();
 
-        steps.add(new Object() {
-            @Category({"User", "Login"})
-            @When("aMethod")
-            @Then({"first title", "a second title"})
-            public void aMethod() {
+		steps.add(new Object()
+		{
+			@Category({ "User", "Login" })
+			@When("aMethod")
+			@Then({ "first title", "a second title" })
+			public void aMethod()
+			{
 
-            }
-        });
+			}
+		});
 
-        defaultConfiguration.addSteps(steps);
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
+		defaultConfiguration.addSteps(steps);
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
 
-        Assert.assertEquals(3, possibleSteps.size());
-        PossibleStepTO possibleStepTO = possibleSteps.get(0);
-        Assert.assertEquals(new String[]{"User", "Login"}, possibleStepTO.getCategories());
-        Assert.assertEquals("aMethod", possibleStepTO.getStep());
-        Assert.assertEquals(StepType.WHEN, possibleStepTO.getStepType());
+		Assert.assertEquals(3, possibleSteps.size());
+		PossibleStepTO possibleStepTO = possibleSteps.get(0);
+		Assert.assertEquals(new String[] { "User", "Login" }, possibleStepTO.getCategories());
+		Assert.assertEquals("aMethod", possibleStepTO.getStep());
+		Assert.assertEquals(StepType.WHEN, possibleStepTO.getStepType());
 
-    }
+	}
 
-    @Test
-    public void testMultiplePossibleSteps() {
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        defaultConfiguration.addReporter(new DefaultTestReporter());
-        ArrayList<Object> steps = new ArrayList<Object>();
+	@Test
+	public void testMultiplePossibleSteps()
+	{
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		defaultConfiguration.addReporter(new DefaultTestReporter());
+		ArrayList<Object> steps = new ArrayList<Object>();
 
-        steps.add(new Object() {
-            @Category({"User", "Login"})
-            @When("aMethod")
-            public void aMethod() {
+		steps.add(new Object()
+		{
+			@Category({ "User", "Login" })
+			@When("aMethod")
+			public void aMethod()
+			{
 
-            }
+			}
 
-            @Category({"test"})
-            @Then("bMethod")
-            public void bMethod() {
+			@Category({ "test" })
+			@Then("bMethod")
+			public void bMethod()
+			{
 
-            }
-        });
+			}
+		});
 
-        defaultConfiguration.addSteps(steps);
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
+		defaultConfiguration.addSteps(steps);
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		List<PossibleStepTO> possibleSteps = jMoribus.getPossibleSteps();
 
-        Assert.assertEquals(2, possibleSteps.size());
-    }
+		Assert.assertEquals(2, possibleSteps.size());
+	}
 }

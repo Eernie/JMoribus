@@ -1,6 +1,5 @@
 package nl.eernie.jmoribus.unit;
 
-
 import nl.eernie.jmoribus.annotation.AfterScenario;
 import nl.eernie.jmoribus.annotation.AfterStory;
 import nl.eernie.jmoribus.annotation.BeforeScenario;
@@ -16,47 +15,54 @@ import org.junit.Assert;
 public class Steps
 {
 
-    @Category({"Multiple", "Test"})
-    @When({"bla bla bla $integer", "another $integer"})
-    public void method(Integer integer) {
+	@Category({ "Multiple", "Test" })
+	@When({ "bla bla bla $integer", "another $integer" })
+	public void method(Integer integer)
+	{
 
-    }
+	}
 
-    @When("dddd $testvar more text")
-    public void evenMore(String testVar) {
-        Assert.assertEquals(1, 2);
-    }
+	@When("dddd $testvar more text")
+	public void evenMore(String testVar)
+	{
+		Assert.assertEquals(1, 2);
+	}
 
-    @ParameterConverter
-    public Integer convertToInt(String var) {
-        return Integer.valueOf(var);
-    }
+	@ParameterConverter
+	public Integer convertToInt(String var)
+	{
+		return Integer.valueOf(var);
+	}
 
-    @BeforeStory
-    @BeforeScenario
-    @AfterScenario
-    @AfterStory
-    public void beforeScenario() {
-        String test = "";
-    }
+	@BeforeStory
+	@BeforeScenario
+	@AfterScenario
+	@AfterStory
+	public void beforeScenario()
+	{
+		String test = "";
+	}
 
-    @Then("the system should have the following state transitions: $table and the following states should be present: $table")
-    public void tabledMethod(Table tableOne, Table tableTwo) {
-    }
+	@Then("the system should have the following state transitions: $table and the following states should be present: $table")
+	public void tabledMethod(Table tableOne, Table tableTwo)
+	{
+	}
 
-    @Given("failing step")
-    public void failingStep() {
-        Assert.assertTrue(false);
-    }
+	@Given("failing step")
+	public void failingStep()
+	{
+		Assert.assertTrue(false);
+	}
 
-    @When("error step")
-    public void errorStep() {
-        throw new RuntimeException("trigger error hook");
-    }
+	@When("error step")
+	public void errorStep()
+	{
+		throw new RuntimeException("trigger error hook");
+	}
 
-    @Given("a system state")
-    public void successStep() throws InterruptedException
-    {
-        Thread.sleep(10);
-    }
+	@Given("a system state")
+	public void successStep() throws InterruptedException
+	{
+		Thread.sleep(10);
+	}
 }
