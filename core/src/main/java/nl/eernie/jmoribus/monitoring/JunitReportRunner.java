@@ -15,6 +15,7 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,9 +28,8 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 	private final List<Story> stories;
 	private final Description rootDescription;
 	private final JunitTestRunner junitTestRunner;
-	private final Map<Object, Description> knownDescriptions = new HashMap<>();
+	private final List<Description> knownDescriptions = new ArrayList<>();
 	private final Set<String> uniqueIds = new HashSet<>();
-	private int amountOfTestCases = 0;
 
 	public JunitReportRunner(Class<? extends JunitTestRunner> clazz) throws InitializationError, IllegalAccessException, InstantiationException
 	{
@@ -58,7 +58,7 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 		{
 			title = story.getUniqueIdentifier();
 		}
-		Description storyDescription = createSuiteDescription(story, title, story.getUniqueIdentifier());
+		Description storyDescription = createSuiteDescription(title, story.getUniqueIdentifier());
 
 		if (story.getPrologue() != null)
 		{
@@ -82,33 +82,37 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 		{
 			uniqueID = uniqueID + ":" + ((Scenario) scenario).getLineNumber();
 		}
-		Description scenarioDescription = createSuiteDescription(scenario, descriptionTitle, uniqueID);
 
 		if (scenario instanceof Scenario && ((Scenario) scenario).getExamplesTable() != null)
 		{
+			Description examplesDescription = createSuiteDescription("Examples", uniqueID);
 			Table examplesTable = ((Scenario) scenario).getExamplesTable();
 			for (List<String> row : examplesTable.getRows())
 			{
 				String title = createExamplesTitle(examplesTable.getHeader(), row);
 				String uniqueExamplesID = uniqueID + title;
-				Description suiteDescription = createSuiteDescription(row, title, uniqueExamplesID);
+				Description suiteDescription = createSuiteDescription(title, uniqueExamplesID);
+				examplesDescription.addChild(suiteDescription);
 
-				createStepDescription(uniqueStoryID, scenario, suiteDescription);
-				scenarioDescription.addChild(suiteDescription);
+				Description scenarioDescription = createSuiteDescription(descriptionTitle, uniqueID);
+				createStepDescription(uniqueStoryID, scenario, scenarioDescription);
+				suiteDescription.addChild(scenarioDescription);
 			}
+			return examplesDescription;
 		}
 		else
 		{
+			Description scenarioDescription = createSuiteDescription(descriptionTitle, uniqueID);
 			createStepDescription(uniqueStoryID, scenario, scenarioDescription);
+			return scenarioDescription;
 		}
-		return scenarioDescription;
 	}
 
-	private Description createSuiteDescription(Object object, String title, String uniqueID)
+	private Description createSuiteDescription(String title, String uniqueID)
 	{
 		uniqueID = uniquify(uniqueID);
 		Description suiteDescription = Description.createSuiteDescription(title, uniqueID);
-		knownDescriptions.put(object, suiteDescription);
+		knownDescriptions.add(suiteDescription);
 		return suiteDescription;
 	}
 
@@ -137,20 +141,17 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 				String stepTitle = step.getCombinedStepLines();
 				String uniqueStepID = uniqueStoryID + ":" + step.getLineNumber();
 				String stepName = StringUtils.capitalize(step.getStepType().name().toLowerCase());
-				Description stepDescription = createTestDescription(step, stepTitle, uniqueStepID, stepName);
+				Description stepDescription = createTestDescription(stepTitle, uniqueStepID, stepName);
 				scenarioDescription.addChild(stepDescription);
 			}
 		}
 	}
 
-	private Description createTestDescription(Step object, String stepTitle, String uniqueID, String stepName)
+	private Description createTestDescription(String stepTitle, String uniqueID, String stepName)
 	{
 		uniqueID = uniquify(uniqueID);
 		Description stepDescription = Description.createTestDescription(stepName, stepTitle, uniqueID);
-		if(knownDescriptions.containsKey(object)){
-			throw new RuntimeException("FUCKIT!");
-		}
-		knownDescriptions.put(object, stepDescription);
+		knownDescriptions.add(stepDescription);
 		return stepDescription;
 	}
 
@@ -160,6 +161,7 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 		{
 			uniqueID = uniqueID + '\u200B';
 		}
+		uniqueIds.add(uniqueID);
 		return uniqueID;
 	}
 
@@ -169,11 +171,6 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 		return rootDescription;
 	}
 
-	@Override
-	public int testCount()
-	{
-		return knownDescriptions.values().size();
-	}
 
 	@Override
 	protected Statement childrenInvoker(final RunNotifier notifier)
@@ -183,7 +180,7 @@ public class JunitReportRunner extends BlockJUnit4ClassRunner
 			@Override
 			public void evaluate() throws Throwable
 			{
-				JunitMonitoringReporter reporter = new JunitMonitoringReporter(notifier, knownDescriptions);
+				JunitMonitoringReporter reporter = new JunitMonitoringReporter(notifier, knownDescriptions, configuration);
 				configuration.addReporter(reporter);
 
 				notifier.fireTestRunStarted(rootDescription);
