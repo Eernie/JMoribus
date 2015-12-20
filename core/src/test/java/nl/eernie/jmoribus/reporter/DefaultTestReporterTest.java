@@ -22,37 +22,37 @@ import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
-
 public class DefaultTestReporterTest
 {
 
-    @Test
-    public void testAllHooks() throws IOException {
-        InputStream fileInputStream = getClass().getResourceAsStream("/reporter/reporterTestStory.story");
-        ParseableStory parseableStory = new ParseableStory(fileInputStream, "/reporter/reporterTestStory.story");
+	@Test
+	public void testAllHooks() throws IOException
+	{
+		InputStream fileInputStream = getClass().getResourceAsStream("/reporter/reporterTestStory.story");
+		ParseableStory parseableStory = new ParseableStory(fileInputStream, "/reporter/reporterTestStory.story");
 
-        Story story = StoryParser.parseStory(parseableStory);
-        DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
-        JMoribus jMoribus = new JMoribus(defaultConfiguration);
-        Reporter reporter = mock(DefaultTestReporter.class);
-        defaultConfiguration.addReporter(reporter);
-        ArrayList<Object> steps = new ArrayList<>();
-        steps.add(new Steps());
-        defaultConfiguration.addSteps(steps);
-        jMoribus.runStories(Collections.singletonList(story));
+		Story story = StoryParser.parseStory(parseableStory);
+		DefaultConfiguration defaultConfiguration = new DefaultConfiguration();
+		JMoribus jMoribus = new JMoribus(defaultConfiguration);
+		Reporter reporter = mock(DefaultTestReporter.class);
+		defaultConfiguration.addReporter(reporter);
+		ArrayList<Object> steps = new ArrayList<>();
+		steps.add(new Steps());
+		defaultConfiguration.addSteps(steps);
+		jMoribus.runStories(Collections.singletonList(story));
 
-        verify(reporter, atLeast(1)).beforePrologue(story.getPrologue());
-        verify(reporter, atLeast(1)).afterPrologue(story.getPrologue());
-        verify(reporter, atLeast(1)).beforeStory(story);
-        verify(reporter, atLeast(1)).afterStory(story);
-        verify(reporter, atLeast(2)).beforeScenario(any(Scenario.class));
-        verify(reporter, atLeast(2)).afterScenario(any(Scenario.class));
-        verify(reporter, atLeast(1)).beforeReferringScenario(any(StepContainer.class), any(Scenario.class));
-        verify(reporter, atLeast(1)).feature(any(Feature.class));
-        verify(reporter, atLeast(1)).beforeStep(any(Step.class));
-        verify(reporter, atLeast(1)).failedStep(any(Step.class), any(AssertionError.class));
-        verify(reporter, atLeast(1)).errorStep(any(Step.class), any(Exception.class));
-        verify(reporter, atLeast(1)).successStep(any(Step.class));
-        verify(reporter, atLeast(2)).skipStep(any(Step.class));
-    }
+		verify(reporter, atLeast(1)).beforePrologue(story.getPrologue());
+		verify(reporter, atLeast(1)).afterPrologue(story.getPrologue());
+		verify(reporter, atLeast(1)).beforeStory(story);
+		verify(reporter, atLeast(1)).afterStory(story);
+		verify(reporter, atLeast(2)).beforeScenario(any(Scenario.class));
+		verify(reporter, atLeast(2)).afterScenario(any(Scenario.class));
+		verify(reporter, atLeast(1)).beforeReferringScenario(any(StepContainer.class), any(Scenario.class));
+		verify(reporter, atLeast(1)).feature(any(Feature.class));
+		verify(reporter, atLeast(1)).beforeStep(any(Step.class));
+		verify(reporter, atLeast(1)).failedStep(any(Step.class), any(AssertionError.class));
+		verify(reporter, atLeast(1)).errorStep(any(Step.class), any(Exception.class));
+		verify(reporter, atLeast(1)).successStep(any(Step.class));
+		verify(reporter, atLeast(2)).skipStep(any(Step.class));
+	}
 }

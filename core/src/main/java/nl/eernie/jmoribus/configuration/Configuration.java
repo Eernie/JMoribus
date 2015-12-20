@@ -1,6 +1,5 @@
 package nl.eernie.jmoribus.configuration;
 
-
 import nl.eernie.jmoribus.context.ContextProvider;
 import nl.eernie.jmoribus.reporter.ConcurrentReporter;
 import nl.eernie.jmoribus.reporter.Reporter;
@@ -10,19 +9,19 @@ import java.util.List;
 
 public interface Configuration
 {
-    ConcurrentReporter getConcurrentReporter();
+	ConcurrentReporter getConcurrentReporter();
 
-    void addReporter(Reporter reporter);
+	void addReporter(Reporter reporter);
 
-    List<Object> getSteps();
+	List<Object> getSteps();
 
-    void addSteps(List<Object> steps);
+	void addSteps(List<Object> steps);
 
-    ContextProvider getContextProvider();
+	ContextProvider getContextProvider();
 
-    WebDriver getWebDriver();
+	WebDriver getWebDriver();
 
-    boolean isFailOnPending();
+	boolean isFailOnPending();
 
-    void setFailOnPending(boolean failOnPending);
+	void setFailOnPending(boolean failOnPending);
 }

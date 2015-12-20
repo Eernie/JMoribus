@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface StepContainer
 {
-    List<Step> getSteps();
+	List<Step> getSteps();
 
-    Story getStory();
+	Story getStory();
 
-    void setStory(Story story);
+	void setStory(Story story);
 }

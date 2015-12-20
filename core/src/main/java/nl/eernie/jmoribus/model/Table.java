@@ -8,33 +8,33 @@ import java.util.List;
  */
 public class Table implements StepLine
 {
-    private List<String> header;
-    private List<List<String>> rows;
+	private List<String> header;
+	private List<List<String>> rows;
 
-    public Table()
-    {
-        rows = new ArrayList<>();
-    }
+	public Table()
+	{
+		rows = new ArrayList<>();
+	}
 
-    public List<String> getHeader()
-    {
-        return header;
-    }
+	public List<String> getHeader()
+	{
+		return header;
+	}
 
-    public void setHeader(List<String> header)
-    {
-        this.header = header;
-    }
+	public void setHeader(List<String> header)
+	{
+		this.header = header;
+	}
 
-    public List<List<String>> getRows()
-    {
-        return rows;
-    }
+	public List<List<String>> getRows()
+	{
+		return rows;
+	}
 
-    @Override
-    public String getText()
-    {
-        return null;
-    }
+	@Override
+	public String getText()
+	{
+		return null;
+	}
 
 }

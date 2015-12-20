@@ -12,25 +12,27 @@ import java.util.List;
 
 public class MojoTestRunner extends JunitTestRunner
 {
-    @Override
-    protected Configuration createConfiguration() {
+	@Override
+	protected Configuration createConfiguration()
+	{
 
-        Configuration config = new DefaultConfiguration();
-        config.addSteps(Arrays.<Object>asList(new Steps()));
-        return config;
-    }
+		Configuration config = new DefaultConfiguration();
+		config.addSteps(Arrays.<Object>asList(new Steps()));
+		return config;
+	}
 
-    @Override
-    protected List<ParseableStory> createParseAbleStories() {
+	@Override
+	protected List<ParseableStory> createParseAbleStories()
+	{
 
-        List<ParseableStory> parseableStories = new ArrayList<>(3);
-        InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
-        fileInputStream = getClass().getResourceAsStream("/test2.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
-        fileInputStream = getClass().getResourceAsStream("/test.story");
-        parseableStories.add(new ParseableStory(fileInputStream, "second title"));
+		List<ParseableStory> parseableStories = new ArrayList<>(3);
+		InputStream fileInputStream = getClass().getResourceAsStream("/multiScenario.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "MultiScenarioTitle"));
+		fileInputStream = getClass().getResourceAsStream("/test2.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
+		fileInputStream = getClass().getResourceAsStream("/test.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "second title"));
 
-        return parseableStories;
-    }
+		return parseableStories;
+	}
 }

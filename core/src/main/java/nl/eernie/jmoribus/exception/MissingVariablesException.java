@@ -4,8 +4,8 @@ import java.util.List;
 
 public class MissingVariablesException extends Exception
 {
-    public MissingVariablesException(List<String> missingRequiredVariables)
-    {
-        super("Missing variables: " + missingRequiredVariables);
-    }
+	public MissingVariablesException(List<String> missingRequiredVariables)
+	{
+		super("Missing variables: " + missingRequiredVariables);
+	}
 }
