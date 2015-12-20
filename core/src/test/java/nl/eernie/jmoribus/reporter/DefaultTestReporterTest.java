@@ -15,7 +15,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.atLeast;
@@ -39,7 +39,7 @@ public class DefaultTestReporterTest
         ArrayList<Object> steps = new ArrayList<>();
         steps.add(new Steps());
         defaultConfiguration.addSteps(steps);
-        jMoribus.runStories(Arrays.asList(story));
+        jMoribus.runStories(Collections.singletonList(story));
 
         verify(reporter, atLeast(1)).beforePrologue(story.getPrologue());
         verify(reporter, atLeast(1)).afterPrologue(story.getPrologue());
@@ -53,5 +53,6 @@ public class DefaultTestReporterTest
         verify(reporter, atLeast(1)).failedStep(any(Step.class), any(AssertionError.class));
         verify(reporter, atLeast(1)).errorStep(any(Step.class), any(Exception.class));
         verify(reporter, atLeast(1)).successStep(any(Step.class));
+        verify(reporter, atLeast(2)).skipStep(any(Step.class));
     }
 }

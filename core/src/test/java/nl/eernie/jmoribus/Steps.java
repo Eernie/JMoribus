@@ -1,7 +1,5 @@
 package nl.eernie.jmoribus;
 
-import java.util.List;
-
 import nl.eernie.jmoribus.annotation.AfterScenario;
 import nl.eernie.jmoribus.annotation.AfterStory;
 import nl.eernie.jmoribus.annotation.BeforeScenario;
@@ -13,8 +11,9 @@ import nl.eernie.jmoribus.annotation.Then;
 import nl.eernie.jmoribus.annotation.When;
 import nl.eernie.jmoribus.model.Table;
 import nl.eernie.jmoribus.parser.TestObject;
-
 import org.junit.Assert;
+
+import java.util.List;
 
 public class Steps
 {
@@ -64,7 +63,7 @@ public class Steps
         throw new RuntimeException("trigger error hook");
     }
 
-    @Then("success step")
+    @Then({ "success step", "system is in a different state" })
     public void successStep()
     {
 

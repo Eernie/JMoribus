@@ -1,24 +1,11 @@
 package nl.eernie.jmoribus.reporter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
-
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.report.ObjectFactory;
 import org.junit.report.Testsuite;
@@ -26,6 +13,17 @@ import org.junit.report.Testsuite.Testcase;
 import org.junit.report.Testsuite.Testcase.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Map;
 
 public class JunitReporter implements Reporter
 {
@@ -149,6 +147,11 @@ public class JunitReporter implements Reporter
         error.setType(e.getClass().getCanonicalName());
         testcase.setError(error);
         testsuite.setErrors(testsuite.getErrors() + 1);
+    }
+
+    @Override
+    public void skipStep(Step step)
+    {
     }
 
     @Override

@@ -1,13 +1,13 @@
 package nl.eernie.jmoribus.reporter;
 
-import java.util.Map;
-
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
+
+import java.util.Map;
 
 public interface Reporter
 {
@@ -28,6 +28,8 @@ public interface Reporter
     void failedStep(Step step, AssertionError e);
 
     void errorStep(Step step, Exception e);
+
+    void skipStep(Step step);
 
     void feature(Feature feature);
 

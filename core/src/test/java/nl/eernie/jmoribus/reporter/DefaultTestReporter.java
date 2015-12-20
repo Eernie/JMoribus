@@ -1,16 +1,15 @@
 package nl.eernie.jmoribus.reporter;
 
-import java.util.Map;
-
 import nl.eernie.jmoribus.model.Feature;
 import nl.eernie.jmoribus.model.Prologue;
 import nl.eernie.jmoribus.model.Scenario;
 import nl.eernie.jmoribus.model.Step;
 import nl.eernie.jmoribus.model.StepContainer;
 import nl.eernie.jmoribus.model.Story;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 public class DefaultTestReporter implements Reporter
 {
@@ -68,6 +67,12 @@ public class DefaultTestReporter implements Reporter
     public void errorStep(Step step, Exception e)
     {
         LOGGER.error("Error in step: {}", step.getCombinedStepLines(), e);
+    }
+
+    @Override
+    public void skipStep(Step step)
+    {
+        LOGGER.warn("Skip Step: {}", step.getCombinedStepLines());
     }
 
     @Override

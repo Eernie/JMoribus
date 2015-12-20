@@ -21,4 +21,8 @@ public interface Configuration
     ContextProvider getContextProvider();
 
     WebDriver getWebDriver();
+
+    boolean isFailOnPending();
+
+    void setFailOnPending(boolean failOnPending);
 }
