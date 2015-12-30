@@ -138,6 +138,7 @@ class GherkinsListener extends GherkinsBaseListener
 		{
 			ReferringScenario scenario = new ReferringScenario(step.getCombinedStepLines(), prologueOrScenario);
 			scenario.setLineNumber(step.getLineNumber());
+            scenario.setStory(story);
 			referringScenarios.add(scenario);
 			prologueOrScenario.getSteps().add(scenario);
 		}

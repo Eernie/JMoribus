@@ -42,6 +42,10 @@ public class JunitTestRunnerImpl extends JunitTestRunner
 		parseableStories.add(new ParseableStory(fileInputStream, "testTitle"));
 		fileInputStream = getClass().getResourceAsStream("/referring/referring.story");
 		parseableStories.add(new ParseableStory(fileInputStream, "PrologueTest"));
+		fileInputStream = getClass().getResourceAsStream("/storyWithExampleTable.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "storyWithExampleTable"));
+		fileInputStream = getClass().getResourceAsStream("/reporter/reporterTestStory.story");
+		parseableStories.add(new ParseableStory(fileInputStream, "reporterTestStory"));
 
 		return parseableStories;
 	}

@@ -73,4 +73,13 @@ public class Step
 		}
 		return builder.toString();
 	}
+
+	public Step copy()
+	{
+		Step step = new Step(stepType);
+		step.setStepContainer(stepContainer);
+		step.setLineNumber(lineNumber);
+		step.getStepLines().addAll(getStepLines());
+		return step;
+	}
 }

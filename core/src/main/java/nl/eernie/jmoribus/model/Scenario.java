@@ -52,4 +52,24 @@ public class Scenario extends Step implements StepContainer
 	{
 		this.story = story;
 	}
+
+	public Scenario copy()
+	{
+		Scenario target = new Scenario();
+		if(examplesTable!=null)
+		{
+			target.setExamplesTable(examplesTable);
+		}
+		target.setTitle(title);
+		target.setStory(story);
+		target.setStepContainer(getStepContainer());
+		target.getStepLines().addAll(getStepLines());
+		for (Step step : getSteps())
+		{
+			Step copy = step.copy();
+			copy.setStepContainer(target);
+			target.getSteps().add(copy);
+		}
+		return target;
+	}
 }
